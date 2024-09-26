@@ -8,10 +8,11 @@ import com.azure.resourcemanager.resources.models.ResourceGroup;
 public class DynamicResourceNamePropertyResolver extends ResourceNamePropertyResolver {
     @Override
     public BicepValue<String> resolveName(ProvisioningContext context, Resource resource, ResourceNameRequirements requirements) {
-        String prefix = sanitizeText(resource.getResourceName(), requirements.getValidCharacters());
-        String separator = getSeparator(requirements.getValidCharacters());
-        BicepValue<String> suffix = getUniqueSuffix(context, resource);
-        return BicepFunction.take(BicepFunction.interpolate(prefix + separator + suffix), requirements.getMaxLength());
+//        String prefix = sanitizeText(resource.getResourceName(), requirements.getValidCharacters());
+//        String separator = getSeparator(requirements.getValidCharacters());
+//        BicepValue<String> suffix = getUniqueSuffix(context, resource);
+//        return BicepFunction.take(BicepFunction.interpolate(prefix + separator + suffix), requirements.getMaxLength());
+        throw new RuntimeException("Not implemented");
     }
 
     private String getSeparator(ResourceNameCharacters validCharacters) {
@@ -26,10 +27,12 @@ public class DynamicResourceNamePropertyResolver extends ResourceNamePropertyRes
     }
 
     protected BicepValue<String> getUniqueSuffix(ProvisioningContext context, Resource resource) {
-        return BicepFunction.getUniqueString(
-            !(resource instanceof ResourceGroup) ?
-                BicepFunction.getResourceGroup().getId() :
-                BicepFunction.getDeployment().getId()
-        );
+//        return BicepFunction.getUniqueString(
+//            !(resource instanceof ResourceGroup) ?
+//                BicepFunction.getResourceGroup().getId() :
+//                BicepFunction.getDeployment().getId()
+//        );
+
+        throw new RuntimeException("Not implemented");
     }
 }

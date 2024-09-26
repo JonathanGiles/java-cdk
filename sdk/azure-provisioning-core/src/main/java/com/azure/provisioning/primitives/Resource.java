@@ -1,13 +1,14 @@
 package com.azure.provisioning.primitives;
 
 import com.azure.provisioning.BicepValue;
+import com.azure.provisioning.BicepValueBase;
 import com.azure.provisioning.ProvisioningContext;
 import com.azure.provisioning.ProvisioningPlan;
 import com.azure.provisioning.expressions.*;
 import com.azure.provisioning.expressions.Expression;
+import com.azure.provisioning.expressions.Statement;
 
 import java.beans.*;
-import java.beans.Statement;
 import java.util.*;
 
 public abstract class Resource extends NamedProvisioningConstruct {
@@ -47,14 +48,14 @@ public abstract class Resource extends NamedProvisioningConstruct {
     }
 
     public ProvisioningPlan build(ProvisioningContext context) {
-        if (context == null) {
-            context = getDefaultProvisioningContext();
-        }
+//        if (context == null) {
+//            context = getDefaultProvisioningContext();
+//        }
         return context.getDefaultInfrastructure().build(context);
     }
 
     @Override
-    protected void validate(ProvisioningContext context) {
+    public void validate(ProvisioningContext context) {
         super.validate(context);
 
         if (resourceVersion == null) {
@@ -66,7 +67,7 @@ public abstract class Resource extends NamedProvisioningConstruct {
         }
 
         if (isExistingResource) {
-            BicepValue<?> name = getProvisioningProperties().get("Name");
+            BicepValueBase name = getProvisioningProperties().get("Name");
             if (name != null && name.isRequired()) {
                 requireProperty(name);
             }
@@ -76,7 +77,7 @@ public abstract class Resource extends NamedProvisioningConstruct {
     }
 
     @Override
-    protected Iterable<Statement> compile(ProvisioningContext context) {
+    public List<Statement> compile(ProvisioningContext context) {
         if (getExpressionOverride() != null) {
             return Collections.singletonList(new ExprStatement(getExpressionOverride()));
         }
@@ -89,7 +90,7 @@ public abstract class Resource extends NamedProvisioningConstruct {
             }
 
             ArrayExpression dependencies = new ArrayExpression(dependsOn.stream().map(r -> BicepSyntax.var(r.getResourceName())).toArray(Expression[]::new));
-            body = new ObjectExpression(((ObjectExpression) body).getProperties().add(new PropertyExpression("dependsOn", dependencies)));
+            body = new ObjectExpression(((ObjectExpression) body).addProperty(new PropertyExpression("dependsOn", dependencies)));
         }
 
         ResourceStatement resource = BicepSyntax.declareResource(getResourceName(), resourceType + "@" + resourceVersion, body);

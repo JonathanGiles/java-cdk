@@ -29,10 +29,10 @@ public class BicepOutput extends BicepVariable {
     }
 
     @Override
-    protected List<Statement> compile(ProvisioningContext context) {
+    public List<Statement> compile(ProvisioningContext context) {
         OutputStatement stmt = BicepSyntax.Declare.output(getResourceName(), getBicepType(), getValue().compile());
         if (getDescription() != null) {
-            stmt = stmt.decorate("description", BicepSyntax.value(getDescription()));
+            stmt = BicepSyntax.decorate(stmt, "description", BicepSyntax.value(getDescription()));
         }
         return Collections.singletonList(stmt);
     }

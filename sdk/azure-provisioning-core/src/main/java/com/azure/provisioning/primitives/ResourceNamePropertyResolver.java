@@ -1,6 +1,7 @@
 package com.azure.provisioning.primitives;
 
 import com.azure.provisioning.BicepValue;
+import com.azure.provisioning.BicepValueBase;
 import com.azure.provisioning.BicepValueKind;
 import com.azure.provisioning.ProvisioningContext;
 
@@ -12,7 +13,7 @@ public abstract class ResourceNamePropertyResolver extends PropertyResolver {
         }
 
         Resource resource = (Resource) construct;
-        BicepValue<?> name = resource.getProvisioningProperties().get("Name");
+        BicepValueBase name = resource.getProvisioningProperties().get("Name");
         if (name != null && name.getKind() == BicepValueKind.UNSET && !name.isOutput()) {
             BicepValue<String> resolved = resolveName(context, resource, resource.getResourceNameRequirements());
             if (resolved != null) {

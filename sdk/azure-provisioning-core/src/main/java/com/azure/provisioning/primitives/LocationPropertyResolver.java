@@ -13,9 +13,8 @@ public class LocationPropertyResolver extends PropertyResolver {
 
     @Override
     public void resolveProperties(ProvisioningContext context, ProvisioningConstruct construct) {
-        Optional<BicepValueBase> locationOpt = construct.getProvisioningProperties().get("Location");
-        if (locationOpt.isPresent()) {
-            BicepValueBase location = locationOpt.get();
+        BicepValueBase location = construct.getProvisioningProperties().get("Location");
+        if (location != null) {
             if (location.getKind() == BicepValueKind.UNSET && !location.isOutput() &&
                 (!(construct instanceof Resource) || !((Resource) construct).isExistingResource())) {
                 BicepParameter param = getOrCreateLocationParameter(context, construct);

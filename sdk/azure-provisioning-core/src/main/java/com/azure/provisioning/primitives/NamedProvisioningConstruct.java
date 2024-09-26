@@ -8,7 +8,7 @@ public abstract class NamedProvisioningConstruct extends ProvisioningConstruct {
     public NamedProvisioningConstruct(String resourceName, ProvisioningContext context) {
         super(context);
         this.resourceName = resourceName;
-        DefaultProvisioningContext.getDefaultInfrastructure().add(this);
+        defaultProvisioningContext.getDefaultInfrastructure().add(this);
     }
 
     public String getResourceName() {

@@ -10,13 +10,13 @@ import com.azure.provisioning.expressions.ExprStatement;
 import java.util.*;
 
 public abstract class ProvisioningConstruct implements Provisionable {
-    protected ProvisioningContext DefaultProvisioningContext;
+    protected ProvisioningContext defaultProvisioningContext;
     private Infrastructure parentInfrastructure;
-    private final Map<String, BicepValue<?>> provisioningProperties = new HashMap<>();
+    private final Map<String, BicepValueBase> provisioningProperties = new HashMap<>();
     private Expression expressionOverride;
 
     public ProvisioningConstruct(ProvisioningContext context) {
-        this.DefaultProvisioningContext = context != null ? context : ProvisioningContext.Provider.getProvisioningContext();
+        this.defaultProvisioningContext = context != null ? context : ProvisioningContext.getProvider().getProvisioningContext();
     }
 
     public Infrastructure getParentInfrastructure() {
@@ -27,7 +27,7 @@ public abstract class ProvisioningConstruct implements Provisionable {
         this.parentInfrastructure = parentInfrastructure;
     }
 
-    public Map<String, BicepValue<?>> getProvisioningProperties() {
+    public Map<String, BicepValueBase> getProvisioningProperties() {
         return provisioningProperties;
     }
 
@@ -35,15 +35,17 @@ public abstract class ProvisioningConstruct implements Provisionable {
         return expressionOverride;
     }
 
-    protected void overrideWithExpression(Expression reference) {
+    // FIXME I made this public, rather than protected, to avoid a compilation error
+    public void overrideWithExpression(Expression reference) {
         this.expressionOverride = reference;
         if (parentInfrastructure != null) {
             parentInfrastructure.remove(this);
         }
         for (BicepValueBase property : provisioningProperties.values()) {
             property.setKind(BicepValueKind.EXPRESSION);
-            property.setExpression(property.getSelf().getBicepPath().stream().reduce(reference, Expression::get, (a, b) -> b));
+//            property.setExpression(property.getSelf().getBicepPath().stream().reduce(reference, Expression::get, (a, b) -> b));
             property.setOutput(true);
+            throw new RuntimeException("Not implemented");
         }
     }
 
@@ -56,8 +58,8 @@ public abstract class ProvisioningConstruct implements Provisionable {
 
     @Override
     public void resolve(ProvisioningContext context) {
-        context = context != null ? context : DefaultProvisioningContext;
-        super.resolve(context);
+        context = context != null ? context : defaultProvisioningContext;
+//        super.resolve(context);
         for (PropertyResolver resolver : context.getPropertyResolvers()) {
             resolver.resolveProperties(context, this);
         }
@@ -65,8 +67,8 @@ public abstract class ProvisioningConstruct implements Provisionable {
 
     @Override
     public void validate(ProvisioningContext context) {
-        context = context != null ? context : DefaultProvisioningContext;
-        super.validate(context);
+        context = context != null ? context : defaultProvisioningContext;
+//        super.validate(context);
     }
 
     protected void validateProperties() {
@@ -81,16 +83,24 @@ public abstract class ProvisioningConstruct implements Provisionable {
         }
     }
 
+    public List<Statement> compile() {
+        return compile(null);
+    }
+
     @Override
     public List<Statement> compile(ProvisioningContext context) {
         return Collections.singletonList(new ExprStatement(compileProperties(context)));
+    }
+
+    protected Expression compileProperties() {
+        return compileProperties(null);
     }
 
     protected Expression compileProperties(ProvisioningContext context) {
         if (expressionOverride != null) {
             return expressionOverride;
         }
-        context = context != null ? context : DefaultProvisioningContext;
+        context = context != null ? context : defaultProvisioningContext;
         Map<String, Object> body = new HashMap<>();
         for (BicepValueBase property : provisioningProperties.values()) {
             if (!property.isEmpty()) {
@@ -112,7 +122,7 @@ public abstract class ProvisioningConstruct implements Provisionable {
             } else if (pair.getValue() instanceof BicepValueBase) {
                 bicep.put(pair.getKey(), ((BicepValueBase) pair.getValue()).compile());
             } else if (pair.getValue() instanceof ProvisioningConstruct) {
-                List<Statement> statements = ((ProvisioningConstruct) pair.getValue()).compile(DefaultProvisioningContext);
+                List<Statement> statements = ((ProvisioningConstruct) pair.getValue()).compile(defaultProvisioningContext);
                 if (statements.size() != 1 || !(statements.get(0) instanceof ExprStatement)) {
                     throw new IllegalStateException("Expected a single expression statement for " + pair.getKey());
                 }
@@ -121,6 +131,6 @@ public abstract class ProvisioningConstruct implements Provisionable {
                 throw new IllegalStateException("Unexpected property value " + pair.getValue() + " for " + pair.getKey());
             }
         }
-        return BicepSyntax.object(bicep);
+        return BicepSyntax.objectExpression(bicep);
     }
 }

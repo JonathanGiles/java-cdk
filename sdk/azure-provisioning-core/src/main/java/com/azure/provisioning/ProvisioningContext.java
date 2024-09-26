@@ -36,7 +36,7 @@ public class ProvisioningContext {
         this.defaultInfrastructure = defaultInfrastructure;
     }
 
-    public List<PropertyResolver> PropertyResolvers = new ArrayList<PropertyResolver>() {{
+    private final List<PropertyResolver> propertyResolvers = new ArrayList<PropertyResolver>() {{
         add(new DynamicResourceNamePropertyResolver());
         add(new LocationPropertyResolver());
     }};
@@ -56,6 +56,10 @@ public class ProvisioningContext {
     // FIXME better name
     public static ProvisioningContextProvider getProvider() {
         return PROVIDER;
+    }
+
+    public List<PropertyResolver> getPropertyResolvers() {
+        return Collections.unmodifiableList(propertyResolvers);
     }
 
     //    public ArmClient getArmClient() {

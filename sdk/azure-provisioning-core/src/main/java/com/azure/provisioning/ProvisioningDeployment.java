@@ -42,7 +42,7 @@ public class ProvisioningDeployment {
         return outputs;
     }
 
-    public <TClient/*, TOptions extends ClientOptions*/> TClient createClient(IClientCreator<TClient/*, TOptions*/> resource, TokenCredential credential, TOptions options) {
+    public <TClient/*, TOptions extends ClientOptions*/> TClient createClient(IClientCreator<TClient/*, TOptions*/> resource, TokenCredential credential/*, TOptions options*/) {
         if (getProvisioningState() != ResourcesProvisioningState.SUCCEEDED) {
             throw new IllegalStateException("Cannot create a client because the deployment did not succeed: " + getError());
         }

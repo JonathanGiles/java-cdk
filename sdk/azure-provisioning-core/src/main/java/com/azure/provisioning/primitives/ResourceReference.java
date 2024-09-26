@@ -30,7 +30,7 @@ public class ResourceReference<T extends Resource> {
             boolean isOutput,
             boolean isRequired,
             T defaultValue) {
-        BicepValue<String> ref = BicepValue.defineProperty(construct, propertyName, bicepPath, isOutput, isRequired);
+        BicepValue<String> ref = BicepValue.defineProperty(construct, propertyName, bicepPath, isOutput, isRequired, false, null);
         ResourceReference<T> resource = new ResourceReference<>(ref);
         if (defaultValue != null) {
             resource.setValue(defaultValue);

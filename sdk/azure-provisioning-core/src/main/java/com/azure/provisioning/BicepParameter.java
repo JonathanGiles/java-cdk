@@ -20,22 +20,30 @@ public class BicepParameter extends BicepVariable {
         this.isSecure = isSecure;
     }
 
-    public BicepParameter(String name, Expression type, ProvisioningContext context) {
-        super(name, type, null, context);
+    public BicepParameter(String name, Class<?> type) {
+        this(name, type, null);
     }
 
     public BicepParameter(String name, Class<?> type, ProvisioningContext context) {
         this(name, new TypeExpression(type), context);
     }
 
+    public BicepParameter(String name, Expression type) {
+        this(name, type, null);
+    }
+
+    public BicepParameter(String name, Expression type, ProvisioningContext context) {
+        super(name, type, null, context);
+    }
+
     @Override
-    protected List<Statement> compile(ProvisioningContext context) {
+    public List<Statement> compile(ProvisioningContext context) {
         ParameterStatement stmt = BicepSyntax.Declare.param(getResourceName(), getBicepType(), getValue().getKind() == BicepValueKind.UNSET ? null : getValue().compile());
         if (isSecure()) {
-            stmt = stmt.decorate("secure");
+            stmt = BicepSyntax.decorate(stmt, "secure");
         }
         if (getDescription() != null) {
-            stmt = stmt.decorate("description", BicepSyntax.value(getDescription()));
+            stmt = BicepSyntax.decorate(stmt, "description", BicepSyntax.value(getDescription()));
         }
         return Collections.singletonList(stmt);
     }

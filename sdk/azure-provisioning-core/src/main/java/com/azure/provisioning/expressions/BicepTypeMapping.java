@@ -68,7 +68,7 @@ public class BicepTypeMapping {
             BicepValueBase bicepValue = (BicepValueBase) value;
             if (bicepValue.getKind() == BicepValueKind.EXPRESSION) return bicepValue.getExpression();
             if (bicepValue.getSource() != null) return bicepValue.getSource().getReference();
-            if (bicepValue.getKind() == BicepValueKind.LITERAL) return toBicep(bicepValue.getLiteralValue());
+//            if (bicepValue.getKind() == BicepValueKind.LITERAL) return toBicep(bicepValue.getLiteralValue());
             if (bicepValue.getSelf() != null) return bicepValue.getSelf().getReference();
             if (bicepValue.getKind() == BicepValueKind.UNSET) return BicepSyntax.nullValue();
         }

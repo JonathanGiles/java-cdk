@@ -11,15 +11,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class BicepVariable extends NamedProvisioningConstruct {
-    private BicepValue<Object> value;
+    private BicepValueBase value;
     private String description;
     private final Expression bicepType;
 
-    public BicepValue<Object> getValue() {
+    public BicepValueBase getValue() {
         return value;
     }
 
-    public void setValue(BicepValue<Object> value) {
+    public void setValue(BicepValueBase value) {
         this.value.assign(value);
     }
 
@@ -39,7 +39,7 @@ public class BicepVariable extends NamedProvisioningConstruct {
         super(name, context);
         this.bicepType = type;
         // FIXME "value" should be the name of the property, not a hardcoded string. C# uses `nameof` to determine this
-        this.value = BicepValue.defineProperty(this, "value", null, value);
+        this.value = BicepValue.defineProperty(this, "value", null, BicepValue.from(value));
     }
 
     public BicepVariable(String name, Class<?> type, ProvisioningContext context) {
@@ -47,10 +47,10 @@ public class BicepVariable extends NamedProvisioningConstruct {
     }
 
     @Override
-    protected List<Statement> compile(ProvisioningContext context) {
+    public List<Statement> compile(ProvisioningContext context) {
         VariableStatement stmt = BicepSyntax.Declare.var(getResourceName(), value.compile());
         if (description != null) {
-            stmt = stmt.decorate("description", BicepSyntax.value(description));
+            stmt = BicepSyntax.decorate(stmt, "description", BicepSyntax.value(description));
         }
         return Collections.singletonList(stmt);
     }

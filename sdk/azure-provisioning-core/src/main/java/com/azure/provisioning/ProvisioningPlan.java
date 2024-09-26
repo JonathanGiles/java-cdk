@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -74,7 +75,7 @@ public class ProvisioningPlan {
         } finally {
             if (dirToCleanup != null) {
                 try {
-                    Files.walk(Path.of(dirToCleanup))
+                    Files.walk(Paths.get(dirToCleanup))
                             .sorted(Comparator.reverseOrder())
                             .map(Path::toFile)
                             .forEach(File::delete);
