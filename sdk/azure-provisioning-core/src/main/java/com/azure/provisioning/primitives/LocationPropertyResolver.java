@@ -23,14 +23,14 @@ public class LocationPropertyResolver extends PropertyResolver {
         }
     }
 
-    protected BicepValueBase<AzureLocation> getDefaultLocation(ProvisioningContext context, ProvisioningConstruct construct) {
+    protected BicepValue<AzureLocation> getDefaultLocation(ProvisioningContext context, ProvisioningConstruct construct) {
         return !(construct instanceof ResourceGroup) ?
             BicepFunction.getResourceGroup().getLocation() :
             BicepFunction.getDeployment().getLocation();
     }
 
     private BicepParameter getOrCreateLocationParameter(ProvisioningContext context, ProvisioningConstruct construct) {
-        BicepValueBase<AzureLocation> location = getDefaultLocation(context, construct);
+        BicepValue<AzureLocation> location = getDefaultLocation(context, construct);
         String expression = location.compile().toString();
 
         Infrastructure infra = Optional.ofNullable(construct.getParentInfrastructure())

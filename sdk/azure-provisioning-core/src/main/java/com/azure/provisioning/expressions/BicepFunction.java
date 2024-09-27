@@ -31,7 +31,7 @@ public class BicepFunction {
         if (values.length < 2) {
             throw new IllegalArgumentException("getSubscriptionResourceId requires at least two values.");
         }
-        return BicepSyntax.call("subscriptionResourceId", Arrays.stream(values).map(BicepValue::compile).toArray(Expression[]::new));
+        return new BicepValue<>(BicepSyntax.call("subscriptionResourceId", Arrays.stream(values).map(BicepValue::compile).toArray(Expression[]::new)));
     }
 
     public static ArmDeployment getDeployment() {
