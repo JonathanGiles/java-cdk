@@ -1,12 +1,12 @@
 package com.azure.provisioning.primitives;
 
-import com.azure.provisioning.BicepValue;
 import com.azure.provisioning.BicepValueBase;
 import com.azure.provisioning.ProvisioningContext;
 import com.azure.provisioning.ProvisioningPlan;
 import com.azure.provisioning.expressions.*;
 import com.azure.provisioning.expressions.Expression;
 import com.azure.provisioning.expressions.Statement;
+import com.azure.provisioning.tmp.ResourceType;
 
 import java.beans.*;
 import java.util.*;
@@ -90,15 +90,25 @@ public abstract class Resource extends NamedProvisioningConstruct {
             }
 
             ArrayExpression dependencies = new ArrayExpression(dependsOn.stream().map(r -> BicepSyntax.var(r.getResourceName())).toArray(Expression[]::new));
-            body = new ObjectExpression(((ObjectExpression) body).addProperty(new PropertyExpression("dependsOn", dependencies)));
+
+            // TODO review this - the original C# code was the following:
+//            ArrayExpression dependencies = new(DependsOn.Select(r => BicepSyntax.Var(r.ResourceName)).ToArray());
+//            body = new ObjectExpression([.. obj.Properties, new PropertyExpression("dependsOn", dependencies)]);
+            // and I translated it to the following (which, adds the property to the existing instance):
+            ((ObjectExpression) body).addProperty(new PropertyExpression("dependsOn", dependencies));
         }
 
-        ResourceStatement resource = BicepSyntax.declareResource(getResourceName(), resourceType + "@" + resourceVersion, body);
-        if (isExistingResource) {
-            resource.setExisting(true);
-        }
-
-        return Collections.singletonList(resource);
+        // FIXME I'm fairly certain that this code is expecting the C# string itnterploation feature, and is using
+        // the interpolation specified here: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/provisioning/Azure.Provisioning/src/Expressions/BicepFunction.cs#L302
+        // but for now, I'm just commenting it out, as I'm not sure how to translate it to Java and want to get a full
+        // compilation first.
+//        ResourceStatement resource = BicepSyntax.Declare.resource(getResourceName(), resourceType + "@" + resourceVersion, body);
+//        if (isExistingResource) {
+//            resource.setExisting(true);
+//        }
+        throw new RuntimeException("Not implemented");
+//
+//        return Collections.singletonList(resource);
     }
 
 //    @EditorBrowsable(EditorBrowsableState.NEVER)

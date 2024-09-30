@@ -1,6 +1,6 @@
 package com.azure.provisioning.primitives;
 
-import com.azure.core.AzureLocation;
+import com.azure.core.management.Region;
 import com.azure.provisioning.*;
 import com.azure.provisioning.expressions.BicepFunction;
 import com.azure.provisioning.expressions.TypeExpression;
@@ -18,19 +18,23 @@ public class LocationPropertyResolver extends PropertyResolver {
             if (location.getKind() == BicepValueKind.UNSET && !location.isOutput() &&
                 (!(construct instanceof Resource) || !((Resource) construct).isExistingResource())) {
                 BicepParameter param = getOrCreateLocationParameter(context, construct);
-                construct.setProvisioningProperty("Location", param);
+//                construct.setProvisioningProperty("Location", param);
+                // FIXME this is a temporary implementation
+                throw new RuntimeException("Not implemented");
             }
         }
     }
 
-    protected BicepValue<AzureLocation> getDefaultLocation(ProvisioningContext context, ProvisioningConstruct construct) {
-        return !(construct instanceof ResourceGroup) ?
-            BicepFunction.getResourceGroup().getLocation() :
-            BicepFunction.getDeployment().getLocation();
+    protected BicepValue<Region> getDefaultLocation(ProvisioningContext context, ProvisioningConstruct construct) {
+        // FIXME this is a temporary implementation
+        throw new RuntimeException("Not implemented");
+//        return !(construct instanceof ResourceGroup) ?
+//            BicepFunction.getResourceGroup().getLocation() :
+//            BicepFunction.getDeployment().getLocation();
     }
 
     private BicepParameter getOrCreateLocationParameter(ProvisioningContext context, ProvisioningConstruct construct) {
-        BicepValue<AzureLocation> location = getDefaultLocation(context, construct);
+        BicepValue<Region> location = getDefaultLocation(context, construct);
         String expression = location.compile().toString();
 
         Infrastructure infra = Optional.ofNullable(construct.getParentInfrastructure())
