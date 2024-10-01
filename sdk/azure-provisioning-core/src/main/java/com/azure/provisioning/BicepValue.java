@@ -1,8 +1,8 @@
 package com.azure.provisioning;
 
-import com.azure.provisioning.expressions.Expression;
-import com.azure.provisioning.expressions.BicepSyntax;
-import com.azure.provisioning.expressions.BicepTypeMapping;
+import com.azure.provisioning.implementation.bicep.syntax.Expression;
+import com.azure.provisioning.implementation.bicep.syntax.BicepSyntax;
+import com.azure.provisioning.implementation.bicep.syntax.BicepTypeMapping;
 import com.azure.provisioning.primitives.BicepValueReference;
 import com.azure.provisioning.primitives.NamedProvisioningConstruct;
 import com.azure.provisioning.primitives.ProvisioningConstruct;
@@ -44,12 +44,12 @@ public class BicepValue<T> extends BicepValueBase {
     }
 
     @Override
-    protected Object getLiteralValue() {
+    public Object getLiteralValue() {
         return getValue();
     }
 
     @Override
-    protected Expression getBicepType() {
+    public Expression getBicepType() {
         return BicepSyntax.Types.create(value.getClass());
     }
 
@@ -145,7 +145,7 @@ public class BicepValue<T> extends BicepValueBase {
      * @param reference the BicepVariable to convert
      * @return the BicepValue
      */
-    public static <T> BicepValue<T> from(BicepVariable reference) {
+    public static <T> BicepValue<T> from(ProvisioningVariable reference) {
         return new BicepValue<>(new BicepValueReference(reference, "<value>"), BicepSyntax.var(reference.getResourceName()));
     }
 

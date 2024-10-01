@@ -10,7 +10,7 @@ import java.util.Map;
 // FIXME not implemented
 public class ProvisioningDeployment {
 
-//    private final ProvisioningContext context;
+    private final ProvisioningContext context;
 //    private final ArmDeploymentResource deployment;
     private final Map<String, Object> outputs;
 
@@ -18,14 +18,14 @@ public class ProvisioningDeployment {
 //        if (!deployment.hasData()) {
 //            throw new IllegalArgumentException("The deployment must have its data property set.");
 //        }
-//        this.context = context;
+        this.context = context;
 //        this.deployment = deployment;
         this.outputs = outputs;
     }
-//
-//    public ProvisioningContext getContext() {
-//        return context;
-//    }
+
+    public ProvisioningContext getContext() {
+        return context;
+    }
 //
 //    public ArmDeploymentResource getDeployment() {
 //        return deployment;

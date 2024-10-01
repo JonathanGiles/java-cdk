@@ -2,7 +2,7 @@ package com.azure.provisioning.primitives;
 
 import com.azure.provisioning.BicepValue;
 import com.azure.provisioning.BicepValueKind;
-import com.azure.provisioning.expressions.BicepSyntax;
+import com.azure.provisioning.implementation.bicep.syntax.BicepSyntax;
 
 public class ResourceReference<T extends Resource> {
     private final BicepValue<String> reference;

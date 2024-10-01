@@ -1,8 +1,8 @@
 package com.azure.provisioning;
 
-import com.azure.provisioning.expressions.Expression;
-import com.azure.provisioning.expressions.BicepSyntax;
-import com.azure.provisioning.expressions.BicepTypeMapping;
+import com.azure.provisioning.implementation.bicep.syntax.Expression;
+import com.azure.provisioning.implementation.bicep.syntax.BicepSyntax;
+import com.azure.provisioning.implementation.bicep.syntax.BicepTypeMapping;
 import com.azure.provisioning.primitives.BicepValueReference;
 
 /**
@@ -199,7 +199,7 @@ public abstract class BicepValueBase {
      *
      * @return the Bicep type of the value
      */
-    protected Expression getBicepType() {
+    public Expression getBicepType() {
         return BicepSyntax.Types.OBJECT;
     }
 
@@ -208,7 +208,7 @@ public abstract class BicepValueBase {
      *
      * @return the literal value
      */
-    protected abstract Object getLiteralValue();
+    public abstract Object getLiteralValue();
 
     /**
      * Assigns a value to this property.

@@ -1,9 +1,10 @@
 package com.azure.provisioning;
 
-import com.azure.provisioning.expressions.Expression;
-import com.azure.provisioning.expressions.Statement;
-import com.azure.provisioning.expressions.TargetScopeStatement;
-import com.azure.provisioning.primitives.InfrastructureResolver;
+import com.azure.provisioning.bicep.BicepProvisioningPlan;
+import com.azure.provisioning.implementation.bicep.syntax.Expression;
+import com.azure.provisioning.implementation.bicep.syntax.Statement;
+import com.azure.provisioning.implementation.bicep.syntax.TargetScopeStatement;
+import com.azure.provisioning.implementation.resolvers.InfrastructureResolver;
 import com.azure.provisioning.primitives.Provisionable;
 import com.azure.provisioning.primitives.ProvisioningConstruct;
 
@@ -13,10 +14,16 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Infrastructure implements Provisionable {
+    static final String DEFAULT_INFRASTRUCTURE_NAME = "main";
+
     private final String name;
     private String targetScope;
     private Infrastructure parent;
     private final List<Provisionable> resources = new ArrayList<>();
+
+    public Infrastructure() {
+        this(DEFAULT_INFRASTRUCTURE_NAME);
+    }
 
     public Infrastructure(String name) {
         this.name = name;
@@ -42,12 +49,13 @@ public class Infrastructure implements Provisionable {
     public void add(Provisionable resource) {
         if (resource instanceof ProvisioningConstruct) {
             ProvisioningConstruct construct = (ProvisioningConstruct) resource;
-            if (construct.getParentInfrastructure() != this) {
+            Infrastructure parent = construct.getParentInfrastructure().orElse(null);
+            if (!this.equals(parent)) {
                 if (construct.getExpressionOverride() != null) {
                     return;
                 }
-                if (construct.getParentInfrastructure() != null) {
-                    construct.getParentInfrastructure().remove(this);
+                if (parent != null) {
+                    parent.remove(this);
                 }
                 resources.add(construct);
                 construct.setParentInfrastructure(this);
@@ -67,7 +75,8 @@ public class Infrastructure implements Provisionable {
     public void remove(Provisionable resource) {
         if (resource instanceof ProvisioningConstruct) {
             ProvisioningConstruct construct = (ProvisioningConstruct) resource;
-            if (construct.getParentInfrastructure() == this) {
+            Infrastructure parent = construct.getParentInfrastructure().orElse(null);
+            if (this.equals(parent)) {
                 construct.setParentInfrastructure(null);
                 resources.remove(construct);
             }
@@ -132,7 +141,7 @@ public class Infrastructure implements Provisionable {
         return statements;
     }
 
-    protected Map<String, List<Statement>> compileModules(ProvisioningContext context) {
+    public Map<String, List<Statement>> compileModules(ProvisioningContext context) {
         if (context == null) {
             context = ProvisioningContext.getProvider().getProvisioningContext();
         }
@@ -150,6 +159,10 @@ public class Infrastructure implements Provisionable {
         return modules;
     }
 
+    public ProvisioningPlan build() {
+        return build(null);
+    }
+
     public ProvisioningPlan build(ProvisioningContext context) {
         if (context == null) {
             context = ProvisioningContext.getProvider().getProvisioningContext();
@@ -159,6 +172,6 @@ public class Infrastructure implements Provisionable {
 
         context.setDefaultInfrastructure(context.getDefaultInfrastructureProvider().get());
 
-        return new ProvisioningPlan(this, context);
+        return new BicepProvisioningPlan(this, context);
     }
 }

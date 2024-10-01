@@ -1,7 +1,7 @@
 package com.azure.provisioning.primitives;
 
-import com.azure.provisioning.expressions.BicepSyntax;
-import com.azure.provisioning.expressions.Expression;
+import com.azure.provisioning.implementation.bicep.syntax.BicepSyntax;
+import com.azure.provisioning.implementation.bicep.syntax.Expression;
 
 import java.util.Arrays;
 import java.util.List;

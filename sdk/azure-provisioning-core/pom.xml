@@ -19,18 +19,24 @@
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-identity</artifactId>
+            <version>1.12.1</version>
         </dependency>
 
         <!-- azure management plane -->
+<!--        <dependency>-->
+<!--            <groupId>com.azure.resourcemanager</groupId>-->
+<!--            <artifactId>azure-resourcemanager-resources</artifactId>-->
+<!--            <version>2.42.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.azure</groupId>-->
+<!--            <artifactId>azure-core-management</artifactId>-->
+<!--            <version>1.15.3</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.azure.resourcemanager</groupId>
-            <artifactId>azure-resourcemanager-resources</artifactId>
-            <version>2.42.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-core-management</artifactId>
-            <version>1.15.3</version>
+            <artifactId>azure-resourcemanager</artifactId>
+            <version>2.43.0</version>
         </dependency>
     </dependencies>
 

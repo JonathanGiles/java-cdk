@@ -1,27 +1,32 @@
 package com.azure.provisioning;
 
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.profile.AzureProfile;
 import com.azure.identity.DefaultAzureCredentialBuilder;
-import com.azure.provisioning.primitives.*;
+import com.azure.provisioning.implementation.contextproviders.LocalProvisioningContextProvider;
+import com.azure.provisioning.implementation.contextproviders.ProvisioningContextProvider;
+import com.azure.provisioning.implementation.resolvers.*;
 
 import com.azure.core.credential.TokenCredential;
+import com.azure.resourcemanager.AzureResourceManager;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.function.Consumer;
-import java.util.Random;
 import java.util.function.Supplier;
 
 public class ProvisioningContext {
 
-    private static final ProvisioningContextProvider PROVIDER = new LocalProvisioningContextProvider();
 
-    private static final Supplier<Infrastructure> DEFAULT_INFRASTRUCTURE_PROVIDER = () -> new Infrastructure("main");
+    // package-private and non-final for unit testing purposes
+    static ProvisioningContextProvider PROVIDER = new LocalProvisioningContextProvider();
+
+    private static final Supplier<Infrastructure> DEFAULT_INFRASTRUCTURE_PROVIDER = Infrastructure::new;
 
     private static final Supplier<TokenCredential> DEFAULT_CREDENTIAL_PROVIDER = () -> new DefaultAzureCredentialBuilder().build();
 
     private Infrastructure defaultInfrastructure;
-//    private ArmClient _armClient;
+    private AzureResourceManager armClient;
     private TokenCredential defaultArmCredential;
     private TokenCredential defaultClientCredential;
 
@@ -36,12 +41,12 @@ public class ProvisioningContext {
         this.defaultInfrastructure = defaultInfrastructure;
     }
 
-    private final List<PropertyResolver> propertyResolvers = new ArrayList<PropertyResolver>() {{
+    private final List<PropertyResolver> propertyResolvers = new ArrayList<>() {{
         add(new DynamicResourceNamePropertyResolver());
         add(new LocationPropertyResolver());
     }};
 
-    private List<InfrastructureResolver> infrastructureResolvers = new ArrayList<InfrastructureResolver>() {{
+    private final List<InfrastructureResolver> infrastructureResolvers = new ArrayList<>() {{
         add(new OrderingInfrastructureResolver());
     }};
 
@@ -62,7 +67,7 @@ public class ProvisioningContext {
         return Collections.unmodifiableList(propertyResolvers);
     }
 
-    //    public ArmClient getArmClient() {
+    public AzureResourceManager getArmClient() {
 //        if (_armClient == null) {
 //            ArmClientOptions options = new ArmClientOptions();
 //            if (ConfigureClientOptionsCallback != null) {
@@ -71,15 +76,22 @@ public class ProvisioningContext {
 //            _armClient = new ArmClient(getDefaultArmCredential(), getDefaultSubscriptionId(), options);
 //        }
 //        return _armClient;
-//    }
-//
-//    public void setArmClient(ArmClient armClient) {
-//        this._armClient = armClient;
-//    }
 
-//    public String getDefaultSubscriptionId() {
-//        return System.getenv("AZURE_SUBSCRIPTION_ID");
-//    }
+        // FIXME Jonathan added this, but it might not completely align with the original code above
+        AzureProfile profile = new AzureProfile(AzureEnvironment.AZURE);
+        armClient = AzureResourceManager
+            .authenticate(getDefaultArmCredential(), profile)
+            .withSubscription(getDefaultSubscriptionId());
+        return armClient;
+    }
+
+    public void setArmClient(AzureResourceManager armClient) {
+        this.armClient = armClient;
+    }
+
+    public String getDefaultSubscriptionId() {
+        return System.getenv("AZURE_SUBSCRIPTION_ID");
+    }
 //
 //    public TokenCredential getDefaultCredential() {
 //        return DefaultCredential;
@@ -89,17 +101,17 @@ public class ProvisioningContext {
 //        this.DefaultCredential = defaultCredential;
 //    }
 //
-//    public TokenCredential getDefaultArmCredential() {
-//        if (_defaultArmCredential == null) {
-//            _defaultArmCredential = DEFAULT_CREDENTIAL_PROVIDER.get();
-//        }
-//        return _defaultArmCredential;
-//    }
-//
-//    public void setDefaultArmCredential(TokenCredential defaultArmCredential) {
-//        this._defaultArmCredential = defaultArmCredential;
-//    }
-//
+    public TokenCredential getDefaultArmCredential() {
+        if (defaultArmCredential == null) {
+            defaultArmCredential = DEFAULT_CREDENTIAL_PROVIDER.get();
+        }
+        return defaultArmCredential;
+    }
+
+    public void setDefaultArmCredential(TokenCredential defaultArmCredential) {
+        this.defaultArmCredential = defaultArmCredential;
+    }
+
     public TokenCredential getDefaultClientCredential() {
         if (defaultClientCredential == null) {
             defaultClientCredential = DEFAULT_CREDENTIAL_PROVIDER.get();

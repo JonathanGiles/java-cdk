@@ -1,7 +1,6 @@
 package com.azure.provisioning;
 
-import com.azure.provisioning.expressions.BicepSyntax;
-import com.azure.provisioning.expressions.Expression;
+import com.azure.provisioning.implementation.bicep.syntax.Expression;
 import com.azure.provisioning.primitives.BicepValueReference;
 import com.azure.provisioning.primitives.ProvisioningConstruct;
 
@@ -10,9 +9,10 @@ import java.util.*;
 public class BicepDictionary<T> extends BicepValueBase {
     private Map<String, BicepValue<T>> values;
 
-    public static <T> BicepDictionary<T> from(BicepVariable reference) {
-        // FIXME property name should not be "<value>"
-        return new BicepDictionary<>(new BicepValueReference(reference, "<value>"), BicepSyntax.var(reference.getResourceName()));
+    public static <T> BicepDictionary<T> from(ProvisioningVariable reference) {
+        // FIXME PROPERTY_NAME_BUG property name should not be "<value>"
+//        return new BicepDictionary<>(new BicepValueReference(reference, "<value>"), BicepSyntax.var(reference.getResourceName()));
+        throw new RuntimeException("Not getting property name");
     }
 
     public BicepDictionary() {
@@ -39,7 +39,7 @@ public class BicepDictionary<T> extends BicepValueBase {
     }
 
     @Override
-    protected Object getLiteralValue() {
+    public Object getLiteralValue() {
         return values;
     }
 

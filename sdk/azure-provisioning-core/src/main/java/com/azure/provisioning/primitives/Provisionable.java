@@ -1,7 +1,7 @@
 package com.azure.provisioning.primitives;
 
 import com.azure.provisioning.ProvisioningContext;
-import com.azure.provisioning.expressions.Statement;
+import com.azure.provisioning.implementation.bicep.syntax.Statement;
 
 import java.util.Collections;
 import java.util.List;

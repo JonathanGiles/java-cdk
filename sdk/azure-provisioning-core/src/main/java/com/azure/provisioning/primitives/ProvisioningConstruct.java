@@ -1,11 +1,12 @@
 package com.azure.provisioning.primitives;
 
 import com.azure.provisioning.*;
-import com.azure.provisioning.expressions.BicepSyntax;
-import com.azure.provisioning.expressions.Expression;
-import com.azure.provisioning.expressions.ObjectExpression;
-import com.azure.provisioning.expressions.Statement;
-import com.azure.provisioning.expressions.ExprStatement;
+import com.azure.provisioning.implementation.bicep.syntax.BicepSyntax;
+import com.azure.provisioning.implementation.bicep.syntax.Expression;
+import com.azure.provisioning.implementation.bicep.syntax.ObjectExpression;
+import com.azure.provisioning.implementation.bicep.syntax.Statement;
+import com.azure.provisioning.implementation.bicep.syntax.ExprStatement;
+import com.azure.provisioning.implementation.resolvers.PropertyResolver;
 
 import java.util.*;
 
@@ -19,8 +20,8 @@ public abstract class ProvisioningConstruct implements Provisionable {
         this.defaultProvisioningContext = context != null ? context : ProvisioningContext.getProvider().getProvisioningContext();
     }
 
-    public Infrastructure getParentInfrastructure() {
-        return parentInfrastructure;
+    public Optional<Infrastructure> getParentInfrastructure() {
+        return Optional.ofNullable(parentInfrastructure);
     }
 
     public void setParentInfrastructure(Infrastructure parentInfrastructure) {
