@@ -123,11 +123,34 @@ public class Resource extends TypeModel {
         writer.writeLine();
         writer.writeLine("package " + this.getProvisioningPackage() + ";");
         writer.writeLine("public class " + className + " extends Resource {");
-        writeProperties(writer);
 
+        writeProperties(writer);
         writeGetterSetterMethods(className, writer);
+        writeResourceVersions(writer);
+
         writer.writeLine("}");
         this.getSpec().writeToFile(className, writer.toString());
+    }
+
+    private void writeResourceVersions(IndentWriter writer) {
+        if(resourceVersions == null || resourceVersions.isEmpty()) {
+            return;
+        }
+
+        writer.indent();
+        writer.writeLine();
+        writer.writeLine("public static class ResourceVersions {");
+        writer.writeLine();
+        writer.indent();
+
+        this.resourceVersions.forEach(version -> {
+            writer.writeLine("public static final String " + NameUtils.getVersionIdentifier(version) + " = \"" + version + "\";");
+            writer.writeLine();
+        });
+        writer.unindent();
+        writer.writeLine("}");
+        writer.unindent();
+
     }
 
     private void writeGetterSetterMethods(String className, IndentWriter writer) {

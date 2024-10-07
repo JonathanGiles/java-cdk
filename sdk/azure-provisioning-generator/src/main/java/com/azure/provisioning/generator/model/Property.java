@@ -27,7 +27,7 @@ public class Property {
         this.parent = parent;
         this.armMember = armMember;
         this.armParameter = armParameter;
-        this.name = armParameter != null ? toPascalCase(armParameter.getName()) : toPascalCase(armMember.getName());
+        this.name = armParameter != null ? toCamelCase(armParameter.getName()) : toCamelCase(armMember.getName());
         this.propertyType = propertyType;
         this.description = parent.getSpec().getDocComments();
         this.isReadOnly = false;
