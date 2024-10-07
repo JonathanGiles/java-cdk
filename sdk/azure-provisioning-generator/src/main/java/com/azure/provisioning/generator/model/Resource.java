@@ -1,6 +1,7 @@
 package com.azure.provisioning.generator.model;
 
 import com.azure.provisioning.generator.utils.IndentWriter;
+import com.azure.provisioning.generator.utils.NameUtils;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
@@ -123,8 +124,39 @@ public class Resource extends TypeModel {
         writer.writeLine("package " + this.getProvisioningPackage() + ";");
         writer.writeLine("public class " + className + " extends Resource {");
         writeProperties(writer);
+
+        writeGetterSetterMethods(className, writer);
         writer.writeLine("}");
         this.getSpec().writeToFile(className, writer.toString());
+    }
+
+    private void writeGetterSetterMethods(String className, IndentWriter writer) {
+        writer.indent();
+        writer.writeLine();
+        this.getProperties().forEach(property -> {
+            writeGetter(writer, property);
+
+            writer.writeLine();
+
+            writeSetter(writer, property, className);
+        });
+        writer.unindent();
+    }
+
+    private void writeSetter(IndentWriter writer, Property property, String className) {
+        writer.writeLine("public " + className + " set" + NameUtils.toPascalCase(property.getName()) + "(BicepValue<" + property.getPropertyType().getName() + "> " + property.getName() + ") {");
+        writer.indent();
+        writer.writeLine("this." + property.getName() + " = " + property.getName() + ";");
+        writer.unindent();
+        writer.writeLine("}");
+    }
+
+    private static void writeGetter(IndentWriter writer, Property property) {
+        writer.writeLine("public BicepValue<" + property.getPropertyType().getName() + "> " + "get" + NameUtils.toPascalCase(property.getName()) + "() {");
+        writer.indent();
+        writer.writeLine("return this." + property.getName() + ";");
+        writer.unindent();
+        writer.writeLine("}");
     }
 
     private void writeProperties(IndentWriter writer) {
