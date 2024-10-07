@@ -36,11 +36,6 @@
             <artifactId>azure-resourcemanager</artifactId>
             <version>2.43.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-core-management</artifactId>
-            <version>1.15.3</version>
-        </dependency>
     </dependencies>
 
 </project>
