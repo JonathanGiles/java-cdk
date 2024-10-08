@@ -3,6 +3,7 @@ package com.azure.provisioning.generator.model;
 import com.azure.provisioning.generator.Main;
 import com.azure.provisioning.generator.utils.IndentWriter;
 import com.azure.provisioning.generator.utils.NameUtils;
+import com.azure.provisioning.generator.utils.ReflectionUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -125,8 +126,19 @@ public class Resource extends TypeModel {
         System.out.println("Generating resource " + className);
         writer.writeLine("// Copyright (c) Microsoft Corporation. All rights reserved.");
         writer.writeLine("// Licensed under the MIT License.");
+
         writer.writeLine();
         writer.writeLine("package " + this.getProvisioningPackage() + ";");
+
+        writer.writeLine();
+
+        ReflectionUtils.getImportPackages(this.getProperties())
+                .forEach(packageImport -> {
+                    writer.writeLine("import " + packageImport + ";");
+                });
+        writer.writeLine("import com.azure.provisioning.BicepValue;");
+        writer.writeLine();
+
         writer.writeLine("public class " + className + " extends Resource {");
 
         writeProperties(writer);
@@ -149,7 +161,7 @@ public class Resource extends TypeModel {
     }
 
     private void writeResourceVersions(IndentWriter writer) {
-        if(resourceVersions == null || resourceVersions.isEmpty()) {
+        if (resourceVersions == null || resourceVersions.isEmpty()) {
             return;
         }
 

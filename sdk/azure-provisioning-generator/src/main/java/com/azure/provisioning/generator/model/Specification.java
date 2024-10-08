@@ -6,6 +6,7 @@ import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.ProxyResource;
 import com.azure.core.management.profile.AzureProfile;
 import com.azure.core.util.Context;
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.provisioning.generator.Main;
 import com.azure.provisioning.generator.utils.ReflectionUtils;
@@ -210,6 +211,7 @@ public abstract class Specification extends ModelBase {
 
         while (currentType != ProxyResource.class) {
             Arrays.stream(currentType.getDeclaredFields())
+                    .filter(field -> field.getType() != ClientLogger.class)
                     .forEach(field -> {
                         if (ReflectionUtils.isSimpleType(field.getType())) {
                             Property property = new Property(resource, getOrCreateModelType(field.getType(), resource), field, null);
@@ -228,6 +230,7 @@ public abstract class Specification extends ModelBase {
         List<Property> properties = new ArrayList<>();
 
         Arrays.stream(field.getType().getDeclaredFields())
+                .filter(f -> f.getType() != ClientLogger.class)
                 .forEach(f -> {
                     if (ReflectionUtils.isSimpleType(f.getType())) {
                         Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
@@ -246,7 +249,6 @@ public abstract class Specification extends ModelBase {
             return TypeRegistry.get(type);
         }
         if (type.getPackageName().startsWith("com.azure.resourcemanager")) {
-
             if (ReflectionUtils.isEnumType(type)) {
                 List<String> enumValues = ReflectionUtils.getEnumValues(type);
                 EnumModel enumModel = new EnumModel(type.getSimpleName(), this.getProvisioningPackage() + ".models", enumValues);
@@ -260,6 +262,7 @@ public abstract class Specification extends ModelBase {
             return simpleModel;
         }
         ExternalModel externalModel = new ExternalModel(type);
+        externalModel.setExternal(true);
         TypeRegistry.register(externalModel);
         return externalModel;
     }

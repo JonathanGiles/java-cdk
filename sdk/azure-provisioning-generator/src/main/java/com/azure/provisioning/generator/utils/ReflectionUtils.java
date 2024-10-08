@@ -2,11 +2,15 @@ package com.azure.provisioning.generator.utils;
 
 import com.azure.core.management.ProxyResource;
 import com.azure.core.util.ExpandableStringEnum;
+import com.azure.provisioning.generator.model.ModelBase;
+import com.azure.provisioning.generator.model.Property;
+import com.azure.provisioning.generator.model.TypeModel;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ReflectionUtils {
@@ -76,4 +80,12 @@ public class ReflectionUtils {
                 .map(field -> field.getName())
                 .collect(Collectors.toUnmodifiableList());
     }
+
+    public static Set<String> getImportPackages(List<Property> properties) {
+        return properties.stream()
+                .filter(property -> !property.getPropertyType().getProvisioningPackage().equals("java.lang"))
+                .map(property -> property.getPropertyType().getProvisioningPackage() + "." + property.getPropertyType().getName())
+                .collect(Collectors.toSet());
+    }
+
 }

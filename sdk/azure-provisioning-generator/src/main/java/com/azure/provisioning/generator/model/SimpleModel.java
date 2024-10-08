@@ -3,6 +3,7 @@ package com.azure.provisioning.generator.model;
 import com.azure.provisioning.generator.Main;
 import com.azure.provisioning.generator.utils.IndentWriter;
 import com.azure.provisioning.generator.utils.NameUtils;
+import com.azure.provisioning.generator.utils.ReflectionUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,6 +30,13 @@ public class SimpleModel extends TypeModel {
             writer.writeLine();
 
             writer.writeLine("package " + getProvisioningPackage() + ";");
+            writer.writeLine();
+
+            ReflectionUtils.getImportPackages(this.getProperties())
+                    .forEach(packageImport -> {
+                        writer.writeLine("import " + packageImport + ";");
+                    });
+
             writer.writeLine();
             writer.writeLine("public class " + getName() + " extends " + (getBaseType() != null ? getBaseType().getName() : "ProvisioningConstruct") + " {");
 
