@@ -2,6 +2,7 @@ package com.azure.provisioning.generator.model;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Property {
@@ -35,6 +36,7 @@ public class Property {
         this.isSecure = false;
         this.generateDefaultValue = false;
         this.hideAccessors = false;
+        this.path = new ArrayList<>();
     }
 
     public TypeModel getParent() {

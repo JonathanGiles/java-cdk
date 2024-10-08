@@ -10,9 +10,11 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Represents a resource in the Azure provisioning model.
@@ -119,10 +121,14 @@ public class Resource extends TypeModel {
         }
     }
 
+    private String getClassName() {
+        return this.getName().replace("Inner", "") + "Resource";
+    }
+
     @Override
     public void generate() {
         IndentWriter writer = new IndentWriter();
-        String className = this.getName().replace("Inner", "") + "Resource";
+        String className = getClassName();
         System.out.println("Generating resource " + className);
         writer.writeLine("// Copyright (c) Microsoft Corporation. All rights reserved.");
         writer.writeLine("// Licensed under the MIT License.");
@@ -138,12 +144,14 @@ public class Resource extends TypeModel {
                 });
         writer.writeLine("import com.azure.provisioning.BicepValue;");
         writer.writeLine("import com.azure.provisioning.primitives.Resource;");
+        writer.writeLine("import com.azure.provisioning.tmp.ResourceType;"); // FIXME temporary type being used
 
         writer.writeLine();
 
         writer.writeLine("public class " + className + " extends Resource {");
 
         writeProperties(writer);
+        writeConstructor(writer);
         writeGetterSetterMethods(className, writer);
         writeResourceVersions(writer);
 
@@ -217,6 +225,38 @@ public class Resource extends TypeModel {
         this.getProperties().forEach(property -> {
             writer.writeLine("private BicepValue<" + property.getPropertyType().getName() + "> " + property.getName() + ";");
         });
+        writer.unindent();
+    }
+
+    private void writeConstructor(IndentWriter writer) {
+        writer.indent();
+        writer.writeLine();
+        writer.writeLine("public " + getClassName() + "(String identifierName) {");
+        writer.indent();
+        writer.writeLine("this(identifierName, null);");
+        writer.unindent();
+        writer.writeLine("}");
+        writer.writeLine();
+
+        writer.writeLine("public " + getClassName() + "(String identifierName, String resourceVersion) {");
+        writer.indent();
+        // FIXME ResourceType is a temporary type
+        writer.write("super(identifierName, new ResourceType(\"" + resourceNamespace + "\"), resourceVersion);");
+        writer.writeLine();
+
+        getProperties().forEach(property -> {
+            final String bicepPath = property.getPath().stream().collect(Collectors.joining(", "));
+            writer.writeLine(property.getName() + " = BicepValue.defineProperty(this, \"" + property.getName() + "\", "
+                + "new String[] { " + bicepPath + " }, "
+                + property.isReadOnly() + ", "
+                + property.isRequired() + ", "
+                + property.isSecure() + ", "
+                // TODO default value
+                + "null"
+                + ");");
+        });
+        writer.unindent();
+        writer.writeLine("}");
         writer.unindent();
     }
 

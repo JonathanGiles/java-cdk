@@ -7,6 +7,7 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 import com.azure.resourcemanager.resources.models.ResourceGroup;
 import org.junit.jupiter.api.Assertions;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -53,6 +54,14 @@ public class Trycep implements AutoCloseable {
             throw new IllegalStateException("No ProvisioningPlan was provided. Did you call define?");
         }
         return plan;
+    }
+
+    public Trycep compare(File expectedBicepFile) {
+        try {
+            return compare(Files.readString(expectedBicepFile.toPath()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Trycep compare(String expectedBicep) {

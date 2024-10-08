@@ -8,10 +8,7 @@ import com.azure.provisioning.implementation.resolvers.InfrastructureResolver;
 import com.azure.provisioning.primitives.Provisionable;
 import com.azure.provisioning.primitives.ProvisioningConstruct;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 public class Infrastructure implements Provisionable {
     static final String DEFAULT_INFRASTRUCTURE_NAME = "main";
@@ -87,6 +84,87 @@ public class Infrastructure implements Provisionable {
                 resources.remove(nested);
             }
         }
+    }
+
+    private static boolean isAsciiLetterOrDigit(char ch) {
+        return ('a' <= ch && ch <= 'z') ||
+            ('A' <= ch && ch <= 'Z') ||
+            ('0' <= ch && ch <= '9');
+    }
+
+    /**
+     * Checks whether a name is a valid Bicep identifier name comprised of
+     * letters, digits, and underscores.
+     *
+     * @param identifierName The proposed identifier name.
+     * @return Whether the name is a valid Bicep identifier name.
+     */
+    public static boolean isValidIdentifierName(String identifierName) {
+        if (identifierName == null || identifierName.isEmpty()) {
+            return false;
+        }
+        if (Character.isDigit(identifierName.charAt(0))) {
+            return false;
+        }
+        for (char ch : identifierName.toCharArray()) {
+            if (!isAsciiLetterOrDigit(ch) && ch != '_') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Validates whether a given Bicep identifier name is correctly formed of
+     * letters, numbers, and underscores.
+     *
+     * @param identifierName The proposed Bicep identifier name.
+     * @param paramName Optional parameter name to use for exceptions.
+     * @throws NullPointerException if identifierName is null.
+     * @throws IllegalArgumentException if identifierName is empty or invalid.
+     */
+    public static void validateIdentifierName(String identifierName, String paramName) {
+        paramName = Objects.requireNonNullElse(paramName, "identifierName");
+        if (identifierName == null) {
+            throw new NullPointerException(paramName + " cannot be null.");
+        } else if (identifierName.isEmpty()) {
+            throw new IllegalArgumentException(paramName + " cannot be empty.");
+        } else if (Character.isDigit(identifierName.charAt(0))) {
+            throw new IllegalArgumentException(paramName + " cannot start with a number: \"" + identifierName + "\"");
+        }
+        for (char ch : identifierName.toCharArray()) {
+            if (!isAsciiLetterOrDigit(ch) && ch != '_') {
+                throw new IllegalArgumentException(paramName + " should only contain letters, numbers, and underscores: \"" + identifierName + "\"");
+            }
+        }
+    }
+
+    /**
+     * Normalizes a proposed Bicep identifier name. Any invalid characters
+     * will be replaced with underscores.
+     *
+     * @param identifierName The proposed Bicep identifier name.
+     * @return A valid Bicep identifier name.
+     * @throws NullPointerException if identifierName is null.
+     * @throws IllegalArgumentException if identifierName is empty.
+     */
+    public static String normalizeIdentifierName(String identifierName) {
+        if (isValidIdentifierName(identifierName)) {
+            return identifierName;
+        }
+        if (identifierName == null) {
+            throw new NullPointerException("identifierName cannot be null.");
+        } else if (identifierName.isEmpty()) {
+            throw new IllegalArgumentException("identifierName cannot be empty.");
+        }
+        StringBuilder builder = new StringBuilder(identifierName.length());
+        if (Character.isDigit(identifierName.charAt(0))) {
+            builder.append('_');
+        }
+        for (char ch : identifierName.toCharArray()) {
+            builder.append(isAsciiLetterOrDigit(ch) ? ch : '_');
+        }
+        return builder.toString();
     }
 
     @Override

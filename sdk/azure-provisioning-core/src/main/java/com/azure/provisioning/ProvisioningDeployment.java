@@ -57,10 +57,10 @@ public class ProvisioningDeployment {
 //    }
 //
     public <T> T getClientCreationOutput(Resource resource, String parameterName) {
-        String qualifiedName = resource.getResourceName() + "_" + parameterName;
+        String qualifiedName = resource.getIdentifierName() + "_" + parameterName;
         Object raw = outputs.get(qualifiedName);
         if (raw == null) {
-            throw new IllegalStateException("Could not find output value " + qualifiedName + " to construct " + resource.getClass().getSimpleName() + " resource " + resource.getResourceName() + ".");
+            throw new IllegalStateException("Could not find output value " + qualifiedName + " to construct " + resource.getClass().getSimpleName() + " resource " + resource.getIdentifierName() + ".");
         }
         return (T) raw;
     }

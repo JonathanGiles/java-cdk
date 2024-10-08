@@ -14,8 +14,12 @@ public abstract class Resource extends NamedProvisioningConstruct {
     private boolean isExistingResource = false;
     private final List<Resource> dependsOn = new ArrayList<>();
 
-    public Resource(String resourceName, ResourceType resourceType, String resourceVersion, ProvisioningContext context) {
-        super(resourceName, context);
+    public Resource(String resourceName, ResourceType resourceType) {
+        this(resourceName, resourceType, null);
+    }
+
+    public Resource(String resourceName, ResourceType resourceType, String resourceVersion) {
+        super(resourceName);
         this.resourceType = resourceType;
         this.resourceVersion = resourceVersion;
     }
@@ -56,11 +60,11 @@ public abstract class Resource extends NamedProvisioningConstruct {
         super.validate(context);
 
         if (resourceVersion == null) {
-            throw new IllegalStateException(getClass().getSimpleName() + " resource " + getResourceName() + " must have resourceVersion specified.");
+            throw new IllegalStateException(getClass().getSimpleName() + " resource " + getIdentifierName() + " must have resourceVersion specified.");
         }
 
         if (!dependsOn.isEmpty() && (isExistingResource || getExpressionOverride() != null)) {
-            throw new IllegalStateException(getClass().getSimpleName() + " resource " + getResourceName() + " cannot have dependencies if it's an existing resource or an expression override.");
+            throw new IllegalStateException(getClass().getSimpleName() + " resource " + getIdentifierName() + " cannot have dependencies if it's an existing resource or an expression override.");
         }
 
         if (isExistingResource) {
@@ -83,10 +87,10 @@ public abstract class Resource extends NamedProvisioningConstruct {
 
         if (!dependsOn.isEmpty()) {
             if (!(body instanceof ObjectExpression)) {
-                throw new IllegalStateException(getClass().getSimpleName() + " resource " + getResourceName() + " cannot have dependencies if it's an existing resource or an expression override.");
+                throw new IllegalStateException(getClass().getSimpleName() + " resource " + getIdentifierName() + " cannot have dependencies if it's an existing resource or an expression override.");
             }
 
-            ArrayExpression dependencies = new ArrayExpression(dependsOn.stream().map(r -> BicepSyntax.var(r.getResourceName())).toArray(Expression[]::new));
+            ArrayExpression dependencies = new ArrayExpression(dependsOn.stream().map(r -> BicepSyntax.var(r.getIdentifierName())).toArray(Expression[]::new));
 
             // TODO review this - the original C# code was the following:
 //            ArrayExpression dependencies = new(DependsOn.Select(r => BicepSyntax.Var(r.ResourceName)).ToArray());

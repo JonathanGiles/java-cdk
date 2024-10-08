@@ -68,6 +68,7 @@
     <modules>
         <module>sdk/azure-provisioning-core</module>
 <!--        <module>sdk/azure-provisioning-deployment</module>-->
+        <module>sdk/azure-provisioning-appconfiguration</module>
         <module>sdk/azure-provisioning-storage</module>
         <module>sdk/azure-provisioning-generator</module>
     </modules>

@@ -38,7 +38,7 @@ public class ProvisioningParameter extends ProvisioningVariable {
 
     @Override
     public List<Statement> compile(ProvisioningContext context) {
-        ParameterStatement stmt = BicepSyntax.Declare.param(getResourceName(), getBicepType(), getValue().getKind() == BicepValueKind.UNSET ? null : getValue().compile());
+        ParameterStatement stmt = BicepSyntax.Declare.param(getIdentifierName(), getBicepType(), getValue().getKind() == BicepValueKind.UNSET ? null : getValue().compile());
         if (isSecure()) {
             stmt = BicepSyntax.decorate(stmt, "secure");
         }

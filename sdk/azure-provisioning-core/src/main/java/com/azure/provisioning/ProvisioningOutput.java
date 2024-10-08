@@ -30,7 +30,7 @@ public class ProvisioningOutput extends ProvisioningVariable {
 
     @Override
     public List<Statement> compile(ProvisioningContext context) {
-        OutputStatement stmt = BicepSyntax.Declare.output(getResourceName(), getBicepType(), getValue().compile());
+        OutputStatement stmt = BicepSyntax.Declare.output(getIdentifierName(), getBicepType(), getValue().compile());
         if (getDescription() != null) {
             stmt = BicepSyntax.decorate(stmt, "description", BicepSyntax.value(getDescription()));
         }

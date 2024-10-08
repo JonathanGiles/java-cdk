@@ -19,7 +19,7 @@ public class StaticResourceNamePropertyResolver extends ResourceNamePropertyReso
     public BicepValue<String> resolveName(ProvisioningContext context, Resource resource, ResourceNameRequirements requirements) {
         StringBuilder name = new StringBuilder(requirements.getMaxLength());
 
-        name.append(sanitizeText(resource.getResourceName(), requirements.getValidCharacters()));
+        name.append(sanitizeText(resource.getIdentifierName(), requirements.getValidCharacters()));
         if (name.length() >= requirements.getMaxLength()) {
             return new BicepValue<>(name.substring(0, requirements.getMaxLength()));
         }

@@ -35,7 +35,7 @@ public class BicepValueReference {
         }
 
         NamedProvisioningConstruct named = (NamedProvisioningConstruct) construct;
-        Expression target = BicepSyntax.var(named.getResourceName());
+        Expression target = BicepSyntax.var(named.getIdentifierName());
         if (bicepPath != null) {
             for (String segment : bicepPath) {
 //                target = target.get(segment);

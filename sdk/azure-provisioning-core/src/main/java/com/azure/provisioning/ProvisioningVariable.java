@@ -35,19 +35,19 @@ public class ProvisioningVariable extends NamedProvisioningConstruct {
         return bicepType;
     }
 
-    protected ProvisioningVariable(String name, Expression type, BicepValue<Object> value, ProvisioningContext context) {
-        super(name, context);
+    protected ProvisioningVariable(String name, Expression type, BicepValue<Object> value) {
+        super(name);
         this.bicepType = type;
         this.value = BicepValue.defineProperty(this, "Value", null, value == null ? null : BicepValue.from(value));
     }
 
-    public ProvisioningVariable(String name, Class<?> type, ProvisioningContext context) {
-        this(name, new TypeExpression(type), null, context);
+    public ProvisioningVariable(String name, Class<?> type) {
+        this(name, new TypeExpression(type), null);
     }
 
     @Override
     public List<Statement> compile(ProvisioningContext context) {
-        VariableStatement stmt = BicepSyntax.Declare.var(getResourceName(), value.compile());
+        VariableStatement stmt = BicepSyntax.Declare.var(getIdentifierName(), value.compile());
         if (description != null) {
             stmt = BicepSyntax.decorate(stmt, "description", BicepSyntax.value(description));
         }

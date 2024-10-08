@@ -19,7 +19,7 @@ public class ResourceReference<T extends Resource> {
     public void setValue(T value) {
         this.value = value;
         reference.setKind(BicepValueKind.EXPRESSION);
-        reference.setExpression(value == null ? BicepSyntax.nullValue() : BicepSyntax.var(value.getResourceName()));
+        reference.setExpression(value == null ? BicepSyntax.nullValue() : BicepSyntax.var(value.getIdentifierName()));
     }
 
 //    @EditorBrowsable(EditorBrowsableState.NEVER)

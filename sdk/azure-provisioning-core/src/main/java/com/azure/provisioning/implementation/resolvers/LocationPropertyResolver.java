@@ -43,8 +43,8 @@ public class LocationPropertyResolver extends PropertyResolver {
         infra.getResources().stream()
             .filter(ProvisioningParameter.class::isInstance)
             .map(ProvisioningParameter.class::cast)
-            .filter(p -> p.getResourceName().startsWith("location"))
-            .forEach(p -> existing.put(p.getResourceName(), p));
+            .filter(p -> p.getIdentifierName().startsWith("location"))
+            .forEach(p -> existing.put(p.getIdentifierName(), p));
 
         for (ProvisioningParameter p : existing.values()) {
             if (p.getBicepType() instanceof TypeExpression) {
@@ -61,7 +61,7 @@ public class LocationPropertyResolver extends PropertyResolver {
 
             if (construct instanceof NamedProvisioningConstruct) {
                 NamedProvisioningConstruct resource = (NamedProvisioningConstruct) construct;
-                name = name + "_" + resource.getResourceName();
+                name = name + "_" + resource.getIdentifierName();
                 increment = existing.containsKey(name);
             }
 

@@ -146,7 +146,7 @@ public class BicepValue<T> extends BicepValueBase {
      * @return the BicepValue
      */
     public static <T> BicepValue<T> from(ProvisioningVariable reference) {
-        return new BicepValue<>(new BicepValueReference(reference, "<value>"), BicepSyntax.var(reference.getResourceName()));
+        return new BicepValue<>(new BicepValueReference(reference, "<value>"), BicepSyntax.var(reference.getIdentifierName()));
     }
 
     /**
