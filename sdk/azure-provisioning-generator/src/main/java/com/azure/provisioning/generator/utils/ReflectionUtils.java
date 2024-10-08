@@ -1,6 +1,13 @@
 package com.azure.provisioning.generator.utils;
 
+import com.azure.core.management.ProxyResource;
+import com.azure.core.util.ExpandableStringEnum;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReflectionUtils {
 
@@ -28,5 +35,45 @@ public class ReflectionUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isResourceType(Class<?> type) {
+        Class<?> currentType = type;
+        while (currentType != Object.class) {
+            if (currentType == ProxyResource.class) {
+                return true;
+            }
+            currentType = currentType.getSuperclass();
+        }
+        return false;
+    }
+
+    public static boolean isPropertiesTypes(Field field) {
+        return field.getName().endsWith("Properties");
+    }
+
+    public static boolean isEnumType(Class<?> type) {
+        Class<?> currentType = type;
+        if (type.isEnum()) {
+            return true;
+        }
+
+        while (currentType != Object.class) {
+            if (currentType == ExpandableStringEnum.class) {
+                return true;
+            }
+            currentType = currentType.getSuperclass();
+        }
+        return false;
+    }
+
+    public static List<String> getEnumValues(Class<?> type) {
+        if (type.isEnum()) {
+            return Arrays.stream(type.getEnumConstants()).map(val -> val.toString()).collect(Collectors.toUnmodifiableList());
+        }
+
+        return Arrays.stream(type.getDeclaredFields())
+                .map(field -> field.getName())
+                .collect(Collectors.toUnmodifiableList());
     }
 }

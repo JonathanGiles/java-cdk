@@ -3,6 +3,7 @@ package com.azure.provisioning.generator.model;
 import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.http.rest.Response;
 import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.ProxyResource;
 import com.azure.core.management.profile.AzureProfile;
 import com.azure.core.util.Context;
 import com.azure.identity.DefaultAzureCredentialBuilder;
@@ -18,10 +19,7 @@ import reactor.core.publisher.Mono;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -187,7 +185,7 @@ public abstract class Specification extends ModelBase {
         return null;
     }
 
-    private List<Property> findProperties(Resource resource, Method creatorMethod, Field type) {
+    private List<Property> findProperties(Resource resource, Method creatorMethod, Field field) {
         List<Property> properties = new ArrayList<>();
         Arrays.stream(creatorMethod.getParameters())
                 .forEach(param -> {
@@ -195,12 +193,51 @@ public abstract class Specification extends ModelBase {
                         return;
                     }
                     if (ReflectionUtils.isSimpleType(param.getType())) {
-                        Property property = new Property(resource, getOrCreateModelType(param.getType(), resource), type, param);
+                        Property property = new Property(resource, getOrCreateModelType(param.getType(), resource), field, param);
                         property.setRequired(true);
                         properties.add(property);
+                    } else if (ReflectionUtils.isResourceType(param.getType())) {
+                        properties.addAll(getPropertiesFromResource(resource, param));
                     }
                 });
 
+        return properties;
+    }
+
+    private List<Property> getPropertiesFromResource(Resource resource, Parameter param) {
+        List<Property> properties = new ArrayList<>();
+        Class<?> currentType = param.getType();
+
+        while (currentType != ProxyResource.class) {
+            Arrays.stream(currentType.getDeclaredFields())
+                    .forEach(field -> {
+                        if (ReflectionUtils.isSimpleType(field.getType())) {
+                            Property property = new Property(resource, getOrCreateModelType(field.getType(), resource), field, null);
+                            property.setRequired(true);
+                            properties.add(property);
+                        } else if(ReflectionUtils.isPropertiesTypes(field)) {
+                            properties.addAll(getPropertiesFromModel(resource, field));
+                        }
+                    });
+            currentType = currentType.getSuperclass();
+        }
+        return properties;
+    }
+
+    private List<Property> getPropertiesFromModel(Resource resource, Field field) {
+        List<Property> properties = new ArrayList<>();
+
+        Arrays.stream(field.getType().getDeclaredFields())
+                .forEach(f -> {
+                    if (ReflectionUtils.isSimpleType(f.getType())) {
+                        Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
+                        property.setRequired(true);
+                        properties.add(property);
+                    } else {
+                        Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
+                        properties.add(property);
+                    }
+                });
         return properties;
     }
 
@@ -208,9 +245,39 @@ public abstract class Specification extends ModelBase {
         if (TypeRegistry.get(type) != null) {
             return TypeRegistry.get(type);
         }
+        if (type.getPackageName().startsWith("com.azure.resourcemanager")) {
+
+            if (ReflectionUtils.isEnumType(type)) {
+                List<String> enumValues = ReflectionUtils.getEnumValues(type);
+                EnumModel enumModel = new EnumModel(type.getSimpleName(), this.getProvisioningPackage() + ".models", enumValues);
+                modelNameMapping.putIfAbsent(type.getName(), enumModel);
+                return enumModel;
+            }
+
+            SimpleModel simpleModel = new SimpleModel(this, type, type.getSimpleName(), this.getProvisioningPackage() + ".models", null);
+            simpleModel.setProperties(getPropertiesFromModel(resource, type));
+            modelNameMapping.putIfAbsent(type.getName(), simpleModel);
+            return simpleModel;
+        }
         ExternalModel externalModel = new ExternalModel(type);
         TypeRegistry.register(externalModel);
         return externalModel;
+    }
+
+    private List<Property> getPropertiesFromModel(Resource resource, Class<?> type) {
+        List<Property> properties = new ArrayList<>();
+        Arrays.stream(type.getDeclaredFields())
+                .forEach(f -> {
+                    if (ReflectionUtils.isSimpleType(f.getType())) {
+                        Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
+                        property.setRequired(true);
+                        properties.add(property);
+                    } else {
+                        Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
+                        properties.add(property);
+                    }
+                });
+        return properties;
     }
 
     private Map<Type, Method> findConstructibleResources() {

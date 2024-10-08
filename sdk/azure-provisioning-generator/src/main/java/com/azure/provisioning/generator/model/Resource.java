@@ -1,9 +1,14 @@
 package com.azure.provisioning.generator.model;
 
+import com.azure.provisioning.generator.Main;
 import com.azure.provisioning.generator.utils.IndentWriter;
 import com.azure.provisioning.generator.utils.NameUtils;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -129,7 +134,18 @@ public class Resource extends TypeModel {
         writeResourceVersions(writer);
 
         writer.writeLine("}");
-        this.getSpec().writeToFile(className, writer.toString());
+        saveFile(className, writer.toString());
+    }
+
+    private void saveFile(String className, String content) {
+        Path path = Paths.get(Main.BASE_DIR.getPath() + "/" + getProvisioningPackage().replace(".", "/") + "/", className + ".java");
+        try {
+            System.out.println("Writing to " + path);
+            Files.createDirectories(path.getParent());
+            Files.write(path, content.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void writeResourceVersions(IndentWriter writer) {
@@ -158,9 +174,7 @@ public class Resource extends TypeModel {
         writer.writeLine();
         this.getProperties().forEach(property -> {
             writeGetter(writer, property);
-
             writer.writeLine();
-
             writeSetter(writer, property, className);
         });
         writer.unindent();
