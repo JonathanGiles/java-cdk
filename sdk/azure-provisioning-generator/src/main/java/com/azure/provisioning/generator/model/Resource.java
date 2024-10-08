@@ -137,6 +137,8 @@ public class Resource extends TypeModel {
                     writer.writeLine("import " + packageImport + ";");
                 });
         writer.writeLine("import com.azure.provisioning.BicepValue;");
+        writer.writeLine("import com.azure.provisioning.primitives.Resource;");
+
         writer.writeLine();
 
         writer.writeLine("public class " + className + " extends Resource {");
@@ -150,7 +152,8 @@ public class Resource extends TypeModel {
     }
 
     private void saveFile(String className, String content) {
-        Path path = Paths.get(Main.BASE_DIR.getPath() + "/" + getProvisioningPackage().replace(".", "/") + "/", className + ".java");
+
+        Path path = Paths.get(this.getSpec().getBaseDir() + "/src/main/java/" + getProvisioningPackage().replace(".", "/") + "/", className + ".java");
         try {
             System.out.println("Writing to " + path);
             Files.createDirectories(path.getParent());

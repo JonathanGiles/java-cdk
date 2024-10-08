@@ -21,6 +21,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,6 +37,7 @@ public abstract class Specification extends ModelBase {
     private static final AzureResourceManager AZURE_RESOURCE_MANAGER = AzureResourceManager
             .authenticate(new DefaultAzureCredentialBuilder().build(), new AzureProfile(AzureEnvironment.AZURE))
             .withSubscription("faa080af-c1d8-40ad-9cce-e1a450ca5b57");
+    private final String baseDir;
 
 
 //    static final AzureResourceManager arm = AzureResourceManager.authenticate(
@@ -91,12 +96,14 @@ public abstract class Specification extends ModelBase {
 
     public Specification(String name, String provisioningPackage) {
         super(name, provisioningPackage, null, null);
+        this.baseDir = Main.BASE_DIR + "/sdk/" + getProvisioningPackage().replace("com.", "").replace(".", "-");
         TypeRegistry.register(this);
     }
 
     public Specification(String name, String provisioningPackage, Type armType, String description, String providerName) {
         super(name, provisioningPackage, armType, description);
         this.providerName = providerName;
+        this.baseDir = Main.BASE_DIR + "/sdk/" + getProvisioningPackage().replace("com.", "").replace(".", "-");
         TypeRegistry.register(this);
     }
 
@@ -116,15 +123,36 @@ public abstract class Specification extends ModelBase {
         return "<Specification " + getName() + ">";
     }
 
+    public String getBaseDir() {
+        return this.baseDir;
+    }
+
     public void build() {
         analyze();
         customize();
         lint();
+
+        generatePom();
+
         modelNameMapping.forEach((key, value) -> {
             value.generate();
         });
 
 //        roles.forEach(role -> {generateBuiltInRoles();});
+    }
+
+    private void generatePom() {
+        try {
+            String pomTemplate = new String(this.getClass().getClassLoader().getResourceAsStream("pom-template.xml").readAllBytes());
+            pomTemplate = pomTemplate.replace("{artifact-name}", getProvisioningPackage().replace("com.", "").replace(".", "-"));
+
+            Path path = Paths.get(getBaseDir(), "pom.xml");
+            System.out.println("Writing to " + path);
+            Files.createDirectories(path.getParent());
+            Files.write(path, pomTemplate.getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // Placeholder methods for analyze, customize, lint, and getGenerationPath
@@ -217,7 +245,7 @@ public abstract class Specification extends ModelBase {
                             Property property = new Property(resource, getOrCreateModelType(field.getType(), resource), field, null);
                             property.setRequired(true);
                             properties.add(property);
-                        } else if(ReflectionUtils.isPropertiesTypes(field)) {
+                        } else if (ReflectionUtils.isPropertiesTypes(field)) {
                             properties.addAll(getPropertiesFromModel(resource, field));
                         }
                     });
@@ -248,10 +276,12 @@ public abstract class Specification extends ModelBase {
         if (TypeRegistry.get(type) != null) {
             return TypeRegistry.get(type);
         }
+
         if (type.getPackageName().startsWith("com.azure.resourcemanager")) {
             if (ReflectionUtils.isEnumType(type)) {
                 List<String> enumValues = ReflectionUtils.getEnumValues(type);
                 EnumModel enumModel = new EnumModel(type.getSimpleName(), this.getProvisioningPackage() + ".models", enumValues);
+                enumModel.setSpec(this);
                 modelNameMapping.putIfAbsent(type.getName(), enumModel);
                 return enumModel;
             }

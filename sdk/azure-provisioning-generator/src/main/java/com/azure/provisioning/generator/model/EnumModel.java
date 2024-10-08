@@ -73,7 +73,7 @@ public class EnumModel extends ModelBase {
     }
 
     private void saveFile(String content) {
-        Path path = Paths.get(Main.BASE_DIR.getPath() + "/" + getProvisioningPackage().replace(".", "/") + "/", getName() + ".java");
+        Path path = Paths.get(this.getSpec().getBaseDir() + "/src/main/java/" + getProvisioningPackage().replace(".", "/") + "/", getName() + ".java");
         try {
             System.out.println("Writing to " + path);
             Files.createDirectories(path.getParent());

@@ -9,6 +9,7 @@ public abstract class ModelBase {
     private String description;
     private Specification spec;
     private boolean isExternal;
+    private String baseDir;
 
     public ModelBase(String name) {
         this.name = name;
@@ -83,7 +84,6 @@ public abstract class ModelBase {
     public String getTypeReference() {
         return name;
     }
-
 
     /**
      * Check for common issues.
