@@ -11,7 +11,7 @@ public class PrivateEndpoint extends ProvisioningConstruct {
     private final BicepValue<String> id;
 
     public PrivateEndpoint() {
-        id = BicepValue.defineProperty(this, "id", new String[] {  }, null);
+        id = BicepValue.defineProperty(this, "id", new String[] { "temp", "id" }, null);
     }
 
     public BicepValue<String> getId() {

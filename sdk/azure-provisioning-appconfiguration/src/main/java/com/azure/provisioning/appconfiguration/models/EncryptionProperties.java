@@ -12,7 +12,7 @@ public class EncryptionProperties extends ProvisioningConstruct {
     private final BicepValue<KeyVaultProperties> keyVaultProperties;
 
     public EncryptionProperties() {
-        keyVaultProperties = BicepValue.defineProperty(this, "keyVaultProperties", new String[] {  }, null);
+        keyVaultProperties = BicepValue.defineProperty(this, "keyVaultProperties", new String[] { "temp", "keyVaultProperties" }, null);
     }
 
     public BicepValue<KeyVaultProperties> getKeyVaultProperties() {

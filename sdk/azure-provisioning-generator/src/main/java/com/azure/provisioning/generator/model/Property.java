@@ -157,7 +157,7 @@ public class Property {
     // FIXME shouldn't need this param!
     public String getBicepDefinition(boolean withBooleans) {
         StringBuilder sb = new StringBuilder();
-        final String bicepPath = getPath().stream().collect(Collectors.joining(", "));
+        final String bicepPath = "\"temp\", \"" + name  + "\""; // getPath().stream().collect(Collectors.joining(", "));
 
         if (propertyType instanceof DictionaryModel) {
             return "BicepDictionary.defineProperty(this, \"" + name + "\", new String[] { " + bicepPath + " }, " + isReadOnly + ", " + isRequired + ")";

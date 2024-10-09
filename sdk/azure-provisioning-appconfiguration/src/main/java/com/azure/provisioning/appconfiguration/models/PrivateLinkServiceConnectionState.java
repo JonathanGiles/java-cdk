@@ -15,9 +15,9 @@ public class PrivateLinkServiceConnectionState extends ProvisioningConstruct {
     private final BicepValue<ActionsRequired> actionsRequired;
 
     public PrivateLinkServiceConnectionState() {
-        status = BicepValue.defineProperty(this, "status", new String[] {  }, null);
-        description = BicepValue.defineProperty(this, "description", new String[] {  }, null);
-        actionsRequired = BicepValue.defineProperty(this, "actionsRequired", new String[] {  }, null);
+        status = BicepValue.defineProperty(this, "status", new String[] { "temp", "status" }, null);
+        description = BicepValue.defineProperty(this, "description", new String[] { "temp", "description" }, null);
+        actionsRequired = BicepValue.defineProperty(this, "actionsRequired", new String[] { "temp", "actionsRequired" }, null);
     }
 
     public BicepValue<ConnectionStatus> getStatus() {

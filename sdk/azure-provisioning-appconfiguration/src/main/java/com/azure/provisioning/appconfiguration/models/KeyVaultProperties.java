@@ -12,8 +12,8 @@ public class KeyVaultProperties extends ProvisioningConstruct {
     private final BicepValue<String> identityClientId;
 
     public KeyVaultProperties() {
-        keyIdentifier = BicepValue.defineProperty(this, "keyIdentifier", new String[] {  }, null);
-        identityClientId = BicepValue.defineProperty(this, "identityClientId", new String[] {  }, null);
+        keyIdentifier = BicepValue.defineProperty(this, "keyIdentifier", new String[] { "temp", "keyIdentifier" }, null);
+        identityClientId = BicepValue.defineProperty(this, "identityClientId", new String[] { "temp", "identityClientId" }, null);
     }
 
     public BicepValue<String> getKeyIdentifier() {

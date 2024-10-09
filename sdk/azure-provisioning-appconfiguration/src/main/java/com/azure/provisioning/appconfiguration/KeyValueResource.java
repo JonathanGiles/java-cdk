@@ -31,17 +31,17 @@ public class KeyValueResource extends Resource {
 
     public KeyValueResource(String identifierName, String resourceVersion) {
         super(identifierName, new ResourceType("Microsoft.AppConfiguration/configurationStores/keyValues"), resourceVersion);
-        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] {  }, false, false, false, null);;
-        configStoreName = BicepValue.defineProperty(this, "configStoreName", new String[] {  }, false, false, false, null);;
-        keyValueName = BicepValue.defineProperty(this, "keyValueName", new String[] {  }, false, false, false, null);;
-        key = BicepValue.defineProperty(this, "key", new String[] {  }, false, false, false, null);;
-        label = BicepValue.defineProperty(this, "label", new String[] {  }, false, false, false, null);;
-        value = BicepValue.defineProperty(this, "value", new String[] {  }, false, false, false, null);;
-        contentType = BicepValue.defineProperty(this, "contentType", new String[] {  }, false, false, false, null);;
-        etag = BicepValue.defineProperty(this, "etag", new String[] {  }, false, false, false, null);;
-        lastModified = BicepValue.defineProperty(this, "lastModified", new String[] {  }, false, false, false, null);;
-        locked = BicepValue.defineProperty(this, "locked", new String[] {  }, false, false, false, null);;
-        tags = BicepValue.defineProperty(this, "tags", new String[] {  }, false, false, false, null);;
+        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null);;
+        configStoreName = BicepValue.defineProperty(this, "configStoreName", new String[] { "temp", "configStoreName" }, false, false, false, null);;
+        keyValueName = BicepValue.defineProperty(this, "keyValueName", new String[] { "temp", "keyValueName" }, false, false, false, null);;
+        key = BicepValue.defineProperty(this, "key", new String[] { "temp", "key" }, false, false, false, null);;
+        label = BicepValue.defineProperty(this, "label", new String[] { "temp", "label" }, false, false, false, null);;
+        value = BicepValue.defineProperty(this, "value", new String[] { "temp", "value" }, false, false, false, null);;
+        contentType = BicepValue.defineProperty(this, "contentType", new String[] { "temp", "contentType" }, false, false, false, null);;
+        etag = BicepValue.defineProperty(this, "etag", new String[] { "temp", "etag" }, false, false, false, null);;
+        lastModified = BicepValue.defineProperty(this, "lastModified", new String[] { "temp", "lastModified" }, false, false, false, null);;
+        locked = BicepValue.defineProperty(this, "locked", new String[] { "temp", "locked" }, false, false, false, null);;
+        tags = BicepValue.defineProperty(this, "tags", new String[] { "temp", "tags" }, false, false, false, null);;
     }
 
     public BicepValue<String> getResourceGroupName() {
