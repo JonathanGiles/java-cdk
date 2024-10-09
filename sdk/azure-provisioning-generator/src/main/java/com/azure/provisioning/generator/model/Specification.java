@@ -223,7 +223,7 @@ public abstract class Specification extends ModelBase {
                     }
                     if (ReflectionUtils.isSimpleType(param.getType())) {
                         Property property = new Property(resource, getOrCreateModelType(param.getType(), resource), field, param);
-                        property.setRequired(true);
+//                        property.setRequired(true);
                         properties.add(property);
                     } else if (ReflectionUtils.isResourceType(param.getType())) {
                         properties.addAll(getPropertiesFromResource(resource, param));
@@ -243,7 +243,7 @@ public abstract class Specification extends ModelBase {
                     .forEach(field -> {
                         if (ReflectionUtils.isSimpleType(field.getType())) {
                             Property property = new Property(resource, getOrCreateModelType(field.getType(), resource), field, null);
-                            property.setRequired(true);
+//                            property.setRequired(true);
                             properties.add(property);
                         } else if (ReflectionUtils.isPropertiesTypes(field)) {
                             properties.addAll(getPropertiesFromModel(resource, field));
@@ -262,7 +262,7 @@ public abstract class Specification extends ModelBase {
                 .forEach(f -> {
                     if (ReflectionUtils.isSimpleType(f.getType())) {
                         Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
-                        property.setRequired(true);
+//                        property.setRequired(true);
                         properties.add(property);
                     } else {
                         Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
@@ -303,7 +303,7 @@ public abstract class Specification extends ModelBase {
                 .forEach(f -> {
                     if (ReflectionUtils.isSimpleType(f.getType())) {
                         Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
-                        property.setRequired(true);
+//                        property.setRequired(true);
                         properties.add(property);
                     } else {
                         Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);

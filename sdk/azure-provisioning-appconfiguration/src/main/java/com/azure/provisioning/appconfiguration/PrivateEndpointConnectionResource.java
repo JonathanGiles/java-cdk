@@ -27,9 +27,9 @@ public class PrivateEndpointConnectionResource extends Resource {
 
     public PrivateEndpointConnectionResource(String identifierName, String resourceVersion) {
         super(identifierName, new ResourceType("Microsoft.AppConfiguration/configurationStores/privateEndpointConnections"), resourceVersion);
-        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] {  }, false, true, false, null);;
-        configStoreName = BicepValue.defineProperty(this, "configStoreName", new String[] {  }, false, true, false, null);;
-        privateEndpointConnectionName = BicepValue.defineProperty(this, "privateEndpointConnectionName", new String[] {  }, false, true, false, null);;
+        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] {  }, false, false, false, null);;
+        configStoreName = BicepValue.defineProperty(this, "configStoreName", new String[] {  }, false, false, false, null);;
+        privateEndpointConnectionName = BicepValue.defineProperty(this, "privateEndpointConnectionName", new String[] {  }, false, false, false, null);;
         provisioningState = BicepValue.defineProperty(this, "provisioningState", new String[] {  }, false, false, false, null);;
         privateEndpoint = BicepValue.defineProperty(this, "privateEndpoint", new String[] {  }, false, false, false, null);;
         privateLinkServiceConnectionState = BicepValue.defineProperty(this, "privateLinkServiceConnectionState", new String[] {  }, false, false, false, null);;
