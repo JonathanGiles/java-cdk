@@ -14,12 +14,12 @@ import java.util.Objects;
  */
 public final class ResourceType {
     private static final String SEPARATOR = "/";
-    public static final String ResourceNamespace = "Microsoft.Resources";
+    public static final String RESOURCE_NAMESPACE = "Microsoft.Resources";
 
-    public static final ResourceType Tenant = new ResourceType(ResourceNamespace, "tenants", "Microsoft.Resources/tenants");
-    public static final ResourceType Subscription = new ResourceType(ResourceNamespace, "subscriptions", "Microsoft.Resources/subscriptions");
-    public static final ResourceType ResourceGroup = new ResourceType(ResourceNamespace, "resourceGroups", "Microsoft.Resources/resourceGroups");
-    public static final ResourceType Provider = new ResourceType(ResourceNamespace, "providers", "Microsoft.Resources/providers");
+    public static final ResourceType TENANTS = new ResourceType(RESOURCE_NAMESPACE, "tenants", "Microsoft.Resources/tenants");
+    public static final ResourceType SUBSCRIPTIONS = new ResourceType(RESOURCE_NAMESPACE, "subscriptions", "Microsoft.Resources/subscriptions");
+    public static final ResourceType RESOURCE_GROUPS = new ResourceType(RESOURCE_NAMESPACE, "resourceGroups", "Microsoft.Resources/resourceGroups");
+    public static final ResourceType PROVIDERS = new ResourceType(RESOURCE_NAMESPACE, "providers", "Microsoft.Resources/providers");
 
     private final String stringValue;
     private final String namespace;

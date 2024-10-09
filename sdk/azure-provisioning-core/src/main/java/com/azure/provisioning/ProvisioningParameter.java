@@ -21,19 +21,11 @@ public class ProvisioningParameter extends ProvisioningVariable {
     }
 
     public ProvisioningParameter(String name, Class<?> type) {
-        this(name, type, null);
-    }
-
-    public ProvisioningParameter(String name, Class<?> type, ProvisioningContext context) {
-        this(name, new TypeExpression(type), context);
+        this(name, new TypeExpression(type));
     }
 
     public ProvisioningParameter(String name, Expression type) {
-        this(name, type, null);
-    }
-
-    public ProvisioningParameter(String name, Expression type, ProvisioningContext context) {
-        super(name, type, null, context);
+        super(name, type, null);
     }
 
     @Override

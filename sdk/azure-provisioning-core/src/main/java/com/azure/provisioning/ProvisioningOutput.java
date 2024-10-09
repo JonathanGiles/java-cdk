@@ -11,10 +11,9 @@ public class ProvisioningOutput extends ProvisioningVariable {
      *
      * @param name Name of the output.
      * @param type Type of the output.
-     * @param context Optional provisioning context.
      */
-    public ProvisioningOutput(String name, Expression type, ProvisioningContext context) {
-        super(name, type, null, context);
+    public ProvisioningOutput(String name, Expression type) {
+        super(name, type, null);
     }
 
     /**
@@ -24,8 +23,8 @@ public class ProvisioningOutput extends ProvisioningVariable {
      * @param type Type of the output.
      * @param context Optional provisioning context.
      */
-    public ProvisioningOutput(String name, Class<?> type, ProvisioningContext context) {
-        this(name, new TypeExpression(type), context);
+    public ProvisioningOutput(String name, Class<?> type) {
+        this(name, new TypeExpression(type));
     }
 
     @Override

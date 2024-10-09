@@ -1,5 +1,8 @@
 package com.azure.provisioning.implementation.bicep.syntax;
 
+import com.azure.provisioning.BicepValue;
+import com.azure.provisioning.primitives.ProvisioningConstruct;
+
 public class BicepFunction {
 
 //    public static BicepValue<String> getUniqueString(BicepValue<String>... values) {
@@ -48,9 +51,14 @@ public class BicepFunction {
 //        return new BicepValue<>(BicepSyntax.call("json", value.compile()));
 //    }
 //
-//    public static BicepValue<String> asString(BicepValue<Object> value) {
-//        return new BicepValue<>(BicepSyntax.call("string", value.compile()));
+
+//    public static BicepValue<String> asString(ProvisioningConstruct construct) {
+//        return new BicepValue<>(BicepSyntax.call("string", construct.compile()));
 //    }
+
+    public static BicepValue<String> asString(BicepValue<Object> value) {
+        return new BicepValue<>(BicepSyntax.call("string", value.compile()));
+    }
 //
 //    public static BicepValue<String> toLower(BicepValue<Object> value) {
 //        return new BicepValue<>(BicepSyntax.call("toLower", value.compile()));

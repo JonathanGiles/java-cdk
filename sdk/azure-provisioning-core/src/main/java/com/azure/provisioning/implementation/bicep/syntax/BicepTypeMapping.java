@@ -1,9 +1,12 @@
 package com.azure.provisioning.implementation.bicep.syntax;
 
+import com.azure.core.management.Region;
 import com.azure.core.util.ETag;
 import com.azure.provisioning.BicepValueBase;
 import com.azure.provisioning.BicepValueKind;
 import com.azure.provisioning.primitives.*;
+import com.azure.provisioning.tmp.ResourceType;
+
 import java.net.*;
 import java.time.*;
 import java.util.*;
@@ -23,8 +26,8 @@ public class BicepTypeMapping {
         if (type == InetAddress.class) return "string";
         if (type == ETag.class) return "string";
 //        if (type == ResourceIdentifier.class) return "string";
-//        if (type == ResourceType.class) return "string";
-//        if (type == AzureLocation.class) return "string";
+        if (type == ResourceType.class) return "string";
+        if (type == Region.class) return "string";
         if (Enum.class.isAssignableFrom(type)) return "string";
         if (Iterable.class.isAssignableFrom(type)) return "array";
         if (Map.class.isAssignableFrom(type)) return "object";

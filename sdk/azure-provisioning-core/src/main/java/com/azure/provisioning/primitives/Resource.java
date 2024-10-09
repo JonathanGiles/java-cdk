@@ -103,13 +103,13 @@ public abstract class Resource extends NamedProvisioningConstruct {
         // the interpolation specified here: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/provisioning/Azure.Provisioning/src/Expressions/BicepFunction.cs#L302
         // but for now, I'm just commenting it out, as I'm not sure how to translate it to Java and want to get a full
         // compilation first.
-//        ResourceStatement resource = BicepSyntax.Declare.resource(getResourceName(), resourceType + "@" + resourceVersion, body);
-//        if (isExistingResource) {
-//            resource.setExisting(true);
-//        }
-        throw new RuntimeException("Not implemented");
-//
-//        return Collections.singletonList(resource);
+        ResourceStatement resource = BicepSyntax.Declare.resource(getIdentifierName(), Expression.from(resourceType + "@" + resourceVersion), body);
+        if (isExistingResource) {
+            resource.setExisting(true);
+        }
+//        throw new RuntimeException("Not implemented");
+
+        return Collections.singletonList(resource);
     }
 
 //    @EditorBrowsable(EditorBrowsableState.NEVER)

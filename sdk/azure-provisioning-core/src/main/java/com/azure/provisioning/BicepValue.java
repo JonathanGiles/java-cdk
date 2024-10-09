@@ -84,13 +84,17 @@ public class BicepValue<T> extends BicepValueBase {
         super(self, expression);
     }
 
-    /**
-     * Assigns a value to this property.
-     *
-     * @param source the source Bicep value to assign
-     */
-    public void assign(BicepValue<T> source) {
-        assign((BicepValueBase) source);
+//    /**
+//     * Assigns a value to this property.
+//     *
+//     * @param source the source Bicep value to assign
+//     */
+//    public void assign(BicepValue<T> source) {
+//        assign((BicepValueBase) source);
+//    }
+
+    public void assign(T value) {
+        assign(BicepValue.from(value));
     }
 
     @Override
@@ -129,44 +133,44 @@ public class BicepValue<T> extends BicepValueBase {
         return new BicepValue<>(value);
     }
 
-    /**
-     * Implicitly converts an expression to a BicepValue.
-     *
-     * @param expression the expression to convert
-     * @return the BicepValue
-     */
-    public static <T> BicepValue<T> from(Expression expression) {
-        return new BicepValue<>(expression);
-    }
+//    /**
+//     * Implicitly converts an expression to a BicepValue.
+//     *
+//     * @param expression the expression to convert
+//     * @return the BicepValue
+//     */
+//    public static <T> BicepValue<T> from(Expression expression) {
+//        return new BicepValue<>(expression);
+//    }
 
-    /**
-     * Implicitly converts a BicepVariable to a BicepValue.
-     *
-     * @param reference the BicepVariable to convert
-     * @return the BicepValue
-     */
-    public static <T> BicepValue<T> from(ProvisioningVariable reference) {
-        return new BicepValue<>(new BicepValueReference(reference, "<value>"), BicepSyntax.var(reference.getIdentifierName()));
-    }
+//    /**
+//     * Implicitly converts a BicepVariable to a BicepValue.
+//     *
+//     * @param reference the BicepVariable to convert
+//     * @return the BicepValue
+//     */
+//    public static <T> BicepValue<T> from(ProvisioningVariable reference) {
+//        return new BicepValue<>(new BicepValueReference(reference, "<value>"), BicepSyntax.var(reference.getIdentifierName()));
+//    }
 
-    /**
-     * Special case conversions to string for things like Uri, AzureLocation, etc.
-     *
-     * @param value the BicepValue to convert
-     * @return the BicepValue as a string
-     */
-    public static BicepValue<String> toString(BicepValue<?> value) {
-        switch (value.getKind()) {
-            case UNSET:
-                return new BicepValue<>(value.getSelf());
-            case EXPRESSION:
-                return new BicepValue<>(value.getSelf(), value.getExpression());
-            case LITERAL:
-                return new BicepValue<>(value.getSelf(), BicepTypeMapping.toLiteralString(value.getLiteralValue()));
-            default:
-                throw new IllegalStateException("Unknown BicepValueKind!");
-        }
-    }
+//    /**
+//     * Special case conversions to string for things like Uri, AzureLocation, etc.
+//     *
+//     * @param value the BicepValue to convert
+//     * @return the BicepValue as a string
+//     */
+//    public static BicepValue<String> toString(BicepValue<?> value) {
+//        switch (value.getKind()) {
+//            case UNSET:
+//                return new BicepValue<>(value.getSelf());
+//            case EXPRESSION:
+//                return new BicepValue<>(value.getSelf(), value.getExpression());
+//            case LITERAL:
+//                return new BicepValue<>(value.getSelf(), BicepTypeMapping.toLiteralString(value.getLiteralValue()));
+//            default:
+//                throw new IllegalStateException("Unknown BicepValueKind!");
+//        }
+//    }
 
     /**
      * Defines a property for a provisioning construct.

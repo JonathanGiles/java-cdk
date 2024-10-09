@@ -69,10 +69,14 @@ public class BicepDictionary<T> extends BicepValueBase {
     public BicepValue<T> get(String key) {
         return values.get(key);
     }
-//
-//    public void put(String key, BicepValue<T> value) {
-//        values.put(key, wrapValue(key, value));
-//    }
+
+    public void put(String key, T value) {
+        values.put(key, BicepValue.from(value));
+    }
+
+    public void put(String key, BicepValue<T> value) {
+        values.put(key, wrapValue(key, value));
+    }
 //
 //    public void putAll(Map<? extends String, ? extends BicepValue<T>> m) {
 //        for (Map.Entry<? extends String, ? extends BicepValue<T>> entry : m.entrySet()) {

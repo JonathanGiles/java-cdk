@@ -3,5 +3,5 @@ module azure.provisioning.core {
     requires transitive com.azure.resourcemanager;
 
     exports com.azure.provisioning;
-
+    exports com.azure.provisioning.primitives;
 }

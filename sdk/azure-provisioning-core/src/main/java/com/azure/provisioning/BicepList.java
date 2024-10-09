@@ -52,12 +52,12 @@ public class BicepList<T> extends BicepValue { // implements List<BicepValue<T>>
     }
 
 //    @EditorBrowsable(EditorBrowsableState.NEVER)
-    public void assign(BicepList<T> source) {
-        assign((BicepValue) source);
-    }
+//    public void assign(BicepList<T> source) {
+//        assign((BicepValue) source);
+//    }
 
     @Override
-    public void assign(BicepValue source) {
+    public void assign(BicepValueBase source) {
         if (source instanceof BicepList<?>) {
             BicepList<T> typed = (BicepList<T>) source;
             this.values = typed.values;

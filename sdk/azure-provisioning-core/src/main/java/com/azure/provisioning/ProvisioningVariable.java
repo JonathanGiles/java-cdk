@@ -19,6 +19,10 @@ public class ProvisioningVariable extends NamedProvisioningConstruct {
         return value;
     }
 
+    public void setValue(String value) {
+        this.value.assign(BicepValue.from(value));
+    }
+
     public void setValue(BicepValueBase value) {
         this.value.assign(value);
     }

@@ -6,6 +6,7 @@ import com.azure.provisioning.implementation.bicep.syntax.Statement;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -65,4 +66,11 @@ public abstract class ProvisioningPlan {
     }
 
     public abstract String compileArmTemplate(String optionalDirectoryPath);
+
+    public void print(PrintStream out) {
+        compile().forEach((name, content) -> {
+            out.println("File: " + name);
+            out.println(content);
+        });
+    }
 }
