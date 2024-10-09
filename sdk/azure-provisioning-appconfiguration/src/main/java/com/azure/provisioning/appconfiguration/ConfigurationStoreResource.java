@@ -56,104 +56,104 @@ public class ConfigurationStoreResource extends Resource {
         return this.resourceGroupName;
     }
 
-    public ConfigurationStoreResource setResourceGroupName(BicepValue<String> resourceGroupName) {
-        this.resourceGroupName.assign(resourceGroupName);
+    public ConfigurationStoreResource setResourceGroupName(String resourceGroupName) {
+        this.resourceGroupName.assign(BicepValue.from(resourceGroupName));
         return this;
     }
     public BicepValue<String> getConfigStoreName() {
         return this.configStoreName;
     }
 
-    public ConfigurationStoreResource setConfigStoreName(BicepValue<String> configStoreName) {
-        this.configStoreName.assign(configStoreName);
+    public ConfigurationStoreResource setConfigStoreName(String configStoreName) {
+        this.configStoreName.assign(BicepValue.from(configStoreName));
         return this;
     }
     public BicepValue<ProvisioningState> getProvisioningState() {
         return this.provisioningState;
     }
 
-    public ConfigurationStoreResource setProvisioningState(BicepValue<ProvisioningState> provisioningState) {
-        this.provisioningState.assign(provisioningState);
+    public ConfigurationStoreResource setProvisioningState(ProvisioningState provisioningState) {
+        this.provisioningState.assign(BicepValue.from(provisioningState));
         return this;
     }
     public BicepValue<OffsetDateTime> getCreationDate() {
         return this.creationDate;
     }
 
-    public ConfigurationStoreResource setCreationDate(BicepValue<OffsetDateTime> creationDate) {
-        this.creationDate.assign(creationDate);
+    public ConfigurationStoreResource setCreationDate(OffsetDateTime creationDate) {
+        this.creationDate.assign(BicepValue.from(creationDate));
         return this;
     }
     public BicepValue<String> getEndpoint() {
         return this.endpoint;
     }
 
-    public ConfigurationStoreResource setEndpoint(BicepValue<String> endpoint) {
-        this.endpoint.assign(endpoint);
+    public ConfigurationStoreResource setEndpoint(String endpoint) {
+        this.endpoint.assign(BicepValue.from(endpoint));
         return this;
     }
     public BicepValue<EncryptionProperties> getEncryption() {
         return this.encryption;
     }
 
-    public ConfigurationStoreResource setEncryption(BicepValue<EncryptionProperties> encryption) {
-        this.encryption.assign(encryption);
+    public ConfigurationStoreResource setEncryption(EncryptionProperties encryption) {
+        this.encryption.assign(BicepValue.from(encryption));
         return this;
     }
     public BicepValue<List> getPrivateEndpointConnections() {
         return this.privateEndpointConnections;
     }
 
-    public ConfigurationStoreResource setPrivateEndpointConnections(BicepValue<List> privateEndpointConnections) {
-        this.privateEndpointConnections.assign(privateEndpointConnections);
+    public ConfigurationStoreResource setPrivateEndpointConnections(List privateEndpointConnections) {
+        this.privateEndpointConnections.assign(BicepValue.from(privateEndpointConnections));
         return this;
     }
     public BicepValue<PublicNetworkAccess> getPublicNetworkAccess() {
         return this.publicNetworkAccess;
     }
 
-    public ConfigurationStoreResource setPublicNetworkAccess(BicepValue<PublicNetworkAccess> publicNetworkAccess) {
-        this.publicNetworkAccess.assign(publicNetworkAccess);
+    public ConfigurationStoreResource setPublicNetworkAccess(PublicNetworkAccess publicNetworkAccess) {
+        this.publicNetworkAccess.assign(BicepValue.from(publicNetworkAccess));
         return this;
     }
     public BicepValue<Boolean> getDisableLocalAuth() {
         return this.disableLocalAuth;
     }
 
-    public ConfigurationStoreResource setDisableLocalAuth(BicepValue<Boolean> disableLocalAuth) {
-        this.disableLocalAuth.assign(disableLocalAuth);
+    public ConfigurationStoreResource setDisableLocalAuth(Boolean disableLocalAuth) {
+        this.disableLocalAuth.assign(BicepValue.from(disableLocalAuth));
         return this;
     }
     public BicepValue<Integer> getSoftDeleteRetentionInDays() {
         return this.softDeleteRetentionInDays;
     }
 
-    public ConfigurationStoreResource setSoftDeleteRetentionInDays(BicepValue<Integer> softDeleteRetentionInDays) {
-        this.softDeleteRetentionInDays.assign(softDeleteRetentionInDays);
+    public ConfigurationStoreResource setSoftDeleteRetentionInDays(Integer softDeleteRetentionInDays) {
+        this.softDeleteRetentionInDays.assign(BicepValue.from(softDeleteRetentionInDays));
         return this;
     }
     public BicepValue<Boolean> getEnablePurgeProtection() {
         return this.enablePurgeProtection;
     }
 
-    public ConfigurationStoreResource setEnablePurgeProtection(BicepValue<Boolean> enablePurgeProtection) {
-        this.enablePurgeProtection.assign(enablePurgeProtection);
+    public ConfigurationStoreResource setEnablePurgeProtection(Boolean enablePurgeProtection) {
+        this.enablePurgeProtection.assign(BicepValue.from(enablePurgeProtection));
         return this;
     }
     public BicepValue<CreateMode> getCreateMode() {
         return this.createMode;
     }
 
-    public ConfigurationStoreResource setCreateMode(BicepValue<CreateMode> createMode) {
-        this.createMode.assign(createMode);
+    public ConfigurationStoreResource setCreateMode(CreateMode createMode) {
+        this.createMode.assign(BicepValue.from(createMode));
         return this;
     }
     public BicepValue<String> getLocation() {
         return this.location;
     }
 
-    public ConfigurationStoreResource setLocation(BicepValue<String> location) {
-        this.location.assign(location);
+    public ConfigurationStoreResource setLocation(String location) {
+        this.location.assign(BicepValue.from(location));
         return this;
     }
 

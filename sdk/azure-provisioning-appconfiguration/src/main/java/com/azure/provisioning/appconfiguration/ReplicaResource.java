@@ -37,48 +37,48 @@ public class ReplicaResource extends Resource {
         return this.resourceGroupName;
     }
 
-    public ReplicaResource setResourceGroupName(BicepValue<String> resourceGroupName) {
-        this.resourceGroupName.assign(resourceGroupName);
+    public ReplicaResource setResourceGroupName(String resourceGroupName) {
+        this.resourceGroupName.assign(BicepValue.from(resourceGroupName));
         return this;
     }
     public BicepValue<String> getConfigStoreName() {
         return this.configStoreName;
     }
 
-    public ReplicaResource setConfigStoreName(BicepValue<String> configStoreName) {
-        this.configStoreName.assign(configStoreName);
+    public ReplicaResource setConfigStoreName(String configStoreName) {
+        this.configStoreName.assign(BicepValue.from(configStoreName));
         return this;
     }
     public BicepValue<String> getReplicaName() {
         return this.replicaName;
     }
 
-    public ReplicaResource setReplicaName(BicepValue<String> replicaName) {
-        this.replicaName.assign(replicaName);
+    public ReplicaResource setReplicaName(String replicaName) {
+        this.replicaName.assign(BicepValue.from(replicaName));
         return this;
     }
     public BicepValue<String> getLocation() {
         return this.location;
     }
 
-    public ReplicaResource setLocation(BicepValue<String> location) {
-        this.location.assign(location);
+    public ReplicaResource setLocation(String location) {
+        this.location.assign(BicepValue.from(location));
         return this;
     }
     public BicepValue<String> getEndpoint() {
         return this.endpoint;
     }
 
-    public ReplicaResource setEndpoint(BicepValue<String> endpoint) {
-        this.endpoint.assign(endpoint);
+    public ReplicaResource setEndpoint(String endpoint) {
+        this.endpoint.assign(BicepValue.from(endpoint));
         return this;
     }
     public BicepValue<ReplicaProvisioningState> getProvisioningState() {
         return this.provisioningState;
     }
 
-    public ReplicaResource setProvisioningState(BicepValue<ReplicaProvisioningState> provisioningState) {
-        this.provisioningState.assign(provisioningState);
+    public ReplicaResource setProvisioningState(ReplicaProvisioningState provisioningState) {
+        this.provisioningState.assign(BicepValue.from(provisioningState));
         return this;
     }
 

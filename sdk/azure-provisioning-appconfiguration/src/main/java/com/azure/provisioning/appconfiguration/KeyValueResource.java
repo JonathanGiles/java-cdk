@@ -48,88 +48,88 @@ public class KeyValueResource extends Resource {
         return this.resourceGroupName;
     }
 
-    public KeyValueResource setResourceGroupName(BicepValue<String> resourceGroupName) {
-        this.resourceGroupName.assign(resourceGroupName);
+    public KeyValueResource setResourceGroupName(String resourceGroupName) {
+        this.resourceGroupName.assign(BicepValue.from(resourceGroupName));
         return this;
     }
     public BicepValue<String> getConfigStoreName() {
         return this.configStoreName;
     }
 
-    public KeyValueResource setConfigStoreName(BicepValue<String> configStoreName) {
-        this.configStoreName.assign(configStoreName);
+    public KeyValueResource setConfigStoreName(String configStoreName) {
+        this.configStoreName.assign(BicepValue.from(configStoreName));
         return this;
     }
     public BicepValue<String> getKeyValueName() {
         return this.keyValueName;
     }
 
-    public KeyValueResource setKeyValueName(BicepValue<String> keyValueName) {
-        this.keyValueName.assign(keyValueName);
+    public KeyValueResource setKeyValueName(String keyValueName) {
+        this.keyValueName.assign(BicepValue.from(keyValueName));
         return this;
     }
     public BicepValue<String> getKey() {
         return this.key;
     }
 
-    public KeyValueResource setKey(BicepValue<String> key) {
-        this.key.assign(key);
+    public KeyValueResource setKey(String key) {
+        this.key.assign(BicepValue.from(key));
         return this;
     }
     public BicepValue<String> getLabel() {
         return this.label;
     }
 
-    public KeyValueResource setLabel(BicepValue<String> label) {
-        this.label.assign(label);
+    public KeyValueResource setLabel(String label) {
+        this.label.assign(BicepValue.from(label));
         return this;
     }
     public BicepValue<String> getValue() {
         return this.value;
     }
 
-    public KeyValueResource setValue(BicepValue<String> value) {
-        this.value.assign(value);
+    public KeyValueResource setValue(String value) {
+        this.value.assign(BicepValue.from(value));
         return this;
     }
     public BicepValue<String> getContentType() {
         return this.contentType;
     }
 
-    public KeyValueResource setContentType(BicepValue<String> contentType) {
-        this.contentType.assign(contentType);
+    public KeyValueResource setContentType(String contentType) {
+        this.contentType.assign(BicepValue.from(contentType));
         return this;
     }
     public BicepValue<String> getEtag() {
         return this.etag;
     }
 
-    public KeyValueResource setEtag(BicepValue<String> etag) {
-        this.etag.assign(etag);
+    public KeyValueResource setEtag(String etag) {
+        this.etag.assign(BicepValue.from(etag));
         return this;
     }
     public BicepValue<OffsetDateTime> getLastModified() {
         return this.lastModified;
     }
 
-    public KeyValueResource setLastModified(BicepValue<OffsetDateTime> lastModified) {
-        this.lastModified.assign(lastModified);
+    public KeyValueResource setLastModified(OffsetDateTime lastModified) {
+        this.lastModified.assign(BicepValue.from(lastModified));
         return this;
     }
     public BicepValue<Boolean> getLocked() {
         return this.locked;
     }
 
-    public KeyValueResource setLocked(BicepValue<Boolean> locked) {
-        this.locked.assign(locked);
+    public KeyValueResource setLocked(Boolean locked) {
+        this.locked.assign(BicepValue.from(locked));
         return this;
     }
     public BicepValue<Map> getTags() {
         return this.tags;
     }
 
-    public KeyValueResource setTags(BicepValue<Map> tags) {
-        this.tags.assign(tags);
+    public KeyValueResource setTags(Map tags) {
+        this.tags.assign(BicepValue.from(tags));
         return this;
     }
 
