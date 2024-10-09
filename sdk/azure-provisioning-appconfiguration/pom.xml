@@ -9,7 +9,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>{artifact-name}</artifactId>
+    <artifactId>azure-provisioning-appconfiguration</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
