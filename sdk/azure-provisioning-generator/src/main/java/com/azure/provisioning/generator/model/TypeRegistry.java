@@ -34,7 +34,7 @@ public class TypeRegistry {
         registerExternal(Double.class);
         registerExternal(String.class);
 
-        // Common BCL types
+        // Common types
         registerExternal(BinaryData.class);
         registerExternal(OffsetDateTime.class);
         registerExternal(UUID.class);

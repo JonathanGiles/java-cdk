@@ -4,6 +4,7 @@ import com.azure.provisioning.generator.Main;
 import com.azure.provisioning.generator.utils.IndentWriter;
 import com.azure.provisioning.generator.utils.NameUtils;
 import com.azure.provisioning.generator.utils.ReflectionUtils;
+import com.azure.resourcemanager.storage.models.NspAccessRulePropertiesSubscriptionsItem;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -143,6 +144,8 @@ public class Resource extends TypeModel {
                     writer.writeLine("import " + packageImport + ";");
                 });
         writer.writeLine("import com.azure.provisioning.BicepValue;");
+        writer.writeLine("import com.azure.provisioning.BicepList;");
+        writer.writeLine("import com.azure.provisioning.BicepDictionary;");
         writer.writeLine("import com.azure.provisioning.primitives.Resource;");
         writer.writeLine("import com.azure.provisioning.tmp.ResourceType;"); // FIXME temporary type being used
 
@@ -206,7 +209,8 @@ public class Resource extends TypeModel {
     private void writeSetter(IndentWriter writer, Property property, String className) {
         writer.writeLine("public " + className + " set" + NameUtils.toPascalCase(property.getName()) + "(BicepValue<" + property.getPropertyType().getName() + "> " + property.getName() + ") {");
         writer.indent();
-        writer.writeLine("this." + property.getName() + " = " + property.getName() + ";");
+        writer.writeLine("this." + property.getName() + ".assign(" + property.getName() + ");");
+        writer.writeLine("return this;");
         writer.unindent();
         writer.writeLine("}");
     }
@@ -223,7 +227,8 @@ public class Resource extends TypeModel {
         writer.indent();
         writer.writeLine();
         this.getProperties().forEach(property -> {
-            writer.writeLine("private BicepValue<" + property.getPropertyType().getName() + "> " + property.getName() + ";");
+            String bicepType = property.getBicepTypeReference();
+            writer.writeLine("private final " + bicepType + " " + property.getName() + ";");
         });
         writer.unindent();
     }
@@ -245,15 +250,7 @@ public class Resource extends TypeModel {
         writer.writeLine();
 
         getProperties().forEach(property -> {
-            final String bicepPath = property.getPath().stream().collect(Collectors.joining(", "));
-            writer.writeLine(property.getName() + " = BicepValue.defineProperty(this, \"" + property.getName() + "\", "
-                + "new String[] { " + bicepPath + " }, "
-                + property.isReadOnly() + ", "
-                + property.isRequired() + ", "
-                + property.isSecure() + ", "
-                // TODO default value
-                + "null"
-                + ");");
+            writer.writeLine(property.getName() + " = " + property.getBicepDefinition(true) + ";");
         });
         writer.unindent();
         writer.writeLine("}");
@@ -272,4 +269,5 @@ public class Resource extends TypeModel {
     protected boolean fromExpression() {
         return false;
     }
+
 }

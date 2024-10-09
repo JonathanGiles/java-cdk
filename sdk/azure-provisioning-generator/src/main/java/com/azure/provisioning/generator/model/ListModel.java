@@ -27,6 +27,6 @@ public class ListModel extends ModelBase {
 
     @Override
     public String getTypeReference() {
-        return "IList<" + elementType.getTypeReference() + ">";
+        return "List<" + elementType.getTypeReference() + ">";
     }
 }

@@ -37,10 +37,14 @@ public class SimpleModel extends TypeModel {
                         writer.writeLine("import " + packageImport + ";");
                     });
 
+            writer.writeLine("import com.azure.provisioning.BicepValue;");
+            writer.writeLine("import com.azure.provisioning.primitives.ProvisioningConstruct;");
+
             writer.writeLine();
             writer.writeLine("public class " + getName() + " extends " + (getBaseType() != null ? getBaseType().getName() : "ProvisioningConstruct") + " {");
 
             writeProperties(writer);
+            writeConstructor(writer);
             writeGetterSetterMethods(getName(), writer);
             writer.writeLine("}");
             saveFile(writer.toString());
@@ -63,7 +67,8 @@ public class SimpleModel extends TypeModel {
     private void writeSetter(IndentWriter writer, Property property, String className) {
         writer.writeLine("public " + className + " set" + NameUtils.toPascalCase(property.getName()) + "(BicepValue<" + property.getPropertyType().getName() + "> " + property.getName() + ") {");
         writer.indent();
-        writer.writeLine("this." + property.getName() + " = " + property.getName() + ";");
+        writer.writeLine("this." + property.getName() + ".assign(" + property.getName() + ");");
+        writer.writeLine("return this;");
         writer.unindent();
         writer.writeLine("}");
     }
@@ -80,8 +85,22 @@ public class SimpleModel extends TypeModel {
         writer.indent();
         writer.writeLine();
         this.getProperties().forEach(property -> {
-            writer.writeLine("private BicepValue<" + property.getPropertyType().getName() + "> " + property.getName() + ";");
+            String bicepType = property.getBicepTypeReference();
+            writer.writeLine("private final " + bicepType + " " + property.getName() + ";");
         });
+        writer.unindent();
+    }
+
+    private void writeConstructor(IndentWriter writer) {
+        writer.indent();
+        writer.writeLine();
+        writer.writeLine("public " + getName() + "() {");
+        writer.indent();
+        getProperties().forEach(property -> {
+            writer.writeLine(property.getName() + " = " + property.getBicepDefinition(false));
+        });
+        writer.unindent();
+        writer.writeLine("}");
         writer.unindent();
     }
 

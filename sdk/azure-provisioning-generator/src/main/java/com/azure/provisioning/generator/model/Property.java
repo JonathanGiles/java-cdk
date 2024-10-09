@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Property {
     private final TypeModel parent;
@@ -136,6 +138,7 @@ public class Property {
     }
 
     private static String getBicepType(ModelBase type) {
+        // FIXME we never seem to get in the other types for dictionary / list
         if (type == null) {
             return "BicepValue<Object>";
         } else if (type instanceof DictionaryModel && isCollection(((DictionaryModel) type).getElementType())) {
@@ -149,6 +152,26 @@ public class Property {
         } else {
             return "BicepValue<" + type.getTypeReference() + ">";
         }
+    }
+
+    // FIXME shouldn't need this param!
+    public String getBicepDefinition(boolean withBooleans) {
+        StringBuilder sb = new StringBuilder();
+        final String bicepPath = getPath().stream().collect(Collectors.joining(", "));
+
+        if (propertyType instanceof DictionaryModel) {
+            return "BicepDictionary.defineProperty(this, \"" + name + "\", new String[] { " + bicepPath + " }, " + isReadOnly + ", " + isRequired + ")";
+        } else if (propertyType instanceof ListModel) {
+            return "BicepList.defineProperty(this, \"" + name + "\", new String[] { " + bicepPath + " }, false, " + isReadOnly + ")";
+        } else {
+            sb.append("BicepValue.defineProperty(this, \"" + name + "\", new String[] { " + bicepPath +" }");
+            if (withBooleans) {
+                sb.append(", " + isReadOnly + ", " + isRequired  + ", " + isSecure);
+            }
+            sb.append(", null);");    // defaultValue
+        }
+
+        return sb.toString();
     }
 
     private static boolean isCollection(ModelBase type) {
