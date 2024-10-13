@@ -12,13 +12,13 @@ public class InterpolatedString extends Expression {
         this.values = values;
     }
 
-    public String getFormat() {
-        return format;
-    }
-
-    public Expression[] getValues() {
-        return values;
-    }
+//    public String getFormat() {
+//        return format;
+//    }
+//
+//    public Expression[] getValues() {
+//        return values;
+//    }
 
     @Override
     BicepWriter write(BicepWriter writer) {

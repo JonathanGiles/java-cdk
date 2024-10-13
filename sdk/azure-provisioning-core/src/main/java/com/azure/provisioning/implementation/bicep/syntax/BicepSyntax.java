@@ -143,6 +143,10 @@ public class BicepSyntax {
         return call(var(func), args);
     }
 
+    public static FunctionCallExpression call(String func, List<Expression> args) {
+        return new FunctionCallExpression(var(func), args);
+    }
+
     public static InterpolatedString interpolate(String format, Expression... values) {
         return new InterpolatedString(format, values);
     }

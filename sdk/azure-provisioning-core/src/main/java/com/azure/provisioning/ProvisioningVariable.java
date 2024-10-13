@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ProvisioningVariable extends NamedProvisioningConstruct {
-    private BicepValueBase value;
+    private BicepValue<?> value;
     private String description;
     private final Expression bicepType;
 
@@ -23,7 +23,7 @@ public class ProvisioningVariable extends NamedProvisioningConstruct {
         this.value.assign(BicepValue.from(value));
     }
 
-    public void setValue(BicepValueBase value) {
+    public void setValue(BicepValue<?> value) {
         this.value.assign(value);
     }
 

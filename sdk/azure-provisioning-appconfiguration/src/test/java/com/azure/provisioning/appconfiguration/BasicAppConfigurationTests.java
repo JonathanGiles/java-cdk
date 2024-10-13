@@ -96,17 +96,18 @@ public class BasicAppConfigurationTests { // extends ProvisioningTestBase {
         configStore.setEndpoint("Testing");
         infra.add(configStore);
 
+        // FIXME - this is currently printing `var flag = null`
         ProvisioningVariable flag = new ProvisioningVariable("flag", Object.class);
-        flag.setValue(new BicepDictionary() {{
+        flag.setValue(BicepValue.from(new BicepDictionary<>() {{ // FIXME I've added an explicit cast here with the BicepValue.from call
             put("id", featureFlagKey);
             put("description", "A simple feature flag.");
             put("enabled", true);
-        }});
+        }}));
         infra.add(flag);
 
         KeyValueResource featureFlag = new KeyValueResource("featureFlag", KeyValueResource.ResourceVersions.V2022_05_01);
 //        featureFlag.setParent(configStore); // FIXME Parent is missing
-//        featureFlag.setName(BicepFunction.interpolate(".appconfig.featureflag~2F" + featureFlagKey));
+//        featureFlag.setResourceGroupName(BicepFunction.interpolate(".appconfig.featureflag~2F{featureFlagKey}").getValue()); // FIXME need interpolation, should output `name: '.appconfig.featureflag~2F${featureFlagKey}'`
         featureFlag.setContentType("application/vnd.microsoft.appconfig.ff+json;charset=utf-8");
 //        featureFlag.setValue(BicepFunction.asString(flag));
         infra.add(featureFlag);

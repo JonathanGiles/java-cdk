@@ -37,12 +37,22 @@ public class ReplicaResource extends Resource {
         return this.resourceGroupName;
     }
 
+    public ReplicaResource setResourceGroupName(BicepValue<String> resourceGroupName) {
+        this.resourceGroupName.assign(resourceGroupName);
+        return this;
+    }
+
     public ReplicaResource setResourceGroupName(String resourceGroupName) {
         this.resourceGroupName.assign(BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getConfigStoreName() {
         return this.configStoreName;
+    }
+
+    public ReplicaResource setConfigStoreName(BicepValue<String> configStoreName) {
+        this.configStoreName.assign(configStoreName);
+        return this;
     }
 
     public ReplicaResource setConfigStoreName(String configStoreName) {
@@ -53,12 +63,22 @@ public class ReplicaResource extends Resource {
         return this.replicaName;
     }
 
+    public ReplicaResource setReplicaName(BicepValue<String> replicaName) {
+        this.replicaName.assign(replicaName);
+        return this;
+    }
+
     public ReplicaResource setReplicaName(String replicaName) {
         this.replicaName.assign(BicepValue.defineProperty(this, "replicaName", new String[] { "temp", "replicaName" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getLocation() {
         return this.location;
+    }
+
+    public ReplicaResource setLocation(BicepValue<String> location) {
+        this.location.assign(location);
+        return this;
     }
 
     public ReplicaResource setLocation(String location) {
@@ -69,12 +89,22 @@ public class ReplicaResource extends Resource {
         return this.endpoint;
     }
 
+    public ReplicaResource setEndpoint(BicepValue<String> endpoint) {
+        this.endpoint.assign(endpoint);
+        return this;
+    }
+
     public ReplicaResource setEndpoint(String endpoint) {
         this.endpoint.assign(BicepValue.defineProperty(this, "endpoint", new String[] { "temp", "endpoint" }, false, false, false, null));
         return this;
     }
     public BicepValue<ReplicaProvisioningState> getProvisioningState() {
         return this.provisioningState;
+    }
+
+    public ReplicaResource setProvisioningState(BicepValue<ReplicaProvisioningState> provisioningState) {
+        this.provisioningState.assign(provisioningState);
+        return this;
     }
 
     public ReplicaResource setProvisioningState(ReplicaProvisioningState provisioningState) {

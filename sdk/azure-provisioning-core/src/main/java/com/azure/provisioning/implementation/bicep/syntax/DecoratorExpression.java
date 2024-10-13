@@ -13,6 +13,8 @@ public class DecoratorExpression extends Expression {
 
     @Override
     BicepWriter write(BicepWriter writer) {
-        return writer.append("[").append(call).append("]");
+        return writer
+            .append("@")
+            .append(call);
     }
 }

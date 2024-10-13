@@ -1,7 +1,10 @@
 package com.azure.provisioning.implementation.bicep.syntax;
 
 import com.azure.provisioning.BicepValue;
+import com.azure.provisioning.ProvisioningVariable;
 import com.azure.provisioning.primitives.ProvisioningConstruct;
+
+import java.util.Arrays;
 
 public class BicepFunction {
 
@@ -52,12 +55,14 @@ public class BicepFunction {
 //    }
 //
 
-//    public static BicepValue<String> asString(ProvisioningConstruct construct) {
-//        return new BicepValue<>(BicepSyntax.call("string", construct.compile()));
-//    }
+    public static BicepValue<String> asString(ProvisioningConstruct construct) {
+        return asString(BicepValue.from(construct));
+    }
 
     public static BicepValue<String> asString(BicepValue<Object> value) {
-        return new BicepValue<>(BicepSyntax.call("string", value.compile()));
+        BicepSyntax.call("string", value.compile());
+        return null;
+//        return BicepValue.from(BicepSyntax.call("string", value.compile()));
     }
 //
 //    public static BicepValue<String> toLower(BicepValue<Object> value) {
@@ -75,26 +80,28 @@ public class BicepFunction {
 //        return new BicepValue<>(BicepSyntax.call("concat", Arrays.stream(values).map(BicepValue::compile).toArray(Expression[]::new)));
 //    }
 
-//    public static BicepValue<String> interpolate(FormattableString text) {
-//        if (text == null) {
-//            return BicepSyntax.nullValue();
-//        }
-//
-//        BicepValue<Object>[] values = new BicepValue[text.getArgumentCount()];
-//        for (int i = 0; i < text.getArgumentCount(); i++) {
-//            Object arg = text.getArgument(i);
-//            if (arg instanceof BicepValue) {
+    public static BicepValue<String> interpolate(String format, Expression... args) {
+        if (format == null) {
+            return BicepSyntax.nullValue().toBicepValue();
+        }
+
+        BicepValue<Object>[] values = new BicepValue[args.length];
+        for (int i = 0; i < args.length; i++) {
+            Object arg = args[i];
+            if (arg instanceof BicepValue) {
+                throw new RuntimeException("HOW?!?");
 //                values[i] = (BicepValue<Object>) arg;
-//            } else if (arg instanceof BicepVariable) {
-//                values[i] = BicepSyntax.var(((BicepVariable) arg).getResourceName());
-//            } else {
-//                values[i] = new BicepValue<>(arg != null ? arg.toString() : "");
-//            }
-//        }
-//
-//        BicepValue<String> result = BicepSyntax.interpolate(text.getFormat(), Arrays.stream(values).map(BicepValue::compile).toArray(Expression[]::new));
-//        result.setSecure(Arrays.stream(values).anyMatch(BicepValue::isSecure));
-//
-//        return result;
-//    }
+            } else if (arg instanceof ProvisioningVariable) {
+                throw new RuntimeException("HOW?!?");
+//                values[i] = BicepSyntax.var(((ProvisioningVariable) arg).getIdentifierName());
+            } else {
+                values[i] = BicepValue.from(arg != null ? arg.toString() : "");
+            }
+        }
+
+        BicepValue<String> result = BicepSyntax.interpolate(format, Arrays.stream(values).map(BicepValue::compile).toArray(Expression[]::new)).toBicepValue();
+        result.setSecure(Arrays.stream(values).anyMatch(BicepValue::isSecure));
+
+        return result;
+    }
 }

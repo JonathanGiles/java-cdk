@@ -1,18 +1,25 @@
 package com.azure.provisioning.implementation.bicep.syntax;
 
-public abstract class Expression {
+import com.azure.provisioning.BicepValue;
+
+public abstract class Expression<T> {
     protected Expression() { }
 
-    public static Expression from(boolean value) {
+    public static Expression<Boolean> from(boolean value) {
         return new BoolLiteral(value);
     }
 
-    public static Expression from(int value) {
+    public static Expression<Integer> from(int value) {
         return new IntLiteral(value);
     }
 
-    public static Expression from(String value) {
+    public static Expression<String> from(String value) {
         return new StringLiteral(value);
+    }
+
+    public BicepValue<?> toBicepValue() {
+//        return new BicepValue<>(this);
+        return BicepValue.from(this);
     }
 
     @Override

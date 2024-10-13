@@ -58,7 +58,7 @@ public class BicepValue<T> extends BicepValueBase {
      *
      * @param literal the value
      */
-    public BicepValue(T literal) {
+    protected BicepValue(T literal) {
         this(null, literal);
     }
 
@@ -67,7 +67,7 @@ public class BicepValue<T> extends BicepValueBase {
      *
      * @param expression an expression that evaluates to the value
      */
-    public BicepValue(Expression expression) {
+    protected BicepValue(Expression expression) {
         this(null, expression);
     }
 
@@ -113,18 +113,27 @@ public class BicepValue<T> extends BicepValueBase {
      * @return the BicepValue
      */
     public static <T> BicepValue<T> from(T value) {
+        if (value == null) {
+            throw new IllegalArgumentException("Value cannot be null.");
+        }
+
         if (value instanceof BicepValue) {
             BicepValue<?> e = (BicepValue<?>) value;
             if (e.getKind() == BicepValueKind.EXPRESSION) {
-                return new BicepValue<>(e.getSelf(), e.getExpression());
+                BicepValue result = new BicepValue<>(e.getSelf(), e.getExpression());
+                result.setSecure(e.isSecure());
+                return result;
             } else if (e.getKind() == BicepValueKind.UNSET && e.getSelf() != null) {
-                return new BicepValue<>(e.getSelf(), e.getSelf().getReference());
+                BicepValue result = new BicepValue<>(e.getSelf(), e.getSelf().getReference());
+                result.setSecure(e.isSecure());
+                return result;
             }
         }
 
         // If we're asking to convert BicepValue<Foo> to BicepValue<T> and Foo : T
-        Class<?> type = value != null ? value.getClass() : Object.class;
-        if (type.isAssignableFrom(BicepValue.class) && BicepValue.class.isAssignableFrom(type)) {
+        Class<?> type = value.getClass();
+        //if (type.isAssignableFrom(BicepValue.class)) { // && BicepValue.class.isAssignableFrom(type)) {
+        if (BicepValue.class.isAssignableFrom(type)) {
             BicepValue<?> bicep = (BicepValue<?>) value;
             return new BicepValue<>(bicep.getSelf(), (T) bicep.getLiteralValue());
         }

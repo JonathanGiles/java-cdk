@@ -2,8 +2,10 @@ package com.azure.provisioning.implementation.bicep.syntax;
 
 import com.azure.core.management.Region;
 import com.azure.core.util.ETag;
+import com.azure.provisioning.BicepDictionary;
 import com.azure.provisioning.BicepValueBase;
 import com.azure.provisioning.BicepValueKind;
+import com.azure.provisioning.ProvisioningVariable;
 import com.azure.provisioning.primitives.*;
 import com.azure.provisioning.tmp.ResourceType;
 
@@ -14,6 +16,12 @@ import java.util.stream.*;
 
 public class BicepTypeMapping {
 
+    /// <summary>
+    /// Map standard Azure types into Bicep primitive type names like bool,
+    /// int, string, object, or array.  More complex types are not supported.
+    /// </summary>
+    /// <param name="type">A .NET type.</param>
+    /// <returns>A corresponding Bicep type name or null.</returns>
     public static String getBicepTypeName(Class<?> type) {
         if (type == Boolean.class) return "bool";
         if (type == Integer.class) return "int";
@@ -34,6 +42,14 @@ public class BicepTypeMapping {
         return null;
     }
 
+    /// <summary>
+    /// Convert a .NET object into a literal Bicep string.
+    /// </summary>
+    /// <param name="value">The .NET value.</param>
+    /// <returns>The corresponding Bicep literal string.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when we cannot convert a value to a literal Bicep string.
+    /// </exception>
     public static String toLiteralString(Object value) {
         if (value instanceof Boolean) return value.toString();
         if (value instanceof Integer) return value.toString();
@@ -50,6 +66,14 @@ public class BicepTypeMapping {
         throw new UnsupportedOperationException("Cannot convert " + value + " to a literal Bicep string.");
     }
 
+    /// <summary>
+    /// Convert a .NET object into a Bicep expression.
+    /// </summary>
+    /// <param name="value">The .NET value.</param>
+    /// <returns>The corresponding Bicep expression.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when we cannot convert a value to a Bicep expression.
+    /// </exception>
     public static Expression toBicep(Object value) {
         if (value == null) return BicepSyntax.nullValue();
         if (value instanceof Boolean) return BicepSyntax.value((Boolean) value);
@@ -67,6 +91,13 @@ public class BicepTypeMapping {
         if (value instanceof Map) return toObject((Map<String, BicepValueBase>) value);
         if (value instanceof Iterable) return toArray((Iterable<Object>) value);
 //        if (value instanceof ValueType) return BicepSyntax.value(toLiteralString(value));
+//        if (value instanceof BicepDictionary<?>) {
+//            BicepDictionary<?> dict = (BicepDictionary<?>) value;
+//            if (dict.isEmpty()) return BicepSyntax.nullValue();
+////            return BicepSyntax.objectExpression(dict.values().entrySet().stream()
+////                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> toBicep(entry.getValue()))));
+//            return dict.getKind() == BicepValueKind.EXPRESSION ? dict.getExpression() : toObject(dict.getLiteralValue());
+//        }
         if (value instanceof BicepValueBase) {
             BicepValueBase bicepValue = (BicepValueBase) value;
             if (bicepValue.getKind() == BicepValueKind.EXPRESSION) return bicepValue.getExpression();
@@ -84,9 +115,9 @@ public class BicepTypeMapping {
                 .toArray(Expression[]::new));
     }
 
-    private static ObjectExpression toObject(Map<String, BicepValueBase> dict) {
+    private static ObjectExpression toObject(Map<String, ? extends BicepValueBase> dict) {
         Map<String, Expression> values = new HashMap<>();
-        for (Map.Entry<String, BicepValueBase> entry : dict.entrySet()) {
+        for (Map.Entry<String, ? extends BicepValueBase> entry : dict.entrySet()) {
             values.put(entry.getKey(), toBicep(entry.getValue()));
         }
         return BicepSyntax.objectExpression(values);

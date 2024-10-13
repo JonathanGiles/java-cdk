@@ -1,5 +1,6 @@
 package com.azure.provisioning;
 
+import com.azure.provisioning.implementation.bicep.syntax.BicepSyntax;
 import com.azure.provisioning.implementation.bicep.syntax.Expression;
 import com.azure.provisioning.primitives.BicepValueReference;
 import com.azure.provisioning.primitives.ProvisioningConstruct;
@@ -7,13 +8,13 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 import java.util.*;
 
 public class BicepDictionary<T> extends BicepValueBase {
-    private Map<String, BicepValue<T>> values;
+    private Map<String, BicepValueBase> values;
 
-    public static <T> BicepDictionary<T> from(ProvisioningVariable reference) {
-        // FIXME PROPERTY_NAME_BUG property name should not be "<value>"
-//        return new BicepDictionary<>(new BicepValueReference(reference, "<value>"), BicepSyntax.var(reference.getResourceName()));
-        throw new RuntimeException("Not getting property name");
-    }
+//    public static <T> BicepDictionary<T> from(ProvisioningVariable reference) {
+//        // FIXME PROPERTY_NAME_BUG property name should not be "<value>"
+////        return new BicepDictionary<>(new BicepValueReference(reference, "<value>"), BicepSyntax.var(reference.getResourceName()));
+//        throw new RuntimeException("Not getting property name");
+//    }
 
     public BicepDictionary() {
         this(null, (Map<String, BicepValue<T>>) null);
@@ -25,7 +26,7 @@ public class BicepDictionary<T> extends BicepValueBase {
 
     protected BicepDictionary(BicepValueReference self, Expression expression) {
         super(self, expression);
-        this.values = new HashMap<>();
+        this.values = new LinkedHashMap<>();
     }
 
     private BicepDictionary(BicepValueReference self) {
@@ -35,11 +36,22 @@ public class BicepDictionary<T> extends BicepValueBase {
     private BicepDictionary(BicepValueReference self, Map<String, BicepValue<T>> values) {
         super(self);
         setKind(BicepValueKind.LITERAL);
-        this.values = values != null ? new HashMap<>(values) : new HashMap<>();
+        this.values = values != null ? new LinkedHashMap<>(values) : new LinkedHashMap<>();
+    }
+
+    public static <T> BicepDictionary<T> from(ProvisioningVariable reference) {
+        BicepDictionary<T> dictionary = new BicepDictionary<>(
+            new BicepValueReference(reference, "<value>"),
+            BicepSyntax.var(reference.getIdentifierName())
+        );
+        if (reference instanceof ProvisioningParameter) {
+            dictionary.setSecure(((ProvisioningParameter) reference).isSecure());
+        }
+        return dictionary;
     }
 
     @Override
-    public Object getLiteralValue() {
+    public Map<String, BicepValueBase> getLiteralValue() {
         return values;
     }
 
@@ -66,12 +78,18 @@ public class BicepDictionary<T> extends BicepValueBase {
         return value;
     }
 
-    public BicepValue<T> get(String key) {
+    public BicepValueBase get(String key) {
         return values.get(key);
     }
 
     public void put(String key, T value) {
-        values.put(key, BicepValue.from(value));
+//        values.put(key, BicepValue.from(value));
+        if (value instanceof ProvisioningVariable) {
+            BicepDictionary<T> dictionary = BicepDictionary.from((ProvisioningVariable) value);
+            values.put(key, dictionary);
+        } else {
+            values.put(key, BicepValue.from(value));
+        }
     }
 
     public void put(String key, BicepValue<T> value) {

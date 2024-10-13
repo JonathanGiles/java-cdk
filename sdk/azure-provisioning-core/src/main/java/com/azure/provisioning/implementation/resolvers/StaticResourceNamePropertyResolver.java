@@ -21,7 +21,7 @@ public class StaticResourceNamePropertyResolver extends ResourceNamePropertyReso
 
         name.append(sanitizeText(resource.getIdentifierName(), requirements.getValidCharacters()));
         if (name.length() >= requirements.getMaxLength()) {
-            return new BicepValue<>(name.substring(0, requirements.getMaxLength()));
+            return BicepValue.from(name.substring(0, requirements.getMaxLength()));
         }
 
         if ((requirements.getValidCharacters().getValue() & ResourceNameCharacters.HYPHEN.getValue()) != 0) {
@@ -54,6 +54,6 @@ public class StaticResourceNamePropertyResolver extends ResourceNamePropertyReso
             name.append(chars.get(random.nextInt(chars.size())));
         }
 
-        return new BicepValue<>(name.toString());
+        return BicepValue.from(name.toString());
     }
 }

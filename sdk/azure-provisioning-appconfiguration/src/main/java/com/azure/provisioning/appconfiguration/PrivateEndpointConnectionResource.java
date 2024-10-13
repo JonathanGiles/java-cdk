@@ -39,12 +39,22 @@ public class PrivateEndpointConnectionResource extends Resource {
         return this.resourceGroupName;
     }
 
+    public PrivateEndpointConnectionResource setResourceGroupName(BicepValue<String> resourceGroupName) {
+        this.resourceGroupName.assign(resourceGroupName);
+        return this;
+    }
+
     public PrivateEndpointConnectionResource setResourceGroupName(String resourceGroupName) {
         this.resourceGroupName.assign(BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getConfigStoreName() {
         return this.configStoreName;
+    }
+
+    public PrivateEndpointConnectionResource setConfigStoreName(BicepValue<String> configStoreName) {
+        this.configStoreName.assign(configStoreName);
+        return this;
     }
 
     public PrivateEndpointConnectionResource setConfigStoreName(String configStoreName) {
@@ -55,12 +65,22 @@ public class PrivateEndpointConnectionResource extends Resource {
         return this.privateEndpointConnectionName;
     }
 
+    public PrivateEndpointConnectionResource setPrivateEndpointConnectionName(BicepValue<String> privateEndpointConnectionName) {
+        this.privateEndpointConnectionName.assign(privateEndpointConnectionName);
+        return this;
+    }
+
     public PrivateEndpointConnectionResource setPrivateEndpointConnectionName(String privateEndpointConnectionName) {
         this.privateEndpointConnectionName.assign(BicepValue.defineProperty(this, "privateEndpointConnectionName", new String[] { "temp", "privateEndpointConnectionName" }, false, false, false, null));
         return this;
     }
     public BicepValue<ProvisioningState> getProvisioningState() {
         return this.provisioningState;
+    }
+
+    public PrivateEndpointConnectionResource setProvisioningState(BicepValue<ProvisioningState> provisioningState) {
+        this.provisioningState.assign(provisioningState);
+        return this;
     }
 
     public PrivateEndpointConnectionResource setProvisioningState(ProvisioningState provisioningState) {
@@ -71,12 +91,22 @@ public class PrivateEndpointConnectionResource extends Resource {
         return this.privateEndpoint;
     }
 
+    public PrivateEndpointConnectionResource setPrivateEndpoint(BicepValue<PrivateEndpoint> privateEndpoint) {
+        this.privateEndpoint.assign(privateEndpoint);
+        return this;
+    }
+
     public PrivateEndpointConnectionResource setPrivateEndpoint(PrivateEndpoint privateEndpoint) {
         this.privateEndpoint.assign(BicepValue.defineProperty(this, "privateEndpoint", new String[] { "temp", "privateEndpoint" }, false, false, false, null));
         return this;
     }
     public BicepValue<PrivateLinkServiceConnectionState> getPrivateLinkServiceConnectionState() {
         return this.privateLinkServiceConnectionState;
+    }
+
+    public PrivateEndpointConnectionResource setPrivateLinkServiceConnectionState(BicepValue<PrivateLinkServiceConnectionState> privateLinkServiceConnectionState) {
+        this.privateLinkServiceConnectionState.assign(privateLinkServiceConnectionState);
+        return this;
     }
 
     public PrivateEndpointConnectionResource setPrivateLinkServiceConnectionState(PrivateLinkServiceConnectionState privateLinkServiceConnectionState) {

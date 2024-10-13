@@ -1,6 +1,7 @@
 package com.azure.provisioning.implementation.bicep.syntax;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class FunctionCallExpression extends Expression {
     private final Expression function;
@@ -9,6 +10,11 @@ public class FunctionCallExpression extends Expression {
     public FunctionCallExpression(Expression function, Expression... arguments) {
         this.function = function;
         this.arguments = arguments;
+    }
+
+    public FunctionCallExpression(Expression function, List<Expression> arguments) {
+        this.function = function;
+        this.arguments = arguments.toArray(new Expression[0]);
     }
 
     public Expression getFunction() {
