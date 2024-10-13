@@ -8,6 +8,7 @@ import java.time.OffsetDateTime;
 import com.azure.provisioning.appconfiguration.models.EncryptionProperties;
 import com.azure.provisioning.appconfiguration.models.CreateMode;
 import com.azure.provisioning.appconfiguration.models.PublicNetworkAccess;
+import com.azure.provisioning.appconfiguration.models.PrivateEndpointConnectionReference;
 import com.azure.provisioning.appconfiguration.models.ProvisioningState;
 import com.azure.provisioning.BicepValue;
 import com.azure.provisioning.BicepList;
@@ -23,7 +24,7 @@ public class ConfigurationStoreResource extends Resource {
     private final BicepValue<OffsetDateTime> creationDate;
     private final BicepValue<String> endpoint;
     private final BicepValue<EncryptionProperties> encryption;
-    private final BicepValue<List> privateEndpointConnections;
+    private final BicepList<PrivateEndpointConnectionReference> privateEndpointConnections;
     private final BicepValue<PublicNetworkAccess> publicNetworkAccess;
     private final BicepValue<Boolean> disableLocalAuth;
     private final BicepValue<Integer> softDeleteRetentionInDays;
@@ -37,19 +38,19 @@ public class ConfigurationStoreResource extends Resource {
 
     public ConfigurationStoreResource(String identifierName, String resourceVersion) {
         super(identifierName, new ResourceType("Microsoft.AppConfiguration/configurationStores"), resourceVersion);
-        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null);;
-        configStoreName = BicepValue.defineProperty(this, "configStoreName", new String[] { "temp", "configStoreName" }, false, false, false, null);;
-        provisioningState = BicepValue.defineProperty(this, "provisioningState", new String[] { "temp", "provisioningState" }, false, false, false, null);;
-        creationDate = BicepValue.defineProperty(this, "creationDate", new String[] { "temp", "creationDate" }, false, false, false, null);;
-        endpoint = BicepValue.defineProperty(this, "endpoint", new String[] { "temp", "endpoint" }, false, false, false, null);;
-        encryption = BicepValue.defineProperty(this, "encryption", new String[] { "temp", "encryption" }, false, false, false, null);;
-        privateEndpointConnections = BicepValue.defineProperty(this, "privateEndpointConnections", new String[] { "temp", "privateEndpointConnections" }, false, false, false, null);;
-        publicNetworkAccess = BicepValue.defineProperty(this, "publicNetworkAccess", new String[] { "temp", "publicNetworkAccess" }, false, false, false, null);;
-        disableLocalAuth = BicepValue.defineProperty(this, "disableLocalAuth", new String[] { "temp", "disableLocalAuth" }, false, false, false, null);;
-        softDeleteRetentionInDays = BicepValue.defineProperty(this, "softDeleteRetentionInDays", new String[] { "temp", "softDeleteRetentionInDays" }, false, false, false, null);;
-        enablePurgeProtection = BicepValue.defineProperty(this, "enablePurgeProtection", new String[] { "temp", "enablePurgeProtection" }, false, false, false, null);;
-        createMode = BicepValue.defineProperty(this, "createMode", new String[] { "temp", "createMode" }, false, false, false, null);;
-        location = BicepValue.defineProperty(this, "location", new String[] { "temp", "location" }, false, false, false, null);;
+        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null);
+        configStoreName = BicepValue.defineProperty(this, "configStoreName", new String[] { "temp", "configStoreName" }, false, false, false, null);
+        provisioningState = BicepValue.defineProperty(this, "provisioningState", new String[] { "temp", "provisioningState" }, false, false, false, null);
+        creationDate = BicepValue.defineProperty(this, "creationDate", new String[] { "temp", "creationDate" }, false, false, false, null);
+        endpoint = BicepValue.defineProperty(this, "endpoint", new String[] { "temp", "endpoint" }, false, false, false, null);
+        encryption = BicepValue.defineProperty(this, "encryption", new String[] { "temp", "encryption" }, false, false, false, null);
+        privateEndpointConnections = BicepList.defineProperty(this, "privateEndpointConnections", new String[] { "temp", "privateEndpointConnections" }, false, false);
+        publicNetworkAccess = BicepValue.defineProperty(this, "publicNetworkAccess", new String[] { "temp", "publicNetworkAccess" }, false, false, false, null);
+        disableLocalAuth = BicepValue.defineProperty(this, "disableLocalAuth", new String[] { "temp", "disableLocalAuth" }, false, false, false, null);
+        softDeleteRetentionInDays = BicepValue.defineProperty(this, "softDeleteRetentionInDays", new String[] { "temp", "softDeleteRetentionInDays" }, false, false, false, null);
+        enablePurgeProtection = BicepValue.defineProperty(this, "enablePurgeProtection", new String[] { "temp", "enablePurgeProtection" }, false, false, false, null);
+        createMode = BicepValue.defineProperty(this, "createMode", new String[] { "temp", "createMode" }, false, false, false, null);
+        location = BicepValue.defineProperty(this, "location", new String[] { "temp", "location" }, false, false, false, null);
     }
 
     public BicepValue<String> getResourceGroupName() {
@@ -57,7 +58,7 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setResourceGroupName(String resourceGroupName) {
-        this.resourceGroupName.assign(BicepValue.from(resourceGroupName));
+        this.resourceGroupName.assign(BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getConfigStoreName() {
@@ -65,7 +66,7 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setConfigStoreName(String configStoreName) {
-        this.configStoreName.assign(BicepValue.from(configStoreName));
+        this.configStoreName.assign(BicepValue.defineProperty(this, "configStoreName", new String[] { "temp", "configStoreName" }, false, false, false, null));
         return this;
     }
     public BicepValue<ProvisioningState> getProvisioningState() {
@@ -73,7 +74,7 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setProvisioningState(ProvisioningState provisioningState) {
-        this.provisioningState.assign(BicepValue.from(provisioningState));
+        this.provisioningState.assign(BicepValue.defineProperty(this, "provisioningState", new String[] { "temp", "provisioningState" }, false, false, false, null));
         return this;
     }
     public BicepValue<OffsetDateTime> getCreationDate() {
@@ -81,7 +82,7 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setCreationDate(OffsetDateTime creationDate) {
-        this.creationDate.assign(BicepValue.from(creationDate));
+        this.creationDate.assign(BicepValue.defineProperty(this, "creationDate", new String[] { "temp", "creationDate" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getEndpoint() {
@@ -89,7 +90,7 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setEndpoint(String endpoint) {
-        this.endpoint.assign(BicepValue.from(endpoint));
+        this.endpoint.assign(BicepValue.defineProperty(this, "endpoint", new String[] { "temp", "endpoint" }, false, false, false, null));
         return this;
     }
     public BicepValue<EncryptionProperties> getEncryption() {
@@ -97,15 +98,15 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setEncryption(EncryptionProperties encryption) {
-        this.encryption.assign(BicepValue.from(encryption));
+        this.encryption.assign(BicepValue.defineProperty(this, "encryption", new String[] { "temp", "encryption" }, false, false, false, null));
         return this;
     }
-    public BicepValue<List> getPrivateEndpointConnections() {
+    public BicepList<PrivateEndpointConnectionReference> getPrivateEndpointConnections() {
         return this.privateEndpointConnections;
     }
 
-    public ConfigurationStoreResource setPrivateEndpointConnections(List privateEndpointConnections) {
-        this.privateEndpointConnections.assign(BicepValue.from(privateEndpointConnections));
+    public ConfigurationStoreResource setPrivateEndpointConnections(List<PrivateEndpointConnectionReference> privateEndpointConnections) {
+        this.privateEndpointConnections.assign(BicepList.defineProperty(this, "privateEndpointConnections", new String[] { "temp", "privateEndpointConnections" }, false, false));
         return this;
     }
     public BicepValue<PublicNetworkAccess> getPublicNetworkAccess() {
@@ -113,7 +114,7 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setPublicNetworkAccess(PublicNetworkAccess publicNetworkAccess) {
-        this.publicNetworkAccess.assign(BicepValue.from(publicNetworkAccess));
+        this.publicNetworkAccess.assign(BicepValue.defineProperty(this, "publicNetworkAccess", new String[] { "temp", "publicNetworkAccess" }, false, false, false, null));
         return this;
     }
     public BicepValue<Boolean> getDisableLocalAuth() {
@@ -121,7 +122,7 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setDisableLocalAuth(Boolean disableLocalAuth) {
-        this.disableLocalAuth.assign(BicepValue.from(disableLocalAuth));
+        this.disableLocalAuth.assign(BicepValue.defineProperty(this, "disableLocalAuth", new String[] { "temp", "disableLocalAuth" }, false, false, false, null));
         return this;
     }
     public BicepValue<Integer> getSoftDeleteRetentionInDays() {
@@ -129,7 +130,7 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setSoftDeleteRetentionInDays(Integer softDeleteRetentionInDays) {
-        this.softDeleteRetentionInDays.assign(BicepValue.from(softDeleteRetentionInDays));
+        this.softDeleteRetentionInDays.assign(BicepValue.defineProperty(this, "softDeleteRetentionInDays", new String[] { "temp", "softDeleteRetentionInDays" }, false, false, false, null));
         return this;
     }
     public BicepValue<Boolean> getEnablePurgeProtection() {
@@ -137,7 +138,7 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setEnablePurgeProtection(Boolean enablePurgeProtection) {
-        this.enablePurgeProtection.assign(BicepValue.from(enablePurgeProtection));
+        this.enablePurgeProtection.assign(BicepValue.defineProperty(this, "enablePurgeProtection", new String[] { "temp", "enablePurgeProtection" }, false, false, false, null));
         return this;
     }
     public BicepValue<CreateMode> getCreateMode() {
@@ -145,7 +146,7 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setCreateMode(CreateMode createMode) {
-        this.createMode.assign(BicepValue.from(createMode));
+        this.createMode.assign(BicepValue.defineProperty(this, "createMode", new String[] { "temp", "createMode" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getLocation() {
@@ -153,7 +154,7 @@ public class ConfigurationStoreResource extends Resource {
     }
 
     public ConfigurationStoreResource setLocation(String location) {
-        this.location.assign(BicepValue.from(location));
+        this.location.assign(BicepValue.defineProperty(this, "location", new String[] { "temp", "location" }, false, false, false, null));
         return this;
     }
 

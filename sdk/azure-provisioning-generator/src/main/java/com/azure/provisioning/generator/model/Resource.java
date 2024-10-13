@@ -209,14 +209,14 @@ public class Resource extends TypeModel {
     private void writeSetter(IndentWriter writer, Property property, String className) {
         writer.writeLine("public " + className + " set" + NameUtils.toPascalCase(property.getName()) + "(" + property.getPropertyType().getName() + " " + property.getName() + ") {");
         writer.indent();
-        writer.writeLine("this." + property.getName() + ".assign(BicepValue.from(" + property.getName() + "));");
+        writer.writeLine("this." + property.getName() + ".assign(" + property.getBicepDefinition(true) +");");
         writer.writeLine("return this;");
         writer.unindent();
         writer.writeLine("}");
     }
 
     private static void writeGetter(IndentWriter writer, Property property) {
-        writer.writeLine("public BicepValue<" + property.getPropertyType().getName() + "> " + "get" + NameUtils.toPascalCase(property.getName()) + "() {");
+        writer.writeLine("public " + property.getBicepTypeReference() + " get" + NameUtils.toPascalCase(property.getName()) + "() {");
         writer.indent();
         writer.writeLine("return this." + property.getName() + ";");
         writer.unindent();

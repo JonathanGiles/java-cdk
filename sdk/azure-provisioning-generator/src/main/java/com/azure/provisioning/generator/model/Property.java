@@ -168,7 +168,7 @@ public class Property {
             if (withBooleans) {
                 sb.append(", " + isReadOnly + ", " + isRequired  + ", " + isSecure);
             }
-            sb.append(", null);");    // defaultValue
+            sb.append(", null)");    // defaultValue
         }
 
         return sb.toString();

@@ -3,24 +3,33 @@
 
 package com.azure.provisioning.appconfiguration.models;
 
-import com.azure.provisioning.appconfiguration.models.KeyVaultProperties;
 import com.azure.provisioning.BicepValue;
 import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class EncryptionProperties extends ProvisioningConstruct {
 
-    private final BicepValue<KeyVaultProperties> keyVaultProperties;
+    private final BicepValue<String> keyIdentifier;
+    private final BicepValue<String> identityClientId;
 
     public EncryptionProperties() {
-        keyVaultProperties = BicepValue.defineProperty(this, "keyVaultProperties", new String[] { "temp", "keyVaultProperties" }, null);
+        keyIdentifier = BicepValue.defineProperty(this, "keyIdentifier", new String[] { "temp", "keyIdentifier" }, null);
+        identityClientId = BicepValue.defineProperty(this, "identityClientId", new String[] { "temp", "identityClientId" }, null);
     }
 
-    public BicepValue<KeyVaultProperties> getKeyVaultProperties() {
-        return this.keyVaultProperties;
+    public BicepValue<String> getKeyIdentifier() {
+        return this.keyIdentifier;
     }
 
-    public EncryptionProperties setKeyVaultProperties(BicepValue<KeyVaultProperties> keyVaultProperties) {
-        this.keyVaultProperties.assign(keyVaultProperties);
+    public EncryptionProperties setKeyIdentifier(BicepValue<String> keyIdentifier) {
+        this.keyIdentifier.assign(keyIdentifier);
+        return this;
+    }
+    public BicepValue<String> getIdentityClientId() {
+        return this.identityClientId;
+    }
+
+    public EncryptionProperties setIdentityClientId(BicepValue<String> identityClientId) {
+        this.identityClientId.assign(identityClientId);
         return this;
     }
 }

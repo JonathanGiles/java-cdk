@@ -97,7 +97,7 @@ public class SimpleModel extends TypeModel {
         writer.writeLine("public " + getName() + "() {");
         writer.indent();
         getProperties().forEach(property -> {
-            writer.writeLine(property.getName() + " = " + property.getBicepDefinition(false));
+            writer.writeLine(property.getName() + " = " + property.getBicepDefinition(false) + ";");
         });
         writer.unindent();
         writer.writeLine("}");

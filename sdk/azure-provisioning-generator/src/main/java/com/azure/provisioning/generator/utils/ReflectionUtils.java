@@ -2,15 +2,14 @@ package com.azure.provisioning.generator.utils;
 
 import com.azure.core.management.ProxyResource;
 import com.azure.core.util.ExpandableStringEnum;
-import com.azure.provisioning.generator.model.ModelBase;
+import com.azure.provisioning.BicepList;
+import com.azure.provisioning.generator.model.DictionaryModel;
+import com.azure.provisioning.generator.model.ListModel;
 import com.azure.provisioning.generator.model.Property;
-import com.azure.provisioning.generator.model.TypeModel;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ReflectionUtils {
@@ -84,7 +83,21 @@ public class ReflectionUtils {
     public static Set<String> getImportPackages(List<Property> properties) {
         return properties.stream()
                 .filter(property -> !property.getPropertyType().getProvisioningPackage().equals("java.lang"))
-                .map(property -> property.getPropertyType().getProvisioningPackage() + "." + property.getPropertyType().getName())
+                .flatMap(property -> {
+                    List<String> imports = new ArrayList<>();
+                    if (property.getPropertyType() instanceof ListModel) {
+                        imports.add(List.class.getPackageName() + ".List");
+                        imports.add(((ListModel) property.getPropertyType()).getElementType().getProvisioningPackage() + "." + ((ListModel) property.getPropertyType()).getElementType().getName());
+                        return imports.stream();
+                    }
+                    if (property.getPropertyType() instanceof DictionaryModel) {
+                        imports.add(Map.class.getPackageName() + ".Map");
+                        imports.add(((DictionaryModel) property.getPropertyType()).getElementType().getProvisioningPackage() + "." + ((DictionaryModel) property.getPropertyType()).getElementType().getName());
+                        return imports.stream();
+                    }
+                    imports.add(property.getPropertyType().getProvisioningPackage() + "." + property.getPropertyType().getName());
+                    return imports.stream();
+                })
                 .collect(Collectors.toSet());
     }
 

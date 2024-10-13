@@ -5,6 +5,7 @@ package com.azure.provisioning.appconfiguration;
 
 import java.time.OffsetDateTime;
 import java.util.Map;
+import java.lang.String;
 import com.azure.provisioning.BicepValue;
 import com.azure.provisioning.BicepList;
 import com.azure.provisioning.BicepDictionary;
@@ -23,7 +24,7 @@ public class KeyValueResource extends Resource {
     private final BicepValue<String> etag;
     private final BicepValue<OffsetDateTime> lastModified;
     private final BicepValue<Boolean> locked;
-    private final BicepValue<Map> tags;
+    private final BicepDictionary<String> tags;
 
     public KeyValueResource(String identifierName) {
         this(identifierName, null);
@@ -31,17 +32,17 @@ public class KeyValueResource extends Resource {
 
     public KeyValueResource(String identifierName, String resourceVersion) {
         super(identifierName, new ResourceType("Microsoft.AppConfiguration/configurationStores/keyValues"), resourceVersion);
-        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null);;
-        configStoreName = BicepValue.defineProperty(this, "configStoreName", new String[] { "temp", "configStoreName" }, false, false, false, null);;
-        keyValueName = BicepValue.defineProperty(this, "keyValueName", new String[] { "temp", "keyValueName" }, false, false, false, null);;
-        key = BicepValue.defineProperty(this, "key", new String[] { "temp", "key" }, false, false, false, null);;
-        label = BicepValue.defineProperty(this, "label", new String[] { "temp", "label" }, false, false, false, null);;
-        value = BicepValue.defineProperty(this, "value", new String[] { "temp", "value" }, false, false, false, null);;
-        contentType = BicepValue.defineProperty(this, "contentType", new String[] { "temp", "contentType" }, false, false, false, null);;
-        etag = BicepValue.defineProperty(this, "etag", new String[] { "temp", "etag" }, false, false, false, null);;
-        lastModified = BicepValue.defineProperty(this, "lastModified", new String[] { "temp", "lastModified" }, false, false, false, null);;
-        locked = BicepValue.defineProperty(this, "locked", new String[] { "temp", "locked" }, false, false, false, null);;
-        tags = BicepValue.defineProperty(this, "tags", new String[] { "temp", "tags" }, false, false, false, null);;
+        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null);
+        configStoreName = BicepValue.defineProperty(this, "configStoreName", new String[] { "temp", "configStoreName" }, false, false, false, null);
+        keyValueName = BicepValue.defineProperty(this, "keyValueName", new String[] { "temp", "keyValueName" }, false, false, false, null);
+        key = BicepValue.defineProperty(this, "key", new String[] { "temp", "key" }, false, false, false, null);
+        label = BicepValue.defineProperty(this, "label", new String[] { "temp", "label" }, false, false, false, null);
+        value = BicepValue.defineProperty(this, "value", new String[] { "temp", "value" }, false, false, false, null);
+        contentType = BicepValue.defineProperty(this, "contentType", new String[] { "temp", "contentType" }, false, false, false, null);
+        etag = BicepValue.defineProperty(this, "etag", new String[] { "temp", "etag" }, false, false, false, null);
+        lastModified = BicepValue.defineProperty(this, "lastModified", new String[] { "temp", "lastModified" }, false, false, false, null);
+        locked = BicepValue.defineProperty(this, "locked", new String[] { "temp", "locked" }, false, false, false, null);
+        tags = BicepDictionary.defineProperty(this, "tags", new String[] { "temp", "tags" }, false, false);
     }
 
     public BicepValue<String> getResourceGroupName() {
@@ -49,7 +50,7 @@ public class KeyValueResource extends Resource {
     }
 
     public KeyValueResource setResourceGroupName(String resourceGroupName) {
-        this.resourceGroupName.assign(BicepValue.from(resourceGroupName));
+        this.resourceGroupName.assign(BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getConfigStoreName() {
@@ -57,7 +58,7 @@ public class KeyValueResource extends Resource {
     }
 
     public KeyValueResource setConfigStoreName(String configStoreName) {
-        this.configStoreName.assign(BicepValue.from(configStoreName));
+        this.configStoreName.assign(BicepValue.defineProperty(this, "configStoreName", new String[] { "temp", "configStoreName" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getKeyValueName() {
@@ -65,7 +66,7 @@ public class KeyValueResource extends Resource {
     }
 
     public KeyValueResource setKeyValueName(String keyValueName) {
-        this.keyValueName.assign(BicepValue.from(keyValueName));
+        this.keyValueName.assign(BicepValue.defineProperty(this, "keyValueName", new String[] { "temp", "keyValueName" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getKey() {
@@ -73,7 +74,7 @@ public class KeyValueResource extends Resource {
     }
 
     public KeyValueResource setKey(String key) {
-        this.key.assign(BicepValue.from(key));
+        this.key.assign(BicepValue.defineProperty(this, "key", new String[] { "temp", "key" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getLabel() {
@@ -81,7 +82,7 @@ public class KeyValueResource extends Resource {
     }
 
     public KeyValueResource setLabel(String label) {
-        this.label.assign(BicepValue.from(label));
+        this.label.assign(BicepValue.defineProperty(this, "label", new String[] { "temp", "label" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getValue() {
@@ -89,7 +90,7 @@ public class KeyValueResource extends Resource {
     }
 
     public KeyValueResource setValue(String value) {
-        this.value.assign(BicepValue.from(value));
+        this.value.assign(BicepValue.defineProperty(this, "value", new String[] { "temp", "value" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getContentType() {
@@ -97,7 +98,7 @@ public class KeyValueResource extends Resource {
     }
 
     public KeyValueResource setContentType(String contentType) {
-        this.contentType.assign(BicepValue.from(contentType));
+        this.contentType.assign(BicepValue.defineProperty(this, "contentType", new String[] { "temp", "contentType" }, false, false, false, null));
         return this;
     }
     public BicepValue<String> getEtag() {
@@ -105,7 +106,7 @@ public class KeyValueResource extends Resource {
     }
 
     public KeyValueResource setEtag(String etag) {
-        this.etag.assign(BicepValue.from(etag));
+        this.etag.assign(BicepValue.defineProperty(this, "etag", new String[] { "temp", "etag" }, false, false, false, null));
         return this;
     }
     public BicepValue<OffsetDateTime> getLastModified() {
@@ -113,7 +114,7 @@ public class KeyValueResource extends Resource {
     }
 
     public KeyValueResource setLastModified(OffsetDateTime lastModified) {
-        this.lastModified.assign(BicepValue.from(lastModified));
+        this.lastModified.assign(BicepValue.defineProperty(this, "lastModified", new String[] { "temp", "lastModified" }, false, false, false, null));
         return this;
     }
     public BicepValue<Boolean> getLocked() {
@@ -121,15 +122,15 @@ public class KeyValueResource extends Resource {
     }
 
     public KeyValueResource setLocked(Boolean locked) {
-        this.locked.assign(BicepValue.from(locked));
+        this.locked.assign(BicepValue.defineProperty(this, "locked", new String[] { "temp", "locked" }, false, false, false, null));
         return this;
     }
-    public BicepValue<Map> getTags() {
+    public BicepDictionary<String> getTags() {
         return this.tags;
     }
 
-    public KeyValueResource setTags(Map tags) {
-        this.tags.assign(BicepValue.from(tags));
+    public KeyValueResource setTags(Map<String,String> tags) {
+        this.tags.assign(BicepDictionary.defineProperty(this, "tags", new String[] { "temp", "tags" }, false, false));
         return this;
     }
 

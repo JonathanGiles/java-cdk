@@ -17,8 +17,6 @@ import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
 import reactor.core.publisher.Mono;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.*;
 import java.nio.charset.StandardCharsets;
@@ -260,35 +258,64 @@ public abstract class Specification extends ModelBase {
         Arrays.stream(field.getType().getDeclaredFields())
                 .filter(f -> f.getType() != ClientLogger.class)
                 .forEach(f -> {
-                    if (ReflectionUtils.isSimpleType(f.getType())) {
-                        Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
-//                        property.setRequired(true);
-                        properties.add(property);
-                    } else {
-                        Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
-                        properties.add(property);
-                    }
+                    handleField(resource, f, properties);
                 });
         return properties;
     }
 
-    private ModelBase getOrCreateModelType(Class<?> type, Resource resource) {
+    private void handleField(Resource resource, Field f, List<Property> properties) {
+        if (ReflectionUtils.isSimpleType(f.getType())) {
+            Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
+//                        property.setRequired(true);
+            properties.add(property);
+        } else if (ReflectionUtils.isPropertiesTypes(f)) {
+            properties.addAll(getPropertiesFromModel(resource, f));
+        } else {
+            ModelBase model;
+            if (f.getType() == Map.class || f.getType() == List.class) {
+                model = getOrCreateModelType(f.getGenericType(), resource);
+            } else {
+                model = getOrCreateModelType(f.getType(), resource);
+            }
+
+            Property property = new Property(resource, model, f, null);
+            properties.add(property);
+        }
+    }
+
+    private ModelBase getOrCreateModelType(Type type, Resource resource) {
         if (TypeRegistry.get(type) != null) {
             return TypeRegistry.get(type);
         }
 
-        if (type.getPackageName().startsWith("com.azure.resourcemanager")) {
-            if (ReflectionUtils.isEnumType(type)) {
-                List<String> enumValues = ReflectionUtils.getEnumValues(type);
-                EnumModel enumModel = new EnumModel(type.getSimpleName(), this.getProvisioningPackage() + ".models", enumValues);
+        if (type instanceof ParameterizedType parameterizedType) {
+            if (parameterizedType.getRawType() == List.class) {
+                parameterizedType.getActualTypeArguments();
+                ListModel listModel = new ListModel(getOrCreateModelType(parameterizedType.getActualTypeArguments()[0], resource));
+                listModel.setProvisioningPackage(List.class.getPackageName());
+                return listModel;
+            }
+
+            if (parameterizedType.getRawType() == Map.class) {
+                DictionaryModel dictionaryModel = new DictionaryModel(getOrCreateModelType(parameterizedType.getActualTypeArguments()[1], resource));
+                dictionaryModel.setProvisioningPackage(Map.class.getPackageName());
+                return dictionaryModel;
+            }
+        }
+
+        Class<?> classType = ((Class<?>) type);
+        if (classType.getPackageName().startsWith("com.azure.resourcemanager")) {
+            if (ReflectionUtils.isEnumType(classType)) {
+                List<String> enumValues = ReflectionUtils.getEnumValues(classType);
+                EnumModel enumModel = new EnumModel(classType.getSimpleName(), this.getProvisioningPackage() + ".models", enumValues);
                 enumModel.setSpec(this);
-                modelNameMapping.putIfAbsent(type.getName(), enumModel);
+                modelNameMapping.putIfAbsent(classType.getName(), enumModel);
                 return enumModel;
             }
 
-            SimpleModel simpleModel = new SimpleModel(this, type, type.getSimpleName(), this.getProvisioningPackage() + ".models", null);
-            simpleModel.setProperties(getPropertiesFromModel(resource, type));
-            modelNameMapping.putIfAbsent(type.getName(), simpleModel);
+            SimpleModel simpleModel = new SimpleModel(this, classType, classType.getSimpleName(), this.getProvisioningPackage() + ".models", null);
+            simpleModel.setProperties(getPropertiesFromModel(resource, classType));
+            modelNameMapping.putIfAbsent(classType.getName(), simpleModel);
             return simpleModel;
         }
         ExternalModel externalModel = new ExternalModel(type);
@@ -301,14 +328,7 @@ public abstract class Specification extends ModelBase {
         List<Property> properties = new ArrayList<>();
         Arrays.stream(type.getDeclaredFields())
                 .forEach(f -> {
-                    if (ReflectionUtils.isSimpleType(f.getType())) {
-                        Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
-//                        property.setRequired(true);
-                        properties.add(property);
-                    } else {
-                        Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
-                        properties.add(property);
-                    }
+                    handleField(resource, f, properties);
                 });
         return properties;
     }
@@ -330,6 +350,13 @@ public abstract class Specification extends ModelBase {
                     }
                 });
 
+        resources.keySet()
+                .forEach(type -> {
+                    Class<?> superType = ((Class<?>) type).getSuperclass();
+                    if (resources.containsKey(superType)) {
+                        throw new IllegalStateException("Unexpected derived type " + type + " of " + superType);
+                    }
+                });
         return resources;
     }
 
@@ -341,16 +368,6 @@ public abstract class Specification extends ModelBase {
         modelNameMapping.values().forEach(model -> {
             model.lint();
         });
-    }
-
-    public void writeToFile(String name, String code) {
-        File file = new File(Main.BASE_DIR, name + ".java");
-        System.out.println("Writing to " + file.getAbsolutePath());
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write(code);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 //    protected abstract String getGenerationPath();
