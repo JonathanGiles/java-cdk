@@ -45,8 +45,9 @@ public class BicepValueReference {
         return target;
     }
 
-    @Override
-    public String toString() {
-        return "<" + getReference() + " from " + construct.getClass().getSimpleName() + "." + propertyName + ">";
-    }
+    // FIXME
+//    @Override
+//    public String toString() {
+//        return "<" + getReference() + " from " + construct.getClass().getSimpleName() + "." + propertyName + ">";
+//    }
 }

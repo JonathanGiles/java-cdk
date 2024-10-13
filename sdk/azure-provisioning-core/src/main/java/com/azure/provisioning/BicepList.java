@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
-public class BicepList<T> extends BicepValue { // implements List<BicepValue<T>> {
+public class BicepList<T> extends BicepValueBase { // implements List<BicepValue<T>> {
     private List<BicepValue<T>> values;
     private Function<Expression, T> referenceFactory = null;
 
@@ -42,7 +42,7 @@ public class BicepList<T> extends BicepValue { // implements List<BicepValue<T>>
     }
 
     private BicepList(BicepValueReference self) {
-        this(self, (Expression) null);
+        this(self, (List<BicepValue<T>>) null);
     }
 
     private BicepList(BicepValueReference self, List<BicepValue<T>> values) {

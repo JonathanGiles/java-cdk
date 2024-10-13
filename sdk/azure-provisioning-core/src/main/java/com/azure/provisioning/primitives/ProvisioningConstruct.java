@@ -106,10 +106,11 @@ public abstract class ProvisioningConstruct implements Provisionable {
         for (BicepValueBase property : provisioningProperties.values()) {
             if (!property.isEmpty()) {
                 Map<String, Object> obj = body;
-                for (int i = 0; i < property.getSelf().getBicepPath().size() - 1; i++) {
+                final int bicepPathSize = property.getSelf().getBicepPath().size();
+                for (int i = 0; i < bicepPathSize - 1; i++) {
                     obj = (Map<String, Object>) obj.computeIfAbsent(property.getSelf().getBicepPath().get(i), k -> new HashMap<>());
                 }
-                obj.put(property.getSelf().getBicepPath().get(property.getSelf().getBicepPath().size() - 1), property);
+                obj.put(property.getSelf().getBicepPath().get(bicepPathSize - 1), property);
             }
         }
         return compileValues(body);

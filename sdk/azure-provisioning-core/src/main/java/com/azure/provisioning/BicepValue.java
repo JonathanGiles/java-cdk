@@ -181,6 +181,18 @@ public class BicepValue<T> extends BicepValueBase {
 //        }
 //    }
 
+    @Override
+    public String toString() {
+        switch (getKind()) {
+            case UNSET:
+                return "<BicepValue: Unset>";
+            case LITERAL:
+                return "<BicepValue: " + getLiteralValue() + ">";
+            default:
+                return "<BicepValue: " + compile() + ">";
+        }
+    }
+
     /**
      * Defines a property for a provisioning construct.
      *

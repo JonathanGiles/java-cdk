@@ -219,10 +219,10 @@ public class Resource extends TypeModel {
         // set*(String)
         writer.writeLine("public " + className + " set" + NameUtils.toPascalCase(property.getName()) + "(" + property.getPropertyType().getName() + " " + property.getName() + ") {");
         writer.indent();
-        writer.writeLine("this." + property.getName() + ".assign(" + property.getBicepDefinition(true) +");");
-        writer.writeLine("return this;");
+        writer.writeLine("return this.set" + NameUtils.toPascalCase(property.getName()) + "(BicepValue.from(" + property.getName() +"));");
         writer.unindent();
         writer.writeLine("}");
+        writer.writeLine();
     }
 
     private static void writeGetter(IndentWriter writer, Property property) {
