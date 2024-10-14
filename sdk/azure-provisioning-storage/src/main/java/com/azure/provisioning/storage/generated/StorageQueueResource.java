@@ -12,14 +12,14 @@ import com.azure.provisioning.tmp.ResourceType;
 
 public class StorageQueueResource extends Resource {
 
-    private final BicepValue<String> arg1;
-    private final BicepValue<String> name;
-    private final BicepValue<String> arg2;
     private final BicepValue<Integer> approximateMessageCount;
-    private final BicepDictionary<String> metadata;
+    private final BicepValue<String> id;
     private final BicepValue<String> type;
     private final BicepValue<String> arg0;
-    private final BicepValue<String> id;
+    private final BicepValue<String> arg2;
+    private final BicepValue<String> arg1;
+    private final BicepDictionary<String> metadata;
+    private final BicepValue<String> name;
 
     public StorageQueueResource(String identifierName) {
         this(identifierName, null);
@@ -27,53 +27,14 @@ public class StorageQueueResource extends Resource {
 
     public StorageQueueResource(String identifierName, String resourceVersion) {
         super(identifierName, new ResourceType("Microsoft.Storage/storageAccounts/queueServices/queues"), resourceVersion);
-        arg1 = BicepValue.defineProperty(this, "arg1", new String[] { "temp", "arg1" }, false, false, false, null);
-        name = BicepValue.defineProperty(this, "name", new String[] { "temp", "name" }, false, false, false, null);
-        arg2 = BicepValue.defineProperty(this, "arg2", new String[] { "temp", "arg2" }, false, false, false, null);
         approximateMessageCount = BicepValue.defineProperty(this, "approximateMessageCount", new String[] { "temp", "approximateMessageCount" }, false, false, false, null);
-        metadata = BicepDictionary.defineProperty(this, "metadata", new String[] { "temp", "metadata" }, false, false);
+        id = BicepValue.defineProperty(this, "id", new String[] { "temp", "id" }, false, false, false, null);
         type = BicepValue.defineProperty(this, "type", new String[] { "temp", "type" }, false, false, false, null);
         arg0 = BicepValue.defineProperty(this, "arg0", new String[] { "temp", "arg0" }, false, false, false, null);
-        id = BicepValue.defineProperty(this, "id", new String[] { "temp", "id" }, false, false, false, null);
-    }
-
-    public BicepValue<String> getArg1() {
-        return this.arg1;
-    }
-
-    public StorageQueueResource setArg1(BicepValue<String> arg1) {
-        this.arg1.assign(arg1);
-        return this;
-    }
-
-    public StorageQueueResource setArg1(String arg1) {
-        return this.setArg1(BicepValue.from(arg1));
-    }
-
-    public BicepValue<String> getName() {
-        return this.name;
-    }
-
-    public StorageQueueResource setName(BicepValue<String> name) {
-        this.name.assign(name);
-        return this;
-    }
-
-    public StorageQueueResource setName(String name) {
-        return this.setName(BicepValue.from(name));
-    }
-
-    public BicepValue<String> getArg2() {
-        return this.arg2;
-    }
-
-    public StorageQueueResource setArg2(BicepValue<String> arg2) {
-        this.arg2.assign(arg2);
-        return this;
-    }
-
-    public StorageQueueResource setArg2(String arg2) {
-        return this.setArg2(BicepValue.from(arg2));
+        arg2 = BicepValue.defineProperty(this, "arg2", new String[] { "temp", "arg2" }, false, false, false, null);
+        arg1 = BicepValue.defineProperty(this, "arg1", new String[] { "temp", "arg1" }, false, false, false, null);
+        metadata = BicepDictionary.defineProperty(this, "metadata", new String[] { "temp", "metadata" }, false, false);
+        name = BicepValue.defineProperty(this, "name", new String[] { "temp", "name" }, false, false, false, null);
     }
 
     public BicepValue<Integer> getApproximateMessageCount() {
@@ -89,17 +50,17 @@ public class StorageQueueResource extends Resource {
         return this.setApproximateMessageCount(BicepValue.from(approximateMessageCount));
     }
 
-    public BicepDictionary<String> getMetadata() {
-        return this.metadata;
+    public BicepValue<String> getId() {
+        return this.id;
     }
 
-    public StorageQueueResource setMetadata(BicepValue<Map<String,String>> metadata) {
-        this.metadata.assign(metadata);
+    public StorageQueueResource setId(BicepValue<String> id) {
+        this.id.assign(id);
         return this;
     }
 
-    public StorageQueueResource setMetadata(Map<String,String> metadata) {
-        return this.setMetadata(BicepValue.from(metadata));
+    public StorageQueueResource setId(String id) {
+        return this.setId(BicepValue.from(id));
     }
 
     public BicepValue<String> getType() {
@@ -128,17 +89,56 @@ public class StorageQueueResource extends Resource {
         return this.setArg0(BicepValue.from(arg0));
     }
 
-    public BicepValue<String> getId() {
-        return this.id;
+    public BicepValue<String> getArg2() {
+        return this.arg2;
     }
 
-    public StorageQueueResource setId(BicepValue<String> id) {
-        this.id.assign(id);
+    public StorageQueueResource setArg2(BicepValue<String> arg2) {
+        this.arg2.assign(arg2);
         return this;
     }
 
-    public StorageQueueResource setId(String id) {
-        return this.setId(BicepValue.from(id));
+    public StorageQueueResource setArg2(String arg2) {
+        return this.setArg2(BicepValue.from(arg2));
+    }
+
+    public BicepValue<String> getArg1() {
+        return this.arg1;
+    }
+
+    public StorageQueueResource setArg1(BicepValue<String> arg1) {
+        this.arg1.assign(arg1);
+        return this;
+    }
+
+    public StorageQueueResource setArg1(String arg1) {
+        return this.setArg1(BicepValue.from(arg1));
+    }
+
+    public BicepDictionary<String> getMetadata() {
+        return this.metadata;
+    }
+
+    public StorageQueueResource setMetadata(BicepValue<Map<String,String>> metadata) {
+        this.metadata.assign(metadata);
+        return this;
+    }
+
+    public StorageQueueResource setMetadata(Map<String,String> metadata) {
+        return this.setMetadata(BicepValue.from(metadata));
+    }
+
+    public BicepValue<String> getName() {
+        return this.name;
+    }
+
+    public StorageQueueResource setName(BicepValue<String> name) {
+        this.name.assign(name);
+        return this;
+    }
+
+    public StorageQueueResource setName(String name) {
+        return this.setName(BicepValue.from(name));
     }
 
 }

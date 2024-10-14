@@ -8,28 +8,28 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class SshPublicKey extends ProvisioningConstruct {
 
-    private final BicepValue<String> description;
     private final BicepValue<String> key;
+    private final BicepValue<String> description;
 
     public SshPublicKey() {
-        description = BicepValue.defineProperty(this, "description", new String[] { "temp", "description" }, null);
         key = BicepValue.defineProperty(this, "key", new String[] { "temp", "key" }, null);
+        description = BicepValue.defineProperty(this, "description", new String[] { "temp", "description" }, null);
     }
 
-    public BicepValue<String> getDescription() {
-        return this.description;
-    }
-
-    public SshPublicKey setDescription(BicepValue<String> description) {
-        this.description.assign(description);
-        return this;
-    }
     public BicepValue<String> getKey() {
         return this.key;
     }
 
     public SshPublicKey setKey(BicepValue<String> key) {
         this.key.assign(key);
+        return this;
+    }
+    public BicepValue<String> getDescription() {
+        return this.description;
+    }
+
+    public SshPublicKey setDescription(BicepValue<String> description) {
+        this.description.assign(description);
         return this;
     }
 }

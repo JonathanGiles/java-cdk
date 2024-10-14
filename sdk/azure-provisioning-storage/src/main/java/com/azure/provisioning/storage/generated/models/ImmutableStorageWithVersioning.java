@@ -10,30 +10,30 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class ImmutableStorageWithVersioning extends ProvisioningConstruct {
 
-    private final BicepValue<MigrationState> migrationState;
     private final BicepValue<Boolean> enabled;
+    private final BicepValue<MigrationState> migrationState;
     private final BicepValue<OffsetDateTime> timestamp;
 
     public ImmutableStorageWithVersioning() {
-        migrationState = BicepValue.defineProperty(this, "migrationState", new String[] { "temp", "migrationState" }, null);
         enabled = BicepValue.defineProperty(this, "enabled", new String[] { "temp", "enabled" }, null);
+        migrationState = BicepValue.defineProperty(this, "migrationState", new String[] { "temp", "migrationState" }, null);
         timestamp = BicepValue.defineProperty(this, "timestamp", new String[] { "temp", "timestamp" }, null);
     }
 
-    public BicepValue<MigrationState> getMigrationState() {
-        return this.migrationState;
-    }
-
-    public ImmutableStorageWithVersioning setMigrationState(BicepValue<MigrationState> migrationState) {
-        this.migrationState.assign(migrationState);
-        return this;
-    }
     public BicepValue<Boolean> getEnabled() {
         return this.enabled;
     }
 
     public ImmutableStorageWithVersioning setEnabled(BicepValue<Boolean> enabled) {
         this.enabled.assign(enabled);
+        return this;
+    }
+    public BicepValue<MigrationState> getMigrationState() {
+        return this.migrationState;
+    }
+
+    public ImmutableStorageWithVersioning setMigrationState(BicepValue<MigrationState> migrationState) {
+        this.migrationState.assign(migrationState);
         return this;
     }
     public BicepValue<OffsetDateTime> getTimestamp() {

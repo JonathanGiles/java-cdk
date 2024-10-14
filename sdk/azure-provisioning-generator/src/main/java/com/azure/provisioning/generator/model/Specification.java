@@ -350,10 +350,16 @@ public abstract class Specification extends ModelBase {
                 .forEach(method -> {
                     if (method.getReturnType() == Response.class) {
                         // with response method overwrites the convenience overloads
-                        resources.put(((ParameterizedType) method.getGenericReturnType()).getActualTypeArguments()[0], method);
+                        Class<?> resource = (Class<?>)((ParameterizedType) method.getGenericReturnType()).getActualTypeArguments()[0];
+                        if (ProxyResource.class.isAssignableFrom(resource)) {
+                            resources.put(resource, method);
+                        }
                     } else {
                         // add this only if the resource doesn't already exist
-                        resources.putIfAbsent(method.getReturnType(), method);
+                        Class<?> resource = method.getReturnType();
+                        if (ProxyResource.class.isAssignableFrom(resource)) {
+                            resources.putIfAbsent(resource, method);
+                        }
                     }
                 });
 

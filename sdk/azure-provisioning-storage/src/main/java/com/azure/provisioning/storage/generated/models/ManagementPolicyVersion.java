@@ -9,44 +9,20 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class ManagementPolicyVersion extends ProvisioningConstruct {
 
-    private final BicepValue<DateAfterCreation> tierToCool;
-    private final BicepValue<DateAfterCreation> delete;
-    private final BicepValue<DateAfterCreation> tierToArchive;
     private final BicepValue<DateAfterCreation> tierToCold;
     private final BicepValue<DateAfterCreation> tierToHot;
+    private final BicepValue<DateAfterCreation> tierToCool;
+    private final BicepValue<DateAfterCreation> tierToArchive;
+    private final BicepValue<DateAfterCreation> delete;
 
     public ManagementPolicyVersion() {
-        tierToCool = BicepValue.defineProperty(this, "tierToCool", new String[] { "temp", "tierToCool" }, null);
-        delete = BicepValue.defineProperty(this, "delete", new String[] { "temp", "delete" }, null);
-        tierToArchive = BicepValue.defineProperty(this, "tierToArchive", new String[] { "temp", "tierToArchive" }, null);
         tierToCold = BicepValue.defineProperty(this, "tierToCold", new String[] { "temp", "tierToCold" }, null);
         tierToHot = BicepValue.defineProperty(this, "tierToHot", new String[] { "temp", "tierToHot" }, null);
+        tierToCool = BicepValue.defineProperty(this, "tierToCool", new String[] { "temp", "tierToCool" }, null);
+        tierToArchive = BicepValue.defineProperty(this, "tierToArchive", new String[] { "temp", "tierToArchive" }, null);
+        delete = BicepValue.defineProperty(this, "delete", new String[] { "temp", "delete" }, null);
     }
 
-    public BicepValue<DateAfterCreation> getTierToCool() {
-        return this.tierToCool;
-    }
-
-    public ManagementPolicyVersion setTierToCool(BicepValue<DateAfterCreation> tierToCool) {
-        this.tierToCool.assign(tierToCool);
-        return this;
-    }
-    public BicepValue<DateAfterCreation> getDelete() {
-        return this.delete;
-    }
-
-    public ManagementPolicyVersion setDelete(BicepValue<DateAfterCreation> delete) {
-        this.delete.assign(delete);
-        return this;
-    }
-    public BicepValue<DateAfterCreation> getTierToArchive() {
-        return this.tierToArchive;
-    }
-
-    public ManagementPolicyVersion setTierToArchive(BicepValue<DateAfterCreation> tierToArchive) {
-        this.tierToArchive.assign(tierToArchive);
-        return this;
-    }
     public BicepValue<DateAfterCreation> getTierToCold() {
         return this.tierToCold;
     }
@@ -61,6 +37,30 @@ public class ManagementPolicyVersion extends ProvisioningConstruct {
 
     public ManagementPolicyVersion setTierToHot(BicepValue<DateAfterCreation> tierToHot) {
         this.tierToHot.assign(tierToHot);
+        return this;
+    }
+    public BicepValue<DateAfterCreation> getTierToCool() {
+        return this.tierToCool;
+    }
+
+    public ManagementPolicyVersion setTierToCool(BicepValue<DateAfterCreation> tierToCool) {
+        this.tierToCool.assign(tierToCool);
+        return this;
+    }
+    public BicepValue<DateAfterCreation> getTierToArchive() {
+        return this.tierToArchive;
+    }
+
+    public ManagementPolicyVersion setTierToArchive(BicepValue<DateAfterCreation> tierToArchive) {
+        this.tierToArchive.assign(tierToArchive);
+        return this;
+    }
+    public BicepValue<DateAfterCreation> getDelete() {
+        return this.delete;
+    }
+
+    public ManagementPolicyVersion setDelete(BicepValue<DateAfterCreation> delete) {
+        this.delete.assign(delete);
         return this;
     }
 }

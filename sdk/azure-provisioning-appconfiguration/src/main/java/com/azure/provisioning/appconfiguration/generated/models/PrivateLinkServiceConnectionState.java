@@ -10,22 +10,22 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class PrivateLinkServiceConnectionState extends ProvisioningConstruct {
 
-    private final BicepValue<ConnectionStatus> status;
-    private final BicepValue<String> description;
     private final BicepValue<ActionsRequired> actionsRequired;
+    private final BicepValue<String> description;
+    private final BicepValue<ConnectionStatus> status;
 
     public PrivateLinkServiceConnectionState() {
-        status = BicepValue.defineProperty(this, "status", new String[] { "temp", "status" }, null);
-        description = BicepValue.defineProperty(this, "description", new String[] { "temp", "description" }, null);
         actionsRequired = BicepValue.defineProperty(this, "actionsRequired", new String[] { "temp", "actionsRequired" }, null);
+        description = BicepValue.defineProperty(this, "description", new String[] { "temp", "description" }, null);
+        status = BicepValue.defineProperty(this, "status", new String[] { "temp", "status" }, null);
     }
 
-    public BicepValue<ConnectionStatus> getStatus() {
-        return this.status;
+    public BicepValue<ActionsRequired> getActionsRequired() {
+        return this.actionsRequired;
     }
 
-    public PrivateLinkServiceConnectionState setStatus(BicepValue<ConnectionStatus> status) {
-        this.status.assign(status);
+    public PrivateLinkServiceConnectionState setActionsRequired(BicepValue<ActionsRequired> actionsRequired) {
+        this.actionsRequired.assign(actionsRequired);
         return this;
     }
     public BicepValue<String> getDescription() {
@@ -36,12 +36,12 @@ public class PrivateLinkServiceConnectionState extends ProvisioningConstruct {
         this.description.assign(description);
         return this;
     }
-    public BicepValue<ActionsRequired> getActionsRequired() {
-        return this.actionsRequired;
+    public BicepValue<ConnectionStatus> getStatus() {
+        return this.status;
     }
 
-    public PrivateLinkServiceConnectionState setActionsRequired(BicepValue<ActionsRequired> actionsRequired) {
-        this.actionsRequired.assign(actionsRequired);
+    public PrivateLinkServiceConnectionState setStatus(BicepValue<ConnectionStatus> status) {
+        this.status.assign(status);
         return this;
     }
 }

@@ -5,40 +5,32 @@ package com.azure.provisioning.storage.generated.models;
 
 import java.util.List;
 import com.azure.core.util.logging.ClientLogger;
-import com.azure.provisioning.storage.generated.models.TagFilter;
 import java.lang.String;
+import com.azure.provisioning.storage.generated.models.TagFilter;
 import com.azure.provisioning.BicepList;
 import com.azure.provisioning.BicepValue;
 import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class ManagementPolicyFilter extends ProvisioningConstruct {
 
-    private final BicepList<TagFilter> blobIndexMatch;
-    private final BicepList<String> prefixMatch;
-    private final BicepList<String> blobTypes;
     private final BicepValue<ClientLogger> lOGGER;
+    private final BicepList<String> blobTypes;
+    private final BicepList<String> prefixMatch;
+    private final BicepList<TagFilter> blobIndexMatch;
 
     public ManagementPolicyFilter() {
-        blobIndexMatch = BicepList.defineProperty(this, "blobIndexMatch", new String[] { "temp", "blobIndexMatch" }, false, false);
-        prefixMatch = BicepList.defineProperty(this, "prefixMatch", new String[] { "temp", "prefixMatch" }, false, false);
-        blobTypes = BicepList.defineProperty(this, "blobTypes", new String[] { "temp", "blobTypes" }, false, false);
         lOGGER = BicepValue.defineProperty(this, "lOGGER", new String[] { "temp", "lOGGER" }, null);
+        blobTypes = BicepList.defineProperty(this, "blobTypes", new String[] { "temp", "blobTypes" }, false, false);
+        prefixMatch = BicepList.defineProperty(this, "prefixMatch", new String[] { "temp", "prefixMatch" }, false, false);
+        blobIndexMatch = BicepList.defineProperty(this, "blobIndexMatch", new String[] { "temp", "blobIndexMatch" }, false, false);
     }
 
-    public BicepValue<List<TagFilter>> getBlobIndexMatch() {
-        return this.blobIndexMatch;
+    public BicepValue<ClientLogger> getLOGGER() {
+        return this.lOGGER;
     }
 
-    public ManagementPolicyFilter setBlobIndexMatch(BicepValue<List<TagFilter>> blobIndexMatch) {
-        this.blobIndexMatch.assign(blobIndexMatch);
-        return this;
-    }
-    public BicepValue<List<String>> getPrefixMatch() {
-        return this.prefixMatch;
-    }
-
-    public ManagementPolicyFilter setPrefixMatch(BicepValue<List<String>> prefixMatch) {
-        this.prefixMatch.assign(prefixMatch);
+    public ManagementPolicyFilter setLOGGER(BicepValue<ClientLogger> lOGGER) {
+        this.lOGGER.assign(lOGGER);
         return this;
     }
     public BicepValue<List<String>> getBlobTypes() {
@@ -49,12 +41,20 @@ public class ManagementPolicyFilter extends ProvisioningConstruct {
         this.blobTypes.assign(blobTypes);
         return this;
     }
-    public BicepValue<ClientLogger> getLOGGER() {
-        return this.lOGGER;
+    public BicepValue<List<String>> getPrefixMatch() {
+        return this.prefixMatch;
     }
 
-    public ManagementPolicyFilter setLOGGER(BicepValue<ClientLogger> lOGGER) {
-        this.lOGGER.assign(lOGGER);
+    public ManagementPolicyFilter setPrefixMatch(BicepValue<List<String>> prefixMatch) {
+        this.prefixMatch.assign(prefixMatch);
+        return this;
+    }
+    public BicepValue<List<TagFilter>> getBlobIndexMatch() {
+        return this.blobIndexMatch;
+    }
+
+    public ManagementPolicyFilter setBlobIndexMatch(BicepValue<List<TagFilter>> blobIndexMatch) {
+        this.blobIndexMatch.assign(blobIndexMatch);
         return this;
     }
 }

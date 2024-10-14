@@ -9,8 +9,8 @@ import com.azure.provisioning.tmp.ResourceType;
 
 public class StorageAccountResource extends Resource {
 
-    private final BicepValue<String> arg1;
     private final BicepValue<String> arg0;
+    private final BicepValue<String> arg1;
 
     public StorageAccountResource(String identifierName) {
         this(identifierName, null);
@@ -18,21 +18,8 @@ public class StorageAccountResource extends Resource {
 
     public StorageAccountResource(String identifierName, String resourceVersion) {
         super(identifierName, new ResourceType("Microsoft.Storage/storageAccounts"), resourceVersion);
-        arg1 = BicepValue.defineProperty(this, "arg1", new String[] { "temp", "arg1" }, false, false, false, null);
         arg0 = BicepValue.defineProperty(this, "arg0", new String[] { "temp", "arg0" }, false, false, false, null);
-    }
-
-    public BicepValue<String> getArg1() {
-        return this.arg1;
-    }
-
-    public StorageAccountResource setArg1(BicepValue<String> arg1) {
-        this.arg1.assign(arg1);
-        return this;
-    }
-
-    public StorageAccountResource setArg1(String arg1) {
-        return this.setArg1(BicepValue.from(arg1));
+        arg1 = BicepValue.defineProperty(this, "arg1", new String[] { "temp", "arg1" }, false, false, false, null);
     }
 
     public BicepValue<String> getArg0() {
@@ -46,6 +33,19 @@ public class StorageAccountResource extends Resource {
 
     public StorageAccountResource setArg0(String arg0) {
         return this.setArg0(BicepValue.from(arg0));
+    }
+
+    public BicepValue<String> getArg1() {
+        return this.arg1;
+    }
+
+    public StorageAccountResource setArg1(BicepValue<String> arg1) {
+        this.arg1.assign(arg1);
+        return this;
+    }
+
+    public StorageAccountResource setArg1(String arg1) {
+        return this.setArg1(BicepValue.from(arg1));
     }
 
 

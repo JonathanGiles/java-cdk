@@ -11,13 +11,13 @@ import com.azure.provisioning.tmp.ResourceType;
 
 public class BlobInventoryPolicyResource extends Resource {
 
-    private final BicepValue<OffsetDateTime> lastModifiedTime;
-    private final BicepValue<String> arg1;
-    private final BicepValue<String> name;
+    private final BicepValue<String> id;
     private final BicepValue<String> type;
     private final BicepValue<String> arg0;
+    private final BicepValue<String> arg1;
+    private final BicepValue<String> name;
     private final BicepValue<BlobInventoryPolicySchema> policy;
-    private final BicepValue<String> id;
+    private final BicepValue<OffsetDateTime> lastModifiedTime;
 
     public BlobInventoryPolicyResource(String identifierName) {
         this(identifierName, null);
@@ -25,52 +25,26 @@ public class BlobInventoryPolicyResource extends Resource {
 
     public BlobInventoryPolicyResource(String identifierName, String resourceVersion) {
         super(identifierName, new ResourceType("Microsoft.Storage/storageAccounts/inventoryPolicies"), resourceVersion);
-        lastModifiedTime = BicepValue.defineProperty(this, "lastModifiedTime", new String[] { "temp", "lastModifiedTime" }, false, false, false, null);
-        arg1 = BicepValue.defineProperty(this, "arg1", new String[] { "temp", "arg1" }, false, false, false, null);
-        name = BicepValue.defineProperty(this, "name", new String[] { "temp", "name" }, false, false, false, null);
+        id = BicepValue.defineProperty(this, "id", new String[] { "temp", "id" }, false, false, false, null);
         type = BicepValue.defineProperty(this, "type", new String[] { "temp", "type" }, false, false, false, null);
         arg0 = BicepValue.defineProperty(this, "arg0", new String[] { "temp", "arg0" }, false, false, false, null);
+        arg1 = BicepValue.defineProperty(this, "arg1", new String[] { "temp", "arg1" }, false, false, false, null);
+        name = BicepValue.defineProperty(this, "name", new String[] { "temp", "name" }, false, false, false, null);
         policy = BicepValue.defineProperty(this, "policy", new String[] { "temp", "policy" }, false, false, false, null);
-        id = BicepValue.defineProperty(this, "id", new String[] { "temp", "id" }, false, false, false, null);
+        lastModifiedTime = BicepValue.defineProperty(this, "lastModifiedTime", new String[] { "temp", "lastModifiedTime" }, false, false, false, null);
     }
 
-    public BicepValue<OffsetDateTime> getLastModifiedTime() {
-        return this.lastModifiedTime;
+    public BicepValue<String> getId() {
+        return this.id;
     }
 
-    public BlobInventoryPolicyResource setLastModifiedTime(BicepValue<OffsetDateTime> lastModifiedTime) {
-        this.lastModifiedTime.assign(lastModifiedTime);
+    public BlobInventoryPolicyResource setId(BicepValue<String> id) {
+        this.id.assign(id);
         return this;
     }
 
-    public BlobInventoryPolicyResource setLastModifiedTime(OffsetDateTime lastModifiedTime) {
-        return this.setLastModifiedTime(BicepValue.from(lastModifiedTime));
-    }
-
-    public BicepValue<String> getArg1() {
-        return this.arg1;
-    }
-
-    public BlobInventoryPolicyResource setArg1(BicepValue<String> arg1) {
-        this.arg1.assign(arg1);
-        return this;
-    }
-
-    public BlobInventoryPolicyResource setArg1(String arg1) {
-        return this.setArg1(BicepValue.from(arg1));
-    }
-
-    public BicepValue<String> getName() {
-        return this.name;
-    }
-
-    public BlobInventoryPolicyResource setName(BicepValue<String> name) {
-        this.name.assign(name);
-        return this;
-    }
-
-    public BlobInventoryPolicyResource setName(String name) {
-        return this.setName(BicepValue.from(name));
+    public BlobInventoryPolicyResource setId(String id) {
+        return this.setId(BicepValue.from(id));
     }
 
     public BicepValue<String> getType() {
@@ -99,6 +73,32 @@ public class BlobInventoryPolicyResource extends Resource {
         return this.setArg0(BicepValue.from(arg0));
     }
 
+    public BicepValue<String> getArg1() {
+        return this.arg1;
+    }
+
+    public BlobInventoryPolicyResource setArg1(BicepValue<String> arg1) {
+        this.arg1.assign(arg1);
+        return this;
+    }
+
+    public BlobInventoryPolicyResource setArg1(String arg1) {
+        return this.setArg1(BicepValue.from(arg1));
+    }
+
+    public BicepValue<String> getName() {
+        return this.name;
+    }
+
+    public BlobInventoryPolicyResource setName(BicepValue<String> name) {
+        this.name.assign(name);
+        return this;
+    }
+
+    public BlobInventoryPolicyResource setName(String name) {
+        return this.setName(BicepValue.from(name));
+    }
+
     public BicepValue<BlobInventoryPolicySchema> getPolicy() {
         return this.policy;
     }
@@ -112,17 +112,17 @@ public class BlobInventoryPolicyResource extends Resource {
         return this.setPolicy(BicepValue.from(policy));
     }
 
-    public BicepValue<String> getId() {
-        return this.id;
+    public BicepValue<OffsetDateTime> getLastModifiedTime() {
+        return this.lastModifiedTime;
     }
 
-    public BlobInventoryPolicyResource setId(BicepValue<String> id) {
-        this.id.assign(id);
+    public BlobInventoryPolicyResource setLastModifiedTime(BicepValue<OffsetDateTime> lastModifiedTime) {
+        this.lastModifiedTime.assign(lastModifiedTime);
         return this;
     }
 
-    public BlobInventoryPolicyResource setId(String id) {
-        return this.setId(BicepValue.from(id));
+    public BlobInventoryPolicyResource setLastModifiedTime(OffsetDateTime lastModifiedTime) {
+        return this.setLastModifiedTime(BicepValue.from(lastModifiedTime));
     }
 
 }

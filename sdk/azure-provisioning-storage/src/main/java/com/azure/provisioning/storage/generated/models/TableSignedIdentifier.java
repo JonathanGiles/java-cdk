@@ -10,22 +10,22 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class TableSignedIdentifier extends ProvisioningConstruct {
 
-    private final BicepValue<TableAccessPolicy> accessPolicy;
-    private final BicepValue<String> id;
     private final BicepValue<ClientLogger> lOGGER;
+    private final BicepValue<String> id;
+    private final BicepValue<TableAccessPolicy> accessPolicy;
 
     public TableSignedIdentifier() {
-        accessPolicy = BicepValue.defineProperty(this, "accessPolicy", new String[] { "temp", "accessPolicy" }, null);
-        id = BicepValue.defineProperty(this, "id", new String[] { "temp", "id" }, null);
         lOGGER = BicepValue.defineProperty(this, "lOGGER", new String[] { "temp", "lOGGER" }, null);
+        id = BicepValue.defineProperty(this, "id", new String[] { "temp", "id" }, null);
+        accessPolicy = BicepValue.defineProperty(this, "accessPolicy", new String[] { "temp", "accessPolicy" }, null);
     }
 
-    public BicepValue<TableAccessPolicy> getAccessPolicy() {
-        return this.accessPolicy;
+    public BicepValue<ClientLogger> getLOGGER() {
+        return this.lOGGER;
     }
 
-    public TableSignedIdentifier setAccessPolicy(BicepValue<TableAccessPolicy> accessPolicy) {
-        this.accessPolicy.assign(accessPolicy);
+    public TableSignedIdentifier setLOGGER(BicepValue<ClientLogger> lOGGER) {
+        this.lOGGER.assign(lOGGER);
         return this;
     }
     public BicepValue<String> getId() {
@@ -36,12 +36,12 @@ public class TableSignedIdentifier extends ProvisioningConstruct {
         this.id.assign(id);
         return this;
     }
-    public BicepValue<ClientLogger> getLOGGER() {
-        return this.lOGGER;
+    public BicepValue<TableAccessPolicy> getAccessPolicy() {
+        return this.accessPolicy;
     }
 
-    public TableSignedIdentifier setLOGGER(BicepValue<ClientLogger> lOGGER) {
-        this.lOGGER.assign(lOGGER);
+    public TableSignedIdentifier setAccessPolicy(BicepValue<TableAccessPolicy> accessPolicy) {
+        this.accessPolicy.assign(accessPolicy);
         return this;
     }
 }

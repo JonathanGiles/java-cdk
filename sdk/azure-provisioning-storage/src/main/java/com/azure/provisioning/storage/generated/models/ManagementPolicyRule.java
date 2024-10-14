@@ -11,34 +11,34 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class ManagementPolicyRule extends ProvisioningConstruct {
 
+    private final BicepValue<ClientLogger> lOGGER;
     private final BicepValue<ManagementPolicyDefinition> definition;
-    private final BicepValue<String> name;
     private final BicepValue<RuleType> type;
     private final BicepValue<Boolean> enabled;
-    private final BicepValue<ClientLogger> lOGGER;
+    private final BicepValue<String> name;
 
     public ManagementPolicyRule() {
+        lOGGER = BicepValue.defineProperty(this, "lOGGER", new String[] { "temp", "lOGGER" }, null);
         definition = BicepValue.defineProperty(this, "definition", new String[] { "temp", "definition" }, null);
-        name = BicepValue.defineProperty(this, "name", new String[] { "temp", "name" }, null);
         type = BicepValue.defineProperty(this, "type", new String[] { "temp", "type" }, null);
         enabled = BicepValue.defineProperty(this, "enabled", new String[] { "temp", "enabled" }, null);
-        lOGGER = BicepValue.defineProperty(this, "lOGGER", new String[] { "temp", "lOGGER" }, null);
+        name = BicepValue.defineProperty(this, "name", new String[] { "temp", "name" }, null);
     }
 
+    public BicepValue<ClientLogger> getLOGGER() {
+        return this.lOGGER;
+    }
+
+    public ManagementPolicyRule setLOGGER(BicepValue<ClientLogger> lOGGER) {
+        this.lOGGER.assign(lOGGER);
+        return this;
+    }
     public BicepValue<ManagementPolicyDefinition> getDefinition() {
         return this.definition;
     }
 
     public ManagementPolicyRule setDefinition(BicepValue<ManagementPolicyDefinition> definition) {
         this.definition.assign(definition);
-        return this;
-    }
-    public BicepValue<String> getName() {
-        return this.name;
-    }
-
-    public ManagementPolicyRule setName(BicepValue<String> name) {
-        this.name.assign(name);
         return this;
     }
     public BicepValue<RuleType> getType() {
@@ -57,12 +57,12 @@ public class ManagementPolicyRule extends ProvisioningConstruct {
         this.enabled.assign(enabled);
         return this;
     }
-    public BicepValue<ClientLogger> getLOGGER() {
-        return this.lOGGER;
+    public BicepValue<String> getName() {
+        return this.name;
     }
 
-    public ManagementPolicyRule setLOGGER(BicepValue<ClientLogger> lOGGER) {
-        this.lOGGER.assign(lOGGER);
+    public ManagementPolicyRule setName(BicepValue<String> name) {
+        this.name.assign(name);
         return this;
     }
 }

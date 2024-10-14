@@ -12,30 +12,30 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class LegalHoldProperties extends ProvisioningConstruct {
 
-    private final BicepList<TagProperty> tags;
     private final BicepValue<ProtectedAppendWritesHistory> protectedAppendWritesHistory;
+    private final BicepList<TagProperty> tags;
     private final BicepValue<Boolean> hasLegalHold;
 
     public LegalHoldProperties() {
-        tags = BicepList.defineProperty(this, "tags", new String[] { "temp", "tags" }, false, false);
         protectedAppendWritesHistory = BicepValue.defineProperty(this, "protectedAppendWritesHistory", new String[] { "temp", "protectedAppendWritesHistory" }, null);
+        tags = BicepList.defineProperty(this, "tags", new String[] { "temp", "tags" }, false, false);
         hasLegalHold = BicepValue.defineProperty(this, "hasLegalHold", new String[] { "temp", "hasLegalHold" }, null);
     }
 
-    public BicepValue<List<TagProperty>> getTags() {
-        return this.tags;
-    }
-
-    public LegalHoldProperties setTags(BicepValue<List<TagProperty>> tags) {
-        this.tags.assign(tags);
-        return this;
-    }
     public BicepValue<ProtectedAppendWritesHistory> getProtectedAppendWritesHistory() {
         return this.protectedAppendWritesHistory;
     }
 
     public LegalHoldProperties setProtectedAppendWritesHistory(BicepValue<ProtectedAppendWritesHistory> protectedAppendWritesHistory) {
         this.protectedAppendWritesHistory.assign(protectedAppendWritesHistory);
+        return this;
+    }
+    public BicepValue<List<TagProperty>> getTags() {
+        return this.tags;
+    }
+
+    public LegalHoldProperties setTags(BicepValue<List<TagProperty>> tags) {
+        this.tags.assign(tags);
         return this;
     }
     public BicepValue<Boolean> getHasLegalHold() {

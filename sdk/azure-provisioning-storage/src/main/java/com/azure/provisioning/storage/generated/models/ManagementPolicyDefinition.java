@@ -11,22 +11,22 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class ManagementPolicyDefinition extends ProvisioningConstruct {
 
-    private final BicepValue<ManagementPolicyFilter> filters;
-    private final BicepValue<ManagementPolicyAction> actions;
     private final BicepValue<ClientLogger> lOGGER;
+    private final BicepValue<ManagementPolicyAction> actions;
+    private final BicepValue<ManagementPolicyFilter> filters;
 
     public ManagementPolicyDefinition() {
-        filters = BicepValue.defineProperty(this, "filters", new String[] { "temp", "filters" }, null);
-        actions = BicepValue.defineProperty(this, "actions", new String[] { "temp", "actions" }, null);
         lOGGER = BicepValue.defineProperty(this, "lOGGER", new String[] { "temp", "lOGGER" }, null);
+        actions = BicepValue.defineProperty(this, "actions", new String[] { "temp", "actions" }, null);
+        filters = BicepValue.defineProperty(this, "filters", new String[] { "temp", "filters" }, null);
     }
 
-    public BicepValue<ManagementPolicyFilter> getFilters() {
-        return this.filters;
+    public BicepValue<ClientLogger> getLOGGER() {
+        return this.lOGGER;
     }
 
-    public ManagementPolicyDefinition setFilters(BicepValue<ManagementPolicyFilter> filters) {
-        this.filters.assign(filters);
+    public ManagementPolicyDefinition setLOGGER(BicepValue<ClientLogger> lOGGER) {
+        this.lOGGER.assign(lOGGER);
         return this;
     }
     public BicepValue<ManagementPolicyAction> getActions() {
@@ -37,12 +37,12 @@ public class ManagementPolicyDefinition extends ProvisioningConstruct {
         this.actions.assign(actions);
         return this;
     }
-    public BicepValue<ClientLogger> getLOGGER() {
-        return this.lOGGER;
+    public BicepValue<ManagementPolicyFilter> getFilters() {
+        return this.filters;
     }
 
-    public ManagementPolicyDefinition setLOGGER(BicepValue<ClientLogger> lOGGER) {
-        this.lOGGER.assign(lOGGER);
+    public ManagementPolicyDefinition setFilters(BicepValue<ManagementPolicyFilter> filters) {
+        this.filters.assign(filters);
         return this;
     }
 }

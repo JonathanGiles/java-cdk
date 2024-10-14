@@ -16,22 +16,46 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class BlobInventoryPolicyDefinition extends ProvisioningConstruct {
 
+    private final BicepValue<Format> format;
+    private final BicepValue<ClientLogger> lOGGER;
+    private final BicepValue<ObjectType> objectType;
     private final BicepList<String> schemaFields;
     private final BicepValue<Schedule> schedule;
     private final BicepValue<BlobInventoryPolicyFilter> filters;
-    private final BicepValue<ObjectType> objectType;
-    private final BicepValue<Format> format;
-    private final BicepValue<ClientLogger> lOGGER;
 
     public BlobInventoryPolicyDefinition() {
+        format = BicepValue.defineProperty(this, "format", new String[] { "temp", "format" }, null);
+        lOGGER = BicepValue.defineProperty(this, "lOGGER", new String[] { "temp", "lOGGER" }, null);
+        objectType = BicepValue.defineProperty(this, "objectType", new String[] { "temp", "objectType" }, null);
         schemaFields = BicepList.defineProperty(this, "schemaFields", new String[] { "temp", "schemaFields" }, false, false);
         schedule = BicepValue.defineProperty(this, "schedule", new String[] { "temp", "schedule" }, null);
         filters = BicepValue.defineProperty(this, "filters", new String[] { "temp", "filters" }, null);
-        objectType = BicepValue.defineProperty(this, "objectType", new String[] { "temp", "objectType" }, null);
-        format = BicepValue.defineProperty(this, "format", new String[] { "temp", "format" }, null);
-        lOGGER = BicepValue.defineProperty(this, "lOGGER", new String[] { "temp", "lOGGER" }, null);
     }
 
+    public BicepValue<Format> getFormat() {
+        return this.format;
+    }
+
+    public BlobInventoryPolicyDefinition setFormat(BicepValue<Format> format) {
+        this.format.assign(format);
+        return this;
+    }
+    public BicepValue<ClientLogger> getLOGGER() {
+        return this.lOGGER;
+    }
+
+    public BlobInventoryPolicyDefinition setLOGGER(BicepValue<ClientLogger> lOGGER) {
+        this.lOGGER.assign(lOGGER);
+        return this;
+    }
+    public BicepValue<ObjectType> getObjectType() {
+        return this.objectType;
+    }
+
+    public BlobInventoryPolicyDefinition setObjectType(BicepValue<ObjectType> objectType) {
+        this.objectType.assign(objectType);
+        return this;
+    }
     public BicepValue<List<String>> getSchemaFields() {
         return this.schemaFields;
     }
@@ -54,30 +78,6 @@ public class BlobInventoryPolicyDefinition extends ProvisioningConstruct {
 
     public BlobInventoryPolicyDefinition setFilters(BicepValue<BlobInventoryPolicyFilter> filters) {
         this.filters.assign(filters);
-        return this;
-    }
-    public BicepValue<ObjectType> getObjectType() {
-        return this.objectType;
-    }
-
-    public BlobInventoryPolicyDefinition setObjectType(BicepValue<ObjectType> objectType) {
-        this.objectType.assign(objectType);
-        return this;
-    }
-    public BicepValue<Format> getFormat() {
-        return this.format;
-    }
-
-    public BlobInventoryPolicyDefinition setFormat(BicepValue<Format> format) {
-        this.format.assign(format);
-        return this;
-    }
-    public BicepValue<ClientLogger> getLOGGER() {
-        return this.lOGGER;
-    }
-
-    public BlobInventoryPolicyDefinition setLOGGER(BicepValue<ClientLogger> lOGGER) {
-        this.lOGGER.assign(lOGGER);
         return this;
     }
 }

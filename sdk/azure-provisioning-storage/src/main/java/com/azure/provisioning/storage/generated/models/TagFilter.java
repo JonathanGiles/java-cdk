@@ -9,24 +9,24 @@ import com.azure.provisioning.primitives.ProvisioningConstruct;
 
 public class TagFilter extends ProvisioningConstruct {
 
-    private final BicepValue<String> name;
+    private final BicepValue<ClientLogger> lOGGER;
     private final BicepValue<String> op;
     private final BicepValue<String> value;
-    private final BicepValue<ClientLogger> lOGGER;
+    private final BicepValue<String> name;
 
     public TagFilter() {
-        name = BicepValue.defineProperty(this, "name", new String[] { "temp", "name" }, null);
+        lOGGER = BicepValue.defineProperty(this, "lOGGER", new String[] { "temp", "lOGGER" }, null);
         op = BicepValue.defineProperty(this, "op", new String[] { "temp", "op" }, null);
         value = BicepValue.defineProperty(this, "value", new String[] { "temp", "value" }, null);
-        lOGGER = BicepValue.defineProperty(this, "lOGGER", new String[] { "temp", "lOGGER" }, null);
+        name = BicepValue.defineProperty(this, "name", new String[] { "temp", "name" }, null);
     }
 
-    public BicepValue<String> getName() {
-        return this.name;
+    public BicepValue<ClientLogger> getLOGGER() {
+        return this.lOGGER;
     }
 
-    public TagFilter setName(BicepValue<String> name) {
-        this.name.assign(name);
+    public TagFilter setLOGGER(BicepValue<ClientLogger> lOGGER) {
+        this.lOGGER.assign(lOGGER);
         return this;
     }
     public BicepValue<String> getOp() {
@@ -45,12 +45,12 @@ public class TagFilter extends ProvisioningConstruct {
         this.value.assign(value);
         return this;
     }
-    public BicepValue<ClientLogger> getLOGGER() {
-        return this.lOGGER;
+    public BicepValue<String> getName() {
+        return this.name;
     }
 
-    public TagFilter setLOGGER(BicepValue<ClientLogger> lOGGER) {
-        this.lOGGER.assign(lOGGER);
+    public TagFilter setName(BicepValue<String> name) {
+        this.name.assign(name);
         return this;
     }
 }
