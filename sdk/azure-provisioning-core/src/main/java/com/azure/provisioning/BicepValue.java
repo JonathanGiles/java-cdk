@@ -117,7 +117,11 @@ public class BicepValue<T> extends BicepValueBase {
             throw new IllegalArgumentException("Value cannot be null.");
         }
 
-        if (value instanceof BicepValue) {
+        if (value instanceof Expression<?>) {
+            return from((Expression<?>) value);
+        } else if (value instanceof ProvisioningVariable) {
+            return from((ProvisioningVariable) value);
+        } else if (value instanceof BicepValue) {
             BicepValue<?> e = (BicepValue<?>) value;
             if (e.getKind() == BicepValueKind.EXPRESSION) {
                 BicepValue result = new BicepValue<>(e.getSelf(), e.getExpression());
@@ -142,25 +146,29 @@ public class BicepValue<T> extends BicepValueBase {
         return new BicepValue<>(value);
     }
 
-//    /**
-//     * Implicitly converts an expression to a BicepValue.
-//     *
-//     * @param expression the expression to convert
-//     * @return the BicepValue
-//     */
-//    public static <T> BicepValue<T> from(Expression expression) {
-//        return new BicepValue<>(expression);
-//    }
+    /**
+     * Implicitly converts an expression to a BicepValue.
+     *
+     * @param expression the expression to convert
+     * @return the BicepValue
+     */
+    public static <T> BicepValue<T> from(Expression expression) {
+        return new BicepValue<>(expression);
+    }
 
-//    /**
-//     * Implicitly converts a BicepVariable to a BicepValue.
-//     *
-//     * @param reference the BicepVariable to convert
-//     * @return the BicepValue
-//     */
-//    public static <T> BicepValue<T> from(ProvisioningVariable reference) {
-//        return new BicepValue<>(new BicepValueReference(reference, "<value>"), BicepSyntax.var(reference.getIdentifierName()));
-//    }
+    /**
+     * Implicitly converts a BicepVariable to a BicepValue.
+     *
+     * @param reference the BicepVariable to convert
+     * @return the BicepValue
+     */
+    public static <T> BicepValue<T> from(ProvisioningVariable reference) {
+        BicepValue<T> result = new BicepValue<>(new BicepValueReference(reference, "<value>"), BicepSyntax.var(reference.getIdentifierName()));
+        if (reference instanceof ProvisioningParameter) {
+            result.setSecure(((ProvisioningParameter) reference).isSecure());
+        }
+        return result;
+    }
 
 //    /**
 //     * Special case conversions to string for things like Uri, AzureLocation, etc.

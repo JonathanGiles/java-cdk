@@ -91,13 +91,6 @@ public class BicepTypeMapping {
         if (value instanceof Map) return toObject((Map<String, BicepValueBase>) value);
         if (value instanceof Iterable) return toArray((Iterable<Object>) value);
 //        if (value instanceof ValueType) return BicepSyntax.value(toLiteralString(value));
-//        if (value instanceof BicepDictionary<?>) {
-//            BicepDictionary<?> dict = (BicepDictionary<?>) value;
-//            if (dict.isEmpty()) return BicepSyntax.nullValue();
-////            return BicepSyntax.objectExpression(dict.values().entrySet().stream()
-////                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> toBicep(entry.getValue()))));
-//            return dict.getKind() == BicepValueKind.EXPRESSION ? dict.getExpression() : toObject(dict.getLiteralValue());
-//        }
         if (value instanceof BicepValueBase) {
             BicepValueBase bicepValue = (BicepValueBase) value;
             if (bicepValue.getKind() == BicepValueKind.EXPRESSION) return bicepValue.getExpression();

@@ -60,9 +60,7 @@ public class BicepFunction {
     }
 
     public static BicepValue<String> asString(BicepValue<Object> value) {
-        BicepSyntax.call("string", value.compile());
-        return null;
-//        return BicepValue.from(BicepSyntax.call("string", value.compile()));
+        return BicepValue.from(BicepSyntax.call("string", value.compile()));
     }
 //
 //    public static BicepValue<String> toLower(BicepValue<Object> value) {

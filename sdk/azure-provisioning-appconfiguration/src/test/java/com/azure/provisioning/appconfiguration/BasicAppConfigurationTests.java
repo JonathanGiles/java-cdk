@@ -109,7 +109,7 @@ public class BasicAppConfigurationTests { // extends ProvisioningTestBase {
 //        featureFlag.setParent(configStore); // FIXME Parent is missing
 //        featureFlag.setResourceGroupName(BicepFunction.interpolate(".appconfig.featureflag~2F{featureFlagKey}").getValue()); // FIXME need interpolation, should output `name: '.appconfig.featureflag~2F${featureFlagKey}'`
         featureFlag.setContentType("application/vnd.microsoft.appconfig.ff+json;charset=utf-8");
-//        featureFlag.setValue(BicepFunction.asString(flag));
+        featureFlag.setValue(BicepFunction.asString(flag));
         infra.add(featureFlag);
 
         ProvisioningPlan plan = infra.build();
