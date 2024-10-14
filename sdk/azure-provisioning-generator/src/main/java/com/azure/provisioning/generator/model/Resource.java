@@ -144,8 +144,7 @@ public class Resource extends TypeModel {
                     writer.writeLine("import " + packageImport + ";");
                 });
         writer.writeLine("import com.azure.provisioning.BicepValue;");
-        writer.writeLine("import com.azure.provisioning.BicepList;");
-        writer.writeLine("import com.azure.provisioning.BicepDictionary;");
+
         writer.writeLine("import com.azure.provisioning.primitives.Resource;");
         writer.writeLine("import com.azure.provisioning.tmp.ResourceType;"); // FIXME temporary type being used
 

@@ -4,12 +4,11 @@
 package com.azure.provisioning.generator.model;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 public abstract class TypeModel extends ModelBase {
-    private List<Property> properties;
+    private Set<Property> properties;
     private TypeModel baseType;
     private String discriminatorName;
     private String discriminatorValue;
@@ -19,7 +18,7 @@ public abstract class TypeModel extends ModelBase {
     protected TypeModel(Specification spec, Type armType, String name, String ns, String description) {
         super(name, ns, armType, description);
         this.spec = spec;
-        this.properties = new ArrayList<>();
+        this.properties = new HashSet<>();
         this.baseType = null;
         this.discriminatorName = null;
         this.discriminatorValue = null;
@@ -46,11 +45,11 @@ public abstract class TypeModel extends ModelBase {
     }
 
     // Getters and setters for properties
-    public List<Property> getProperties() {
+    public Set<Property> getProperties() {
         return properties;
     }
 
-    public void setProperties(List<Property> properties) {
+    public void setProperties(Set<Property> properties) {
         this.properties = properties;
     }
 

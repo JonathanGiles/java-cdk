@@ -196,4 +196,21 @@ public class Property {
     public String toString() {
         return "<Property " + (parent != null ? parent.getSpec().getName() : "") + "::" + (parent != null ? parent.getName() : "") + "." + name + " : " + (propertyType != null ? propertyType.getName() : "") + ">";
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.name, this.propertyType);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof Property) {
+            Property that = (Property) obj;
+            return Objects.equals(this.name, that.getName()) && Objects.equals(this.propertyType, that.getPropertyType());
+        }
+        return false;
+    }
 }

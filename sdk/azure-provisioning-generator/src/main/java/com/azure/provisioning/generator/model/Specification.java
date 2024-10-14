@@ -160,14 +160,19 @@ public abstract class Specification extends ModelBase {
         this.resources.forEach(resource -> {
             this.modelNameMapping.put(resource.getName(), resource);
             this.modelArmTypeMapping.put(resource.getArmType(), resource);
-            resource.setProvisioningPackage(this.getProvisioningPackage());
+            resource.setProvisioningPackage(this.getProvisioningPackage() + ".generated");
 
             Field type = null;
             try {
                 type = getType(resource);
                 if (type != null) {
                     resource.setResourceType(type.getName());
-                    resource.setResourceNamespace(ResourceNamespaceMapper.getNamespace(resource.getArmType()));
+                    String namespace = ResourceNamespaceMapper.getNamespace(resource.getArmType());
+                    if (namespace == null) {
+                        System.out.println("Cannot find namespace for " + resource.getArmType());
+                        return;
+                    }
+                    resource.setResourceNamespace(namespace);
                 }
             } catch (NoSuchFieldException e) {
                 // do nothing - the field doesn't exist
@@ -180,19 +185,21 @@ public abstract class Specification extends ModelBase {
                 .getByName(this.providerName)
                 .resourceTypes()
                 .forEach(resourceType -> {
-                    this.resources.forEach(resource -> {
-                        if (resource.getResourceNamespace().equals(providerName + "/" + resourceType.resourceType())) {
-                            List<String> stableVersions = resourceType.apiVersions()
-                                    .stream()
-                                    .filter(apiVersion -> !apiVersion.contains("preview"))
-                                    .collect(Collectors.toUnmodifiableList());
-                            resource.setResourceVersions(stableVersions);
-                            if (stableVersions.isEmpty()) {
-                                resource.setResourceVersions(List.of(resourceType.apiVersions().stream().sorted().collect(Collectors.toList()).getLast()));
-                            }
-                            resource.setDefaultResourceVersion(resource.getResourceVersions().getLast());
-                        }
-                    });
+                    this.resources.stream()
+                            .filter(resource -> resource.getResourceNamespace() != null)
+                            .forEach(resource -> {
+                                if (resource.getResourceNamespace().equals(providerName + "/" + resourceType.resourceType())) {
+                                    List<String> stableVersions = resourceType.apiVersions()
+                                            .stream()
+                                            .filter(apiVersion -> !apiVersion.contains("preview"))
+                                            .collect(Collectors.toUnmodifiableList());
+                                    resource.setResourceVersions(stableVersions);
+                                    if (stableVersions.isEmpty()) {
+                                        resource.setResourceVersions(List.of(resourceType.apiVersions().stream().sorted().collect(Collectors.toList()).getLast()));
+                                    }
+                                    resource.setDefaultResourceVersion(resource.getResourceVersions().getLast());
+                                }
+                            });
                 });
     }
 
@@ -212,8 +219,8 @@ public abstract class Specification extends ModelBase {
         return null;
     }
 
-    private List<Property> findProperties(Resource resource, Method creatorMethod, Field field) {
-        List<Property> properties = new ArrayList<>();
+    private Set<Property> findProperties(Resource resource, Method creatorMethod, Field field) {
+        Set<Property> properties = new HashSet<>();
         Arrays.stream(creatorMethod.getParameters())
                 .forEach(param -> {
                     if (param.getType().equals(Context.class)) {
@@ -231,8 +238,8 @@ public abstract class Specification extends ModelBase {
         return properties;
     }
 
-    private List<Property> getPropertiesFromResource(Resource resource, Parameter param) {
-        List<Property> properties = new ArrayList<>();
+    private Set<Property> getPropertiesFromResource(Resource resource, Parameter param) {
+        Set<Property> properties = new HashSet<>();
         Class<?> currentType = param.getType();
 
         while (currentType != ProxyResource.class) {
@@ -252,8 +259,8 @@ public abstract class Specification extends ModelBase {
         return properties;
     }
 
-    private List<Property> getPropertiesFromModel(Resource resource, Field field) {
-        List<Property> properties = new ArrayList<>();
+    private Set<Property> getPropertiesFromModel(Resource resource, Field field) {
+        Set<Property> properties = new HashSet<>();
 
         Arrays.stream(field.getType().getDeclaredFields())
                 .filter(f -> f.getType() != ClientLogger.class)
@@ -263,7 +270,7 @@ public abstract class Specification extends ModelBase {
         return properties;
     }
 
-    private void handleField(Resource resource, Field f, List<Property> properties) {
+    private void handleField(Resource resource, Field f, Set<Property> properties) {
         if (ReflectionUtils.isSimpleType(f.getType())) {
             Property property = new Property(resource, getOrCreateModelType(f.getType(), resource), f, null);
 //                        property.setRequired(true);
@@ -307,13 +314,13 @@ public abstract class Specification extends ModelBase {
         if (classType.getPackageName().startsWith("com.azure.resourcemanager")) {
             if (ReflectionUtils.isEnumType(classType)) {
                 List<String> enumValues = ReflectionUtils.getEnumValues(classType);
-                EnumModel enumModel = new EnumModel(classType.getSimpleName(), this.getProvisioningPackage() + ".models", enumValues);
+                EnumModel enumModel = new EnumModel(classType.getSimpleName(), this.getProvisioningPackage() + ".generated.models", enumValues);
                 enumModel.setSpec(this);
                 modelNameMapping.putIfAbsent(classType.getName(), enumModel);
                 return enumModel;
             }
 
-            SimpleModel simpleModel = new SimpleModel(this, classType, classType.getSimpleName(), this.getProvisioningPackage() + ".models", null);
+            SimpleModel simpleModel = new SimpleModel(this, classType, classType.getSimpleName(), this.getProvisioningPackage() + ".generated.models", null);
             simpleModel.setProperties(getPropertiesFromModel(resource, classType));
             modelNameMapping.putIfAbsent(classType.getName(), simpleModel);
             return simpleModel;
@@ -324,8 +331,8 @@ public abstract class Specification extends ModelBase {
         return externalModel;
     }
 
-    private List<Property> getPropertiesFromModel(Resource resource, Class<?> type) {
-        List<Property> properties = new ArrayList<>();
+    private Set<Property> getPropertiesFromModel(Resource resource, Class<?> type) {
+        Set<Property> properties = new HashSet<>();
         Arrays.stream(type.getDeclaredFields())
                 .forEach(f -> {
                     handleField(resource, f, properties);

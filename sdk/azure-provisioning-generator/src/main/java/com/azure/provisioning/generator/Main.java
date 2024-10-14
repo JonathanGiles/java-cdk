@@ -2,7 +2,9 @@ package com.azure.provisioning.generator;
 
 import com.azure.provisioning.generator.model.Specification;
 import com.azure.provisioning.generator.specifications.AppConfigurationSpecification;
+import com.azure.provisioning.generator.specifications.StorageSpecification;
 import com.azure.resourcemanager.appconfiguration.AppConfigurationManager;
+import com.azure.resourcemanager.storage.StorageManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,6 +23,9 @@ public class Main {
                 .add(new AppConfigurationSpecification("AppConfiguration",
                         "com.azure.provisioning.appconfiguration", AppConfigurationManager.class, null,
                         "Microsoft.AppConfiguration", List.of()));
+        main.specifications
+                .add(new StorageSpecification("Storage", "com.azure.provisioning.storage", StorageManager.class, null, "Microsoft.Storage"));
+
         main.generate();
     }
 

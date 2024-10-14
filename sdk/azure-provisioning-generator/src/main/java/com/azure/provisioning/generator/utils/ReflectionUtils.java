@@ -80,7 +80,7 @@ public class ReflectionUtils {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public static Set<String> getImportPackages(List<Property> properties) {
+    public static Set<String> getImportPackages(Set<Property> properties) {
         return properties.stream()
                 .filter(property -> !property.getPropertyType().getProvisioningPackage().equals("java.lang"))
                 .flatMap(property -> {
@@ -88,11 +88,13 @@ public class ReflectionUtils {
                     if (property.getPropertyType() instanceof ListModel) {
                         imports.add(List.class.getPackageName() + ".List");
                         imports.add(((ListModel) property.getPropertyType()).getElementType().getProvisioningPackage() + "." + ((ListModel) property.getPropertyType()).getElementType().getName());
+                        imports.add("com.azure.provisioning.BicepList");
                         return imports.stream();
                     }
                     if (property.getPropertyType() instanceof DictionaryModel) {
                         imports.add(Map.class.getPackageName() + ".Map");
                         imports.add(((DictionaryModel) property.getPropertyType()).getElementType().getProvisioningPackage() + "." + ((DictionaryModel) property.getPropertyType()).getElementType().getName());
+                        imports.add("com.azure.provisioning.BicepDictionary");
                         return imports.stream();
                     }
                     imports.add(property.getPropertyType().getProvisioningPackage() + "." + property.getPropertyType().getName());
