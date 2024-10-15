@@ -21,6 +21,7 @@ import com.azure.provisioning.tmp.ResourceType;
 public class BlobContainerResource extends Resource {
 
     private final BicepValue<Boolean> enableNfsV3AllSquash;
+    private final BicepValue<String> resourceGroupName;
     private final BicepValue<Boolean> hasLegalHold;
     private final BicepValue<Integer> remainingRetentionDays;
     private final BicepDictionary<String> metadata;
@@ -30,7 +31,6 @@ public class BlobContainerResource extends Resource {
     private final BicepValue<OffsetDateTime> deletedTime;
     private final BicepValue<PublicAccess> publicAccess;
     private final BicepValue<String> id;
-    private final BicepValue<String> arg1;
     private final BicepValue<LegalHoldProperties> legalHold;
     private final BicepValue<String> name;
     private final BicepValue<String> etag;
@@ -39,10 +39,10 @@ public class BlobContainerResource extends Resource {
     private final BicepValue<Boolean> enableNfsV3RootSquash;
     private final BicepValue<Boolean> deleted;
     private final BicepValue<LeaseState> leaseState;
+    private final BicepValue<String> containerName;
+    private final BicepValue<String> accountName;
     private final BicepValue<ImmutableStorageWithVersioning> immutableStorageWithVersioning;
     private final BicepValue<ImmutabilityPolicyProperties> immutabilityPolicy;
-    private final BicepValue<String> arg0;
-    private final BicepValue<String> arg2;
     private final BicepValue<Boolean> denyEncryptionScopeOverride;
     private final BicepValue<String> defaultEncryptionScope;
     private final BicepValue<Boolean> hasImmutabilityPolicy;
@@ -54,6 +54,7 @@ public class BlobContainerResource extends Resource {
     public BlobContainerResource(String identifierName, String resourceVersion) {
         super(identifierName, new ResourceType("Microsoft.Storage/storageAccounts/blobServices/containers"), resourceVersion);
         enableNfsV3AllSquash = BicepValue.defineProperty(this, "enableNfsV3AllSquash", new String[] { "temp", "enableNfsV3AllSquash" }, false, false, false, null);
+        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null);
         hasLegalHold = BicepValue.defineProperty(this, "hasLegalHold", new String[] { "temp", "hasLegalHold" }, false, false, false, null);
         remainingRetentionDays = BicepValue.defineProperty(this, "remainingRetentionDays", new String[] { "temp", "remainingRetentionDays" }, false, false, false, null);
         metadata = BicepDictionary.defineProperty(this, "metadata", new String[] { "temp", "metadata" }, false, false);
@@ -63,7 +64,6 @@ public class BlobContainerResource extends Resource {
         deletedTime = BicepValue.defineProperty(this, "deletedTime", new String[] { "temp", "deletedTime" }, false, false, false, null);
         publicAccess = BicepValue.defineProperty(this, "publicAccess", new String[] { "temp", "publicAccess" }, false, false, false, null);
         id = BicepValue.defineProperty(this, "id", new String[] { "temp", "id" }, false, false, false, null);
-        arg1 = BicepValue.defineProperty(this, "arg1", new String[] { "temp", "arg1" }, false, false, false, null);
         legalHold = BicepValue.defineProperty(this, "legalHold", new String[] { "temp", "legalHold" }, false, false, false, null);
         name = BicepValue.defineProperty(this, "name", new String[] { "temp", "name" }, false, false, false, null);
         etag = BicepValue.defineProperty(this, "etag", new String[] { "temp", "etag" }, false, false, false, null);
@@ -72,10 +72,10 @@ public class BlobContainerResource extends Resource {
         enableNfsV3RootSquash = BicepValue.defineProperty(this, "enableNfsV3RootSquash", new String[] { "temp", "enableNfsV3RootSquash" }, false, false, false, null);
         deleted = BicepValue.defineProperty(this, "deleted", new String[] { "temp", "deleted" }, false, false, false, null);
         leaseState = BicepValue.defineProperty(this, "leaseState", new String[] { "temp", "leaseState" }, false, false, false, null);
+        containerName = BicepValue.defineProperty(this, "containerName", new String[] { "temp", "containerName" }, false, false, false, null);
+        accountName = BicepValue.defineProperty(this, "accountName", new String[] { "temp", "accountName" }, false, false, false, null);
         immutableStorageWithVersioning = BicepValue.defineProperty(this, "immutableStorageWithVersioning", new String[] { "temp", "immutableStorageWithVersioning" }, false, false, false, null);
         immutabilityPolicy = BicepValue.defineProperty(this, "immutabilityPolicy", new String[] { "temp", "immutabilityPolicy" }, false, false, false, null);
-        arg0 = BicepValue.defineProperty(this, "arg0", new String[] { "temp", "arg0" }, false, false, false, null);
-        arg2 = BicepValue.defineProperty(this, "arg2", new String[] { "temp", "arg2" }, false, false, false, null);
         denyEncryptionScopeOverride = BicepValue.defineProperty(this, "denyEncryptionScopeOverride", new String[] { "temp", "denyEncryptionScopeOverride" }, false, false, false, null);
         defaultEncryptionScope = BicepValue.defineProperty(this, "defaultEncryptionScope", new String[] { "temp", "defaultEncryptionScope" }, false, false, false, null);
         hasImmutabilityPolicy = BicepValue.defineProperty(this, "hasImmutabilityPolicy", new String[] { "temp", "hasImmutabilityPolicy" }, false, false, false, null);
@@ -92,6 +92,19 @@ public class BlobContainerResource extends Resource {
 
     public BlobContainerResource setEnableNfsV3AllSquash(Boolean enableNfsV3AllSquash) {
         return this.setEnableNfsV3AllSquash(BicepValue.from(enableNfsV3AllSquash));
+    }
+
+    public BicepValue<String> getResourceGroupName() {
+        return this.resourceGroupName;
+    }
+
+    public BlobContainerResource setResourceGroupName(BicepValue<String> resourceGroupName) {
+        this.resourceGroupName.assign(resourceGroupName);
+        return this;
+    }
+
+    public BlobContainerResource setResourceGroupName(String resourceGroupName) {
+        return this.setResourceGroupName(BicepValue.from(resourceGroupName));
     }
 
     public BicepValue<Boolean> getHasLegalHold() {
@@ -211,19 +224,6 @@ public class BlobContainerResource extends Resource {
         return this.setId(BicepValue.from(id));
     }
 
-    public BicepValue<String> getArg1() {
-        return this.arg1;
-    }
-
-    public BlobContainerResource setArg1(BicepValue<String> arg1) {
-        this.arg1.assign(arg1);
-        return this;
-    }
-
-    public BlobContainerResource setArg1(String arg1) {
-        return this.setArg1(BicepValue.from(arg1));
-    }
-
     public BicepValue<LegalHoldProperties> getLegalHold() {
         return this.legalHold;
     }
@@ -328,6 +328,32 @@ public class BlobContainerResource extends Resource {
         return this.setLeaseState(BicepValue.from(leaseState));
     }
 
+    public BicepValue<String> getContainerName() {
+        return this.containerName;
+    }
+
+    public BlobContainerResource setContainerName(BicepValue<String> containerName) {
+        this.containerName.assign(containerName);
+        return this;
+    }
+
+    public BlobContainerResource setContainerName(String containerName) {
+        return this.setContainerName(BicepValue.from(containerName));
+    }
+
+    public BicepValue<String> getAccountName() {
+        return this.accountName;
+    }
+
+    public BlobContainerResource setAccountName(BicepValue<String> accountName) {
+        this.accountName.assign(accountName);
+        return this;
+    }
+
+    public BlobContainerResource setAccountName(String accountName) {
+        return this.setAccountName(BicepValue.from(accountName));
+    }
+
     public BicepValue<ImmutableStorageWithVersioning> getImmutableStorageWithVersioning() {
         return this.immutableStorageWithVersioning;
     }
@@ -352,32 +378,6 @@ public class BlobContainerResource extends Resource {
 
     public BlobContainerResource setImmutabilityPolicy(ImmutabilityPolicyProperties immutabilityPolicy) {
         return this.setImmutabilityPolicy(BicepValue.from(immutabilityPolicy));
-    }
-
-    public BicepValue<String> getArg0() {
-        return this.arg0;
-    }
-
-    public BlobContainerResource setArg0(BicepValue<String> arg0) {
-        this.arg0.assign(arg0);
-        return this;
-    }
-
-    public BlobContainerResource setArg0(String arg0) {
-        return this.setArg0(BicepValue.from(arg0));
-    }
-
-    public BicepValue<String> getArg2() {
-        return this.arg2;
-    }
-
-    public BlobContainerResource setArg2(BicepValue<String> arg2) {
-        this.arg2.assign(arg2);
-        return this;
-    }
-
-    public BlobContainerResource setArg2(String arg2) {
-        return this.setArg2(BicepValue.from(arg2));
     }
 
     public BicepValue<Boolean> getDenyEncryptionScopeOverride() {

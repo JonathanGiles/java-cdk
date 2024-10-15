@@ -15,16 +15,16 @@ import com.azure.provisioning.tmp.ResourceType;
 public class LocalUserResource extends Resource {
 
     private final BicepValue<Boolean> hasSharedKey;
+    private final BicepValue<String> resourceGroupName;
     private final BicepValue<String> type;
     private final BicepValue<Integer> userId;
+    private final BicepValue<String> accountName;
     private final BicepValue<Boolean> hasSshKey;
     private final BicepList<PermissionScope> permissionScopes;
     private final BicepValue<String> id;
+    private final BicepValue<String> username;
     private final BicepList<Integer> extendedGroups;
-    private final BicepValue<String> arg0;
     private final BicepValue<Integer> groupId;
-    private final BicepValue<String> arg2;
-    private final BicepValue<String> arg1;
     private final BicepValue<Boolean> isNFSv3Enabled;
     private final BicepValue<String> name;
     private final BicepValue<String> homeDirectory;
@@ -40,16 +40,16 @@ public class LocalUserResource extends Resource {
     public LocalUserResource(String identifierName, String resourceVersion) {
         super(identifierName, new ResourceType("Microsoft.Storage/storageAccounts/localUsers"), resourceVersion);
         hasSharedKey = BicepValue.defineProperty(this, "hasSharedKey", new String[] { "temp", "hasSharedKey" }, false, false, false, null);
+        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null);
         type = BicepValue.defineProperty(this, "type", new String[] { "temp", "type" }, false, false, false, null);
         userId = BicepValue.defineProperty(this, "userId", new String[] { "temp", "userId" }, false, false, false, null);
+        accountName = BicepValue.defineProperty(this, "accountName", new String[] { "temp", "accountName" }, false, false, false, null);
         hasSshKey = BicepValue.defineProperty(this, "hasSshKey", new String[] { "temp", "hasSshKey" }, false, false, false, null);
         permissionScopes = BicepList.defineProperty(this, "permissionScopes", new String[] { "temp", "permissionScopes" }, false, false);
         id = BicepValue.defineProperty(this, "id", new String[] { "temp", "id" }, false, false, false, null);
+        username = BicepValue.defineProperty(this, "username", new String[] { "temp", "username" }, false, false, false, null);
         extendedGroups = BicepList.defineProperty(this, "extendedGroups", new String[] { "temp", "extendedGroups" }, false, false);
-        arg0 = BicepValue.defineProperty(this, "arg0", new String[] { "temp", "arg0" }, false, false, false, null);
         groupId = BicepValue.defineProperty(this, "groupId", new String[] { "temp", "groupId" }, false, false, false, null);
-        arg2 = BicepValue.defineProperty(this, "arg2", new String[] { "temp", "arg2" }, false, false, false, null);
-        arg1 = BicepValue.defineProperty(this, "arg1", new String[] { "temp", "arg1" }, false, false, false, null);
         isNFSv3Enabled = BicepValue.defineProperty(this, "isNFSv3Enabled", new String[] { "temp", "isNFSv3Enabled" }, false, false, false, null);
         name = BicepValue.defineProperty(this, "name", new String[] { "temp", "name" }, false, false, false, null);
         homeDirectory = BicepValue.defineProperty(this, "homeDirectory", new String[] { "temp", "homeDirectory" }, false, false, false, null);
@@ -70,6 +70,19 @@ public class LocalUserResource extends Resource {
 
     public LocalUserResource setHasSharedKey(Boolean hasSharedKey) {
         return this.setHasSharedKey(BicepValue.from(hasSharedKey));
+    }
+
+    public BicepValue<String> getResourceGroupName() {
+        return this.resourceGroupName;
+    }
+
+    public LocalUserResource setResourceGroupName(BicepValue<String> resourceGroupName) {
+        this.resourceGroupName.assign(resourceGroupName);
+        return this;
+    }
+
+    public LocalUserResource setResourceGroupName(String resourceGroupName) {
+        return this.setResourceGroupName(BicepValue.from(resourceGroupName));
     }
 
     public BicepValue<String> getType() {
@@ -96,6 +109,19 @@ public class LocalUserResource extends Resource {
 
     public LocalUserResource setUserId(Integer userId) {
         return this.setUserId(BicepValue.from(userId));
+    }
+
+    public BicepValue<String> getAccountName() {
+        return this.accountName;
+    }
+
+    public LocalUserResource setAccountName(BicepValue<String> accountName) {
+        this.accountName.assign(accountName);
+        return this;
+    }
+
+    public LocalUserResource setAccountName(String accountName) {
+        return this.setAccountName(BicepValue.from(accountName));
     }
 
     public BicepValue<Boolean> getHasSshKey() {
@@ -137,6 +163,19 @@ public class LocalUserResource extends Resource {
         return this.setId(BicepValue.from(id));
     }
 
+    public BicepValue<String> getUsername() {
+        return this.username;
+    }
+
+    public LocalUserResource setUsername(BicepValue<String> username) {
+        this.username.assign(username);
+        return this;
+    }
+
+    public LocalUserResource setUsername(String username) {
+        return this.setUsername(BicepValue.from(username));
+    }
+
     public BicepList<Integer> getExtendedGroups() {
         return this.extendedGroups;
     }
@@ -150,19 +189,6 @@ public class LocalUserResource extends Resource {
         return this.setExtendedGroups(BicepValue.from(extendedGroups));
     }
 
-    public BicepValue<String> getArg0() {
-        return this.arg0;
-    }
-
-    public LocalUserResource setArg0(BicepValue<String> arg0) {
-        this.arg0.assign(arg0);
-        return this;
-    }
-
-    public LocalUserResource setArg0(String arg0) {
-        return this.setArg0(BicepValue.from(arg0));
-    }
-
     public BicepValue<Integer> getGroupId() {
         return this.groupId;
     }
@@ -174,32 +200,6 @@ public class LocalUserResource extends Resource {
 
     public LocalUserResource setGroupId(Integer groupId) {
         return this.setGroupId(BicepValue.from(groupId));
-    }
-
-    public BicepValue<String> getArg2() {
-        return this.arg2;
-    }
-
-    public LocalUserResource setArg2(BicepValue<String> arg2) {
-        this.arg2.assign(arg2);
-        return this;
-    }
-
-    public LocalUserResource setArg2(String arg2) {
-        return this.setArg2(BicepValue.from(arg2));
-    }
-
-    public BicepValue<String> getArg1() {
-        return this.arg1;
-    }
-
-    public LocalUserResource setArg1(BicepValue<String> arg1) {
-        this.arg1.assign(arg1);
-        return this;
-    }
-
-    public LocalUserResource setArg1(String arg1) {
-        return this.setArg1(BicepValue.from(arg1));
     }
 
     public BicepValue<Boolean> getIsNFSv3Enabled() {

@@ -9,9 +9,9 @@ import com.azure.provisioning.tmp.ResourceType;
 
 public class ImmutabilityPolicyResource extends Resource {
 
-    private final BicepValue<String> arg0;
-    private final BicepValue<String> arg2;
-    private final BicepValue<String> arg1;
+    private final BicepValue<String> resourceGroupName;
+    private final BicepValue<String> containerName;
+    private final BicepValue<String> accountName;
 
     public ImmutabilityPolicyResource(String identifierName) {
         this(identifierName, null);
@@ -19,48 +19,48 @@ public class ImmutabilityPolicyResource extends Resource {
 
     public ImmutabilityPolicyResource(String identifierName, String resourceVersion) {
         super(identifierName, new ResourceType("Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies"), resourceVersion);
-        arg0 = BicepValue.defineProperty(this, "arg0", new String[] { "temp", "arg0" }, false, false, false, null);
-        arg2 = BicepValue.defineProperty(this, "arg2", new String[] { "temp", "arg2" }, false, false, false, null);
-        arg1 = BicepValue.defineProperty(this, "arg1", new String[] { "temp", "arg1" }, false, false, false, null);
+        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null);
+        containerName = BicepValue.defineProperty(this, "containerName", new String[] { "temp", "containerName" }, false, false, false, null);
+        accountName = BicepValue.defineProperty(this, "accountName", new String[] { "temp", "accountName" }, false, false, false, null);
     }
 
-    public BicepValue<String> getArg0() {
-        return this.arg0;
+    public BicepValue<String> getResourceGroupName() {
+        return this.resourceGroupName;
     }
 
-    public ImmutabilityPolicyResource setArg0(BicepValue<String> arg0) {
-        this.arg0.assign(arg0);
+    public ImmutabilityPolicyResource setResourceGroupName(BicepValue<String> resourceGroupName) {
+        this.resourceGroupName.assign(resourceGroupName);
         return this;
     }
 
-    public ImmutabilityPolicyResource setArg0(String arg0) {
-        return this.setArg0(BicepValue.from(arg0));
+    public ImmutabilityPolicyResource setResourceGroupName(String resourceGroupName) {
+        return this.setResourceGroupName(BicepValue.from(resourceGroupName));
     }
 
-    public BicepValue<String> getArg2() {
-        return this.arg2;
+    public BicepValue<String> getContainerName() {
+        return this.containerName;
     }
 
-    public ImmutabilityPolicyResource setArg2(BicepValue<String> arg2) {
-        this.arg2.assign(arg2);
+    public ImmutabilityPolicyResource setContainerName(BicepValue<String> containerName) {
+        this.containerName.assign(containerName);
         return this;
     }
 
-    public ImmutabilityPolicyResource setArg2(String arg2) {
-        return this.setArg2(BicepValue.from(arg2));
+    public ImmutabilityPolicyResource setContainerName(String containerName) {
+        return this.setContainerName(BicepValue.from(containerName));
     }
 
-    public BicepValue<String> getArg1() {
-        return this.arg1;
+    public BicepValue<String> getAccountName() {
+        return this.accountName;
     }
 
-    public ImmutabilityPolicyResource setArg1(BicepValue<String> arg1) {
-        this.arg1.assign(arg1);
+    public ImmutabilityPolicyResource setAccountName(BicepValue<String> accountName) {
+        this.accountName.assign(accountName);
         return this;
     }
 
-    public ImmutabilityPolicyResource setArg1(String arg1) {
-        return this.setArg1(BicepValue.from(arg1));
+    public ImmutabilityPolicyResource setAccountName(String accountName) {
+        return this.setAccountName(BicepValue.from(accountName));
     }
 
 }

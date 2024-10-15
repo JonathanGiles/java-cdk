@@ -9,8 +9,8 @@ import com.azure.provisioning.tmp.ResourceType;
 
 public class StorageAccountResource extends Resource {
 
-    private final BicepValue<String> arg0;
-    private final BicepValue<String> arg1;
+    private final BicepValue<String> resourceGroupName;
+    private final BicepValue<String> accountName;
 
     public StorageAccountResource(String identifierName) {
         this(identifierName, null);
@@ -18,34 +18,34 @@ public class StorageAccountResource extends Resource {
 
     public StorageAccountResource(String identifierName, String resourceVersion) {
         super(identifierName, new ResourceType("Microsoft.Storage/storageAccounts"), resourceVersion);
-        arg0 = BicepValue.defineProperty(this, "arg0", new String[] { "temp", "arg0" }, false, false, false, null);
-        arg1 = BicepValue.defineProperty(this, "arg1", new String[] { "temp", "arg1" }, false, false, false, null);
+        resourceGroupName = BicepValue.defineProperty(this, "resourceGroupName", new String[] { "temp", "resourceGroupName" }, false, false, false, null);
+        accountName = BicepValue.defineProperty(this, "accountName", new String[] { "temp", "accountName" }, false, false, false, null);
     }
 
-    public BicepValue<String> getArg0() {
-        return this.arg0;
+    public BicepValue<String> getResourceGroupName() {
+        return this.resourceGroupName;
     }
 
-    public StorageAccountResource setArg0(BicepValue<String> arg0) {
-        this.arg0.assign(arg0);
+    public StorageAccountResource setResourceGroupName(BicepValue<String> resourceGroupName) {
+        this.resourceGroupName.assign(resourceGroupName);
         return this;
     }
 
-    public StorageAccountResource setArg0(String arg0) {
-        return this.setArg0(BicepValue.from(arg0));
+    public StorageAccountResource setResourceGroupName(String resourceGroupName) {
+        return this.setResourceGroupName(BicepValue.from(resourceGroupName));
     }
 
-    public BicepValue<String> getArg1() {
-        return this.arg1;
+    public BicepValue<String> getAccountName() {
+        return this.accountName;
     }
 
-    public StorageAccountResource setArg1(BicepValue<String> arg1) {
-        this.arg1.assign(arg1);
+    public StorageAccountResource setAccountName(BicepValue<String> accountName) {
+        this.accountName.assign(accountName);
         return this;
     }
 
-    public StorageAccountResource setArg1(String arg1) {
-        return this.setArg1(BicepValue.from(arg1));
+    public StorageAccountResource setAccountName(String accountName) {
+        return this.setAccountName(BicepValue.from(accountName));
     }
 
 
